@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_home"
+        android:title="Home" />
+    <item
+        android:id="@+id/navigation_dashboard"
+        android:title="Dash" />
+    <item
+        android:id="@+id/navigation_notifications"
+        android:title="Noti" />
+    <item
+        android:id="@+id/navigation"
+        android:title="Notif" />
+    <item
+        android:id="@+id/navigat"
+        android:title="Notif" />
+
+</menu>

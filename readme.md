@@ -1,0 +1,4 @@
+- Nếu không tìm thấy thì thông báo k thấy và bắt người dùng sửa lại
+- Nếu OTP không đúng báo không đúng và bắt sửa lại
+- Nếu OTP đúgn thông báo thành công và điều hướng sang trang login
+- Register 
