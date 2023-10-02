@@ -40,6 +40,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login);
 
         intent = new Intent();
+        intent.setClass(this,HomeAdminActivity.class);
+        startActivity(intent);
         loginClick();
         forgotClick();
         registerClick();

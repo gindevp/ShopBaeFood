@@ -1,18 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navigation_home"
-        android:title="Home" />
+        android:id="@+id/tab1"
+        android:title="tab1"
+        android:icon="@drawable/home"/>
     <item
-        android:id="@+id/navigation_dashboard"
-        android:title="Dash" />
+        android:id="@+id/tab2"
+        android:title="tab2"
+        android:icon="@drawable/heart"/>
     <item
-        android:id="@+id/navigation_notifications"
-        android:title="Noti" />
+        android:id="@+id/tab3"
+        android:title="tab3"
+        android:icon="@drawable/book"/>
     <item
-        android:id="@+id/navigation"
-        android:title="Notif" />
+        android:id="@+id/tab4"
+        android:title="tab4"
+        android:icon="@drawable/success"/>
     <item
-        android:id="@+id/navigat"
-        android:title="Notif" />
+        android:id="@+id/tab5"
+        android:title="tab5"
+        android:icon="@drawable/user"/>
 
 </menu>
