@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.ConfirmOtpActivity">
 
+    <ImageView
+        android:id="@+id/imageViewLogo5"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_launcher" />
+
     <EditText
         android:id="@+id/username"
         android:layout_width="243dp"
@@ -39,7 +50,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        app:layout_constraintTop_toBottomOf="@+id/username"
+        android:backgroundTint="@color/purple"/>
 
     <TextView
         android:id="@+id/count"
@@ -49,8 +61,8 @@
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="10dp"
         android:text="Gửi lại OTP"
+        android:textColor="@color/purple"
         app:layout_constraintBottom_toTopOf="@+id/registerForm"
         app:layout_constraintEnd_toEndOf="@+id/username"
-        app:layout_constraintTop_toBottomOf="@+id/username"
-        android:textStyle="" />
+        app:layout_constraintTop_toBottomOf="@+id/username" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.admin.Tab1Fragment">
+    tools:context=".ui.admin.M04Fragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/blue"
-        android:text="tab1" />
+        android:background="@color/color_navigation"
+        android:text="tab4" />
 
 </RelativeLayout>

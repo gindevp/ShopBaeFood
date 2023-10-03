@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.shopbaefood.R;
@@ -28,6 +29,7 @@ public class ConfirmOtpActivity extends AppCompatActivity {
 
     String username;
 
+
     ApiService apiService = UtilApp.retrofitCF().create(ApiService.class);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,11 @@ public class ConfirmOtpActivity extends AppCompatActivity {
 
         confirmOtp();
         countOtp();
+        ImageView img = findViewById(R.id.imageViewLogo5);
+        img.setOnClickListener(v -> {
+            intent= new Intent(this,LoginActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void confirmOtp() {

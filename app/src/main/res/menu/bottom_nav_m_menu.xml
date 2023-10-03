@@ -19,6 +19,6 @@
     <item
         android:id="@+id/tab5"
         android:title="tab5"
-        android:icon="@drawable/user"/>
+        android:icon="@drawable/menu"/>
 
 </menu>

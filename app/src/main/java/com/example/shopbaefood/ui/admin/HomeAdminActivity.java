@@ -1,17 +1,17 @@
 package com.example.shopbaefood.ui.admin;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.view.View;
 
 import com.example.shopbaefood.R;
-import com.example.shopbaefood.ui.NavAdminFragment;
+import com.example.shopbaefood.util.Notification;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class HomeAdminActivity extends AppCompatActivity {
     private ViewPager mViewPager;
@@ -23,6 +23,7 @@ public class HomeAdminActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_admin);
 
+        Notification.sweetAlertNow(this, SweetAlertDialog.SUCCESS_TYPE, "Success","Đăng nhập thành công");
         mViewPager= findViewById(R.id.viewpageAdmin);
         mBottomNavigationView= findViewById(R.id.bottom_navigation);
 
@@ -79,5 +80,10 @@ public class HomeAdminActivity extends AppCompatActivity {
 
             return true;
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Notification.showToast(new View(this),"Không thể quay lại login, bạn phải logout");
     }
 }

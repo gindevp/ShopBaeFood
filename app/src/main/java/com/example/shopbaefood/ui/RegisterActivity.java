@@ -37,6 +37,13 @@ public class RegisterActivity extends AppCompatActivity {
         EditText address = findViewById(R.id.address);
         register.setOnClickListener(v -> {
             register.setEnabled(false);
+            username.setEnabled(false);
+            password.setEnabled(false);
+            email.setEnabled(false);
+            name.setEnabled(false);
+            phone.setEnabled(false);
+            address.setEnabled(false);
+
             AccountRegisterDTO accountRegisterDTO = new AccountRegisterDTO(username.getText().toString(),
                                             password.getText().toString(),
                                             email.getText().toString(),
@@ -57,12 +64,25 @@ public class RegisterActivity extends AppCompatActivity {
                     }else {
                         Notification.showToast(v,"Đăng ký thất bại");
                         register.setEnabled(true);
+                        username.setEnabled(true);
+                        password.setEnabled(true);
+                        email.setEnabled(true);
+                        name.setEnabled(true);
+                        phone.setEnabled(true);
+                        address.setEnabled(true);
                     }
                 }
 
                 @Override
                 public void onFailure(Call<ApiResponse> call, Throwable t) {
                         Notification.showToast(v,"Lỗi hệ thống");
+                    register.setEnabled(true);
+                    username.setEnabled(true);
+                    password.setEnabled(true);
+                    email.setEnabled(true);
+                    name.setEnabled(true);
+                    phone.setEnabled(true);
+                    address.setEnabled(true);
                 }
             });
         });

@@ -1,4 +1,4 @@
-package com.example.shopbaefood.ui;
+package com.example.shopbaefood.ui.user;
 
 import android.os.Bundle;
 
@@ -12,10 +12,10 @@ import com.example.shopbaefood.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link NavAdminFragment#newInstance} factory method to
+ * Use the {@link C01Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NavAdminFragment extends Fragment {
+public class C01Fragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class NavAdminFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public NavAdminFragment() {
+    public C01Fragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class NavAdminFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment NavAdminFragment.
+     * @return A new instance of fragment C01Fragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static NavAdminFragment newInstance(String param1, String param2) {
-        NavAdminFragment fragment = new NavAdminFragment();
+    public static C01Fragment newInstance(String param1, String param2) {
+        C01Fragment fragment = new C01Fragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class NavAdminFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_nav_admin, container, false);
+        return inflater.inflate(R.layout.fragment_c01, container, false);
     }
 }

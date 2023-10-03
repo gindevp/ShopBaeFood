@@ -10,6 +10,17 @@
 
     <!-- Thanh liên kết "Register" -->
 
+    <ImageView
+        android:id="@+id/imageViewLogo3"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_launcher" />
+
     <EditText
         android:id="@+id/username"
         android:layout_width="243dp"
@@ -30,7 +41,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        app:layout_constraintTop_toBottomOf="@+id/username"
+        android:backgroundTint="@color/purple"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

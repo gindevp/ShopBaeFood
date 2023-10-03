@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,14 +23,15 @@ import com.example.shopbaefood.ui.user.HomeUserActivity;
 import com.example.shopbaefood.util.Notification;
 import com.example.shopbaefood.util.UtilApp;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     Intent intent;
+    Gson gson;
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
     public static final String ROLE_USER = "ROLE_USER";
     public static final String ROLE_MERCHANT = "ROLE_MERCHANT";
@@ -40,12 +42,30 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login);
 
         intent = new Intent();
-        intent.setClass(this,HomeAdminActivity.class);
-        startActivity(intent);
+        gson= new Gson();
         loginClick();
         forgotClick();
         registerClick();
+        isLogin();
+    }
 
+    private void isLogin() {
+        SharedPreferences info= getSharedPreferences("info",Context.MODE_PRIVATE);
+        String json=info.getString("info","");
+        if(json!=null){
+            AccountToken accountToken = gson.fromJson(json,AccountToken.class);
+            switch (accountToken.getRoles()[0]){
+                case ROLE_ADMIN:
+                    intent.setClass(this, HomeAdminActivity.class);
+                    break;
+                case ROLE_MERCHANT:
+                    intent.setClass(this, HomeMerchantActivity.class);
+                    break;
+                case ROLE_USER:
+                    intent.setClass(this, HomeUserActivity.class);
+                    break;
+            }
+        }
     }
 
     private void registerClick() {
@@ -85,8 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                         ApiResponse apiResponse = response.body();
                         if (apiResponse.getData() != null) {
                             Log.d("login", response.body().getData().toString());
-                            Notification.showToast(v, "Đăng nhập thành công");
-                            Gson gson= new Gson();
+
                             SharedPreferences info= getSharedPreferences("info", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor=info.edit();
                             editor.putString("info",gson.toJson(response.body().getData()));
@@ -125,5 +144,10 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 }
