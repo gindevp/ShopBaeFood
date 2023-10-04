@@ -15,8 +15,16 @@ public class UtilApp {
     public static Retrofit retrofitCF(){
         return new Retrofit.Builder().baseUrl(URL).addConverterFactory(GsonConverterFactory.create()).build();
     }
-    public static void getImagePicasso(ImageView imageView, String imageUrl){
+    public static void getImagePicasso(String imageUrl, ImageView imageView ){
         Picasso.get().load(imageUrl).into(imageView);
+    }
+    public static void setImagePicasso(String imageUrl, ImageView imageView, int onLoad, int err ){
+        // Tải hình ảnh từ URL và đặt vào ImageView
+        Picasso.get()
+                .load(imageUrl) // merchant.getImageUrl() là URL hình ảnh
+                .placeholder(onLoad) // Ảnh mặc định trong thời gian tải
+                .error(err) // Ảnh khi tải lỗi
+                .into(imageView);
     }
 
 }
