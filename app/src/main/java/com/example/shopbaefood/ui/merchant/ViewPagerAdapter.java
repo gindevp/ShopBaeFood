@@ -20,6 +20,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         switch (position){
             case 0: return new P01Fragment();
             case 1: return new S01Fragment();
+            case 2: return new S02Fragment();
             default: return new P01Fragment();
         }
 
@@ -27,6 +28,6 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 }

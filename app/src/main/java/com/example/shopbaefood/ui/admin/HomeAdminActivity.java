@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.example.shopbaefood.R;
@@ -23,10 +25,14 @@ public class HomeAdminActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_admin);
 
-        Notification.sweetAlertNow(this, SweetAlertDialog.SUCCESS_TYPE, "Success","Đăng nhập thành công");
+        Log.d("Activity","homeAdmin");
         mViewPager= findViewById(R.id.viewpageAdmin);
         mBottomNavigationView= findViewById(R.id.bottom_navigation);
 
+        Intent intent= getIntent();
+        if(intent.hasExtra("logSuccess")){
+            Notification.sweetAlertNow(this,SweetAlertDialog.SUCCESS_TYPE,"Login success","Bạn đăng nhập thành công");
+        }
         ViewPagerAdapter adapter= new ViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mViewPager.setAdapter(adapter);
 
@@ -84,6 +90,6 @@ public class HomeAdminActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Notification.showToast(new View(this),"Không thể quay lại login, bạn phải logout");
+        Notification.sweetAlertNow(this,SweetAlertDialog.NORMAL_TYPE,"Không thể quay lại","",1000);
     }
 }

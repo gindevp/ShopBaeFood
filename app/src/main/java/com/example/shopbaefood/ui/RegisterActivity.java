@@ -17,6 +17,7 @@ import com.example.shopbaefood.service.ApiService;
 import com.example.shopbaefood.util.Notification;
 import com.example.shopbaefood.util.UtilApp;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -57,12 +58,12 @@ public class RegisterActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                     if(response.body().getData()!=null){
-                        Notification.showToast(v,"Đăng ký thành công");
                         Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
+                        intent.putExtra("success","true");
                         startActivity(intent);
                         finish();
                     }else {
-                        Notification.showToast(v,"Đăng ký thất bại");
+                        Notification.sweetAlertNow(v.getContext(),SweetAlertDialog.ERROR_TYPE,"Đăng ký thất bại","");
                         register.setEnabled(true);
                         username.setEnabled(true);
                         password.setEnabled(true);
@@ -75,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<ApiResponse> call, Throwable t) {
-                        Notification.showToast(v,"Lỗi hệ thống");
+                        Notification.sweetAlertNow(v.getContext(),SweetAlertDialog.ERROR_TYPE,"Lỗi hệ thống","");
                     register.setEnabled(true);
                     username.setEnabled(true);
                     password.setEnabled(true);
@@ -86,5 +87,11 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             });
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent= new Intent(this,LoginActivity.class);
+        startActivity(intent);
     }
 }

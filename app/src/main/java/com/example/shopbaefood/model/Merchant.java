@@ -12,6 +12,31 @@ public class Merchant {
 
     private String status;
 
+    public Merchant() {
+    }
+
+    public Merchant(Long id, String name, String phone, String address, String avatar, String openTime, String closeTime, String status) {
+        this.id = id;
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
+        this.avatar = avatar;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
+        this.status = status;
+    }
+
+    public Merchant(String name, String address, String avatar) {
+        this.name = name;
+        this.address = address;
+        this.avatar = avatar;
+    }
+
+    public Merchant(String name, String address) {
+        this.name = name;
+        this.address = address;
+    }
+
     public Long getId() {
         return id;
     }

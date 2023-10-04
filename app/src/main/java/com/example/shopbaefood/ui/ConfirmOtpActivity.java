@@ -18,6 +18,7 @@ import com.example.shopbaefood.service.ApiService;
 import com.example.shopbaefood.util.Notification;
 import com.example.shopbaefood.util.UtilApp;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,6 +47,7 @@ public class ConfirmOtpActivity extends AppCompatActivity {
     }
 
     private void confirmOtp() {
+        Notification.sweetAlertNow(this, SweetAlertDialog.SUCCESS_TYPE,"Gửi otp thành công","");
         intent= getIntent();
         username= intent.getStringExtra("username");
         EditText pass= findViewById(R.id.pass);
@@ -57,18 +59,20 @@ public class ConfirmOtpActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                     if(response.body().getData()!=null){
+                        intent= new Intent();
                         intent.setClass(v.getContext(),LoginActivity.class);
+                        intent.putExtra("confirmSuccess","true");
                         startActivity(intent);
-                        Notification.showToast(v,"Thành công");
+                        finish();
                     }else {
-                        Notification.showToast(v,"Không thành công sai otp ròi");
+                        Notification.sweetAlertNow(v.getContext(),SweetAlertDialog.ERROR_TYPE,"Không thành công sai otp ròi","");
                     }
 
                 }
 
                 @Override
                 public void onFailure(Call<ApiResponse> call, Throwable t) {
-                    Notification.showToast(v,"Lỗi hệ thống phía server");
+                    Notification.sweetAlertNow(v.getContext(),SweetAlertDialog.ERROR_TYPE,"Lỗi hệ thống phía server","");
                 }
             });
         });
@@ -89,15 +93,15 @@ public class ConfirmOtpActivity extends AppCompatActivity {
                 apiServiceCall.clone().enqueue(new Callback<ApiResponse>() {
                     @Override
                     public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                        Notification.showToast(v,"Đã gửi lại otp");
+                        Notification.sweetAlertNow(v.getContext(),SweetAlertDialog.SUCCESS_TYPE,"Đã gửi lại otp","");
                     }
 
                     @Override
                     public void onFailure(Call<ApiResponse> call, Throwable t) {
-                        Notification.showToast(v,"Lỗi hệ thống phía server");
+                        Notification.sweetAlertNow(v.getContext(),SweetAlertDialog.ERROR_TYPE,"Lỗi hệ thống phía server","");
                     }
                 });
-                Notification.showToast(v,"Đang xử lý chờ 15 giây ròi ấn");
+                Notification.sweetAlertNow(v.getContext(),SweetAlertDialog.WARNING_TYPE,"Đang xử lý chờ 15 giây ròi ấn","");
                 count.setText("Gửi lại(15)");
                 count.setEnabled(false);
                 count.setTextColor(resources.getColor(R.color.blueClicked));
@@ -129,6 +133,6 @@ public class ConfirmOtpActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Notification.showToast(new View(this),"Bạn không thể quay lại");
+        Notification.sweetAlertNow(this,SweetAlertDialog.NORMAL_TYPE,"Không thể quay lại","",1000);
     }
 }

@@ -39,6 +39,9 @@ public class HomeUserActivity extends AppCompatActivity {
                     case 1:
                         mBottomNavigationView.getMenu().findItem(R.id.tab2).setChecked(true);
                         break;
+                    case 2:
+                        mBottomNavigationView.getMenu().findItem(R.id.tab3).setChecked(true);
+                        break;
 
                 }
             }
@@ -56,6 +59,9 @@ public class HomeUserActivity extends AppCompatActivity {
                     break;
                 case R.id.tab2:
                     mViewPager.setCurrentItem(1);
+                    break;
+                case R.id.tab3:
+                    mViewPager.setCurrentItem(2);
                     break;
             }
             return true;
