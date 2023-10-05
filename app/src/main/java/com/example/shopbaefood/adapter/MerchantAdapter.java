@@ -1,8 +1,6 @@
 package com.example.shopbaefood.adapter;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shopbaefood.R;
@@ -21,10 +16,6 @@ import com.example.shopbaefood.model.Merchant;
 import com.example.shopbaefood.ui.public_fragment.MerDetailActivity;
 import com.example.shopbaefood.util.UtilApp;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class MerchantAdapter extends RecyclerView.Adapter<MerchantAdapter.MerchantViewHolder> {
@@ -47,9 +38,10 @@ public class MerchantAdapter extends RecyclerView.Adapter<MerchantAdapter.Mercha
         if (merchant == null) {
             return;
         }
-        holder.imgIcon.setImageResource(UtilApp.isTime(merchant.getOpenTime(),merchant.getCloseTime())?R.drawable.green_shape:R.drawable.black_shape);
+        holder.imgIcon.setImageResource(UtilApp.isTime(merchant.getOpenTime(),merchant.getCloseTime())?R.drawable.green_shape:R.drawable.red_shape);
         holder.cardView.setOnClickListener(view -> {
             Intent intent = new Intent(view.getContext(), MerDetailActivity.class);
+            merchant.setStatus(UtilApp.isTime(merchant.getOpenTime(),merchant.getCloseTime())?"true":"false");
             intent.putExtra("merchant",merchant);
             view.getContext().startActivity(intent);
         });

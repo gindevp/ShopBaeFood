@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.example.shopbaefood.R;
 import com.example.shopbaefood.adapter.MerchantAdapter;
@@ -31,7 +32,9 @@ import retrofit2.Response;
 public class P01Fragment extends Fragment {
     List<Merchant> merchantList;
 
-private RecyclerView rcvMerchant;
+    private RecyclerView rcvMerchant;
+    private ProgressBar progressBar;
+
     public P01Fragment() {
     }
 
@@ -44,48 +47,60 @@ private RecyclerView rcvMerchant;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_p01, container, false);
-        rcvMerchant= view.findViewById(R.id.recycler_view_p);
-getListMerchant(view);
+        View view = inflater.inflate(R.layout.fragment_p01, container, false);
 
-
+        rcvMerchant = view.findViewById(R.id.recycler_view_p);
+        progressBar=view.findViewById(R.id.progressBar_p);
+        progressBar.setVisibility(View.VISIBLE);
+        getListMerchant(view);
         return view;
     }
 
-    private List<Merchant> getListMerchant(View v) {
-        List<Merchant> merchants= new ArrayList<>();
-        merchantList= new ArrayList<>();
-        ApiService apiService= UtilApp.retrofitCF().create(ApiService.class);
-        Call<ApiResponse<List<Merchant>>> call= apiService.fetMerAll();
-        call.enqueue(new Callback<ApiResponse<List<Merchant>>>() {
+    private void getListMerchant(View v) {
+        merchantList = new ArrayList<>();
+//        ApiService apiService= UtilApp.retrofitCF().create(ApiService.class);
+//        Call<ApiResponse<List<Merchant>>> call= apiService.fetMerAll();
+//        call.enqueue(new Callback<ApiResponse<List<Merchant>>>() {
+//            @Override
+//            public void onResponse(Call<ApiResponse<List<Merchant>>> call, Response<ApiResponse<List<Merchant>>> response) {
+//                if(response.isSuccessful()){
+//                    merchantList= response.body().getData();
+//                    handleMerchantList(merchantList,v);
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ApiResponse<List<Merchant>>> call, Throwable t) {
+//
+//            }
+//        });
+
+
+        //Mock api
+        ApiService apiService= UtilApp.retrofitCFMock().create(ApiService.class);
+        Call<List<Merchant>> call= apiService.getMerAll();
+        call.enqueue(new Callback<List<Merchant>>() {
             @Override
-            public void onResponse(Call<ApiResponse<List<Merchant>>> call, Response<ApiResponse<List<Merchant>>> response) {
-                if(response.isSuccessful()){
-                    merchantList= response.body().getData();
-                    handleMerchantList(merchantList,v);
-                }
+            public void onResponse(Call<List<Merchant>> call, Response<List<Merchant>> response) {
+                progressBar.setVisibility(View.GONE);
+                handleMerchantList(response.body(),v);
             }
 
             @Override
-            public void onFailure(Call<ApiResponse<List<Merchant>>> call, Throwable t) {
+            public void onFailure(Call<List<Merchant>> call, Throwable t) {
 
             }
         });
-        return merchants;
     }
 
     private void handleMerchantList(List<Merchant> merchants, View v) {
         // Truy cập dữ liệu sau khi tải xong ở đây
-        GridLayoutManager gridLayoutManager= new GridLayoutManager(v.getContext(),3);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(v.getContext(), 3);
 //        LinearLayoutManager gridLayoutManager= new LinearLayoutManager(view.getContext(),RecyclerView.HORIZONTAL,false);
         rcvMerchant.setLayoutManager(gridLayoutManager);
-        MerchantAdapter merchantAdapter= new MerchantAdapter(merchants);
+        MerchantAdapter merchantAdapter = new MerchantAdapter(merchants);
         rcvMerchant.setAdapter(merchantAdapter);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 }

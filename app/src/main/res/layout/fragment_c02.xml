@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/purple"
-            android:text="Soso1" />
+            android:text="Đăng ký bán" />
 
         <Button
             android:id="@+id/buttonSoso2"
@@ -89,15 +89,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/purple"
-            android:text="Soso2" />
+            android:text="Yêu thích" />
 
-        <Button
-            android:id="@+id/buttonSoso3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/purple"
-            android:text="Soso3" />
     </LinearLayout>
 
     <!-- Gạch ngang -->

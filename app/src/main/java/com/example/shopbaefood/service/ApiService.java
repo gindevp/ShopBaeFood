@@ -1,6 +1,7 @@
 package com.example.shopbaefood.service;
 
 import com.example.shopbaefood.model.Merchant;
+import com.example.shopbaefood.model.Product;
 import com.example.shopbaefood.model.dto.AccountRegisterDTO;
 import com.example.shopbaefood.model.dto.AccountToken;
 import com.example.shopbaefood.model.dto.ApiResponse;
@@ -30,4 +31,11 @@ public interface ApiService {
 
     @GET("merchantp/all")
     Call<ApiResponse<List<Merchant>>> fetMerAll();
+
+    // mock api
+    @GET("merchant")
+    Call<List<Merchant>> getMerAll();
+    //mock api
+    @GET("product")
+    Call<List<Product>> getProAll();
 }

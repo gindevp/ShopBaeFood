@@ -19,8 +19,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UtilApp {
     public static final String URL="http://192.168.52.218:8080/ShopbaeFoodApi/";
+    public static final String URLMock="https://651e990a44a3a8aa4768a52a.mockapi.io/";
     public static Retrofit retrofitCF(){
         return new Retrofit.Builder().baseUrl(URL).addConverterFactory(GsonConverterFactory.create()).build();
+    }
+    public static Retrofit retrofitCFMock(){
+        return new Retrofit.Builder().baseUrl(URLMock).addConverterFactory(GsonConverterFactory.create()).build();
     }
     public static void getImagePicasso(String imageUrl, ImageView imageView ){
         Picasso.get().load(imageUrl).into(imageView);

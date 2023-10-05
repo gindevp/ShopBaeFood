@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
+    android:id="@+id/relative_p"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,6 +8,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
+
     <!-- Thanh tiêu đề -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_p"
@@ -35,17 +37,23 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-
     <!-- RecyclerView để hiển thị danh sách quán ăn -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_p"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/toolbar_p"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="10dp"
         android:orientation="vertical" />
 
+    <!-- ProgressBar để hiển thị khi đang tải dữ liệu -->
+    <ProgressBar
+        android:id="@+id/progressBar_p"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="visible" />
 
+</RelativeLayout>
 
-
-</LinearLayout>
