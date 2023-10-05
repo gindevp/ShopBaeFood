@@ -1,0 +1,6 @@
+<!-- drawable/button_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#8692f7" /> <!-- Màu nền của nút -->
+    <corners android:radius="4dp" /> <!-- Độ cong viền của nút -->
+</shape>

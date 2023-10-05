@@ -1,20 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.user.C02Fragment">
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!-- Ảnh người dùng -->
+    <ImageView
+        android:id="@+id/imageUser"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/user"
+        android:layout_gravity="center_horizontal"/>
+
+    <!-- Thông tin người dùng -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
-
-    <Button
-        android:id="@+id/logout2"
+        android:id="@+id/textUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="Tên người dùng"
+        android:textSize="18sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"/>
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/textUserAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Địa chỉ"
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/textUserEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/textUserPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Số điện thoại"
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Nút chỉnh sửa -->
+    <Button
+        android:id="@+id/buttonEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/purple"
+        android:text="Chỉnh sửa" />
+
+    <!-- Gạch ngang -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000000"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Nút soso1, soso2, soso3 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/buttonSoso1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/purple"
+            android:text="Soso1" />
+
+        <Button
+            android:id="@+id/buttonSoso2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/purple"
+            android:text="Soso2" />
+
+        <Button
+            android:id="@+id/buttonSoso3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/purple"
+            android:text="Soso3" />
+    </LinearLayout>
+
+    <!-- Gạch ngang -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000000"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Nút đăng xuất -->
+    <Button
+        android:id="@+id/logout2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1"
+        android:backgroundTint="@color/purple"
+        android:text="Đăng xuất" />
+
+</LinearLayout>

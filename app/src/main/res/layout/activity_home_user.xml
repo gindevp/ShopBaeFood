@@ -5,11 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.user.HomeUserActivity">
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpageUser"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom_navigation" />
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -21,4 +23,5 @@
         app:itemTextColor="@color/color_navigation"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_nav_c_menu" />
+
 </RelativeLayout>

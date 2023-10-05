@@ -7,6 +7,13 @@ import com.example.shopbaefood.R;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -27,4 +34,24 @@ public class UtilApp {
                 .into(imageView);
     }
 
+    public static boolean isTime(String opentime,String closetime){
+        try {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                DateTimeFormatter fomat = DateTimeFormatter.ofPattern("HH:mm");
+
+            LocalTime currentTime = LocalTime.now();
+            if(opentime!=null&& closetime!=null) {
+                LocalTime startTimeDate = LocalTime.parse(opentime,fomat);
+                LocalTime endTimeDate = LocalTime.parse(closetime,fomat);
+
+                return currentTime.isAfter(startTimeDate) && currentTime.isBefore(endTimeDate);
+            }else {
+                return false;
+            }}
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return false;
+    }
 }

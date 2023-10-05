@@ -17,6 +17,9 @@
         tools:replace="android:icon"
         tools:targetApi="31">
         <activity
+            android:name=".ui.public_fragment.MerDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.user.HomeUserActivity"
             android:exported="false" />
         <activity

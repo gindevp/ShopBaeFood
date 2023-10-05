@@ -1,6 +1,8 @@
 package com.example.shopbaefood.model;
 
-public class Merchant {
+import java.io.Serializable;
+
+public class Merchant implements Serializable {
     private Long id;
     private String name;
     private String phone;
@@ -35,6 +37,14 @@ public class Merchant {
     public Merchant(String name, String address) {
         this.name = name;
         this.address = address;
+    }
+
+    public Merchant(String name, String address, String avatar, String openTime, String closeTime) {
+        this.name = name;
+        this.address = address;
+        this.avatar = avatar;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
     }
 
     public Long getId() {

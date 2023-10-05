@@ -4,12 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.shopbaefood.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeUserActivity extends AppCompatActivity {
+    Intent intent;
     private ViewPager mViewPager;
     private BottomNavigationView mBottomNavigationView;
 
@@ -24,6 +26,20 @@ public class HomeUserActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mViewPager.setAdapter(adapter);
 
+        int pageToDisplay = getIntent().getIntExtra("pageToDisplay",0 ); // 0 là trang mặc định nếu không có dữ liệu được truyền
+        mViewPager.setCurrentItem(pageToDisplay);
+        switch (pageToDisplay) {
+            case 0:
+                mBottomNavigationView.getMenu().findItem(R.id.tab1).setChecked(true);
+                break;
+            case 1:
+                mBottomNavigationView.getMenu().findItem(R.id.tab2).setChecked(true);
+                break;
+            case 2:
+                mBottomNavigationView.getMenu().findItem(R.id.tab3).setChecked(true);
+                break;
+
+        }
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

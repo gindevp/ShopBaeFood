@@ -1,10 +1,10 @@
 package com.example.shopbaefood.model.dto;
 
-public class ApiResponse {
-    private Object data;
+public class ApiResponse<T> {
+    private T data;
     private String message;
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
