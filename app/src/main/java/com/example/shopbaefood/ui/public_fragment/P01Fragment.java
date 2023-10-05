@@ -47,17 +47,13 @@ private RecyclerView rcvMerchant;
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_p01, container, false);
         rcvMerchant= view.findViewById(R.id.recycler_view_p);
+getListMerchant(view);
 
-        GridLayoutManager gridLayoutManager= new GridLayoutManager(view.getContext(),3);
-//        LinearLayoutManager gridLayoutManager= new LinearLayoutManager(view.getContext(),RecyclerView.HORIZONTAL,false);
-        rcvMerchant.setLayoutManager(gridLayoutManager);
-        MerchantAdapter merchantAdapter= new MerchantAdapter(getListMerchant());
-        rcvMerchant.setAdapter(merchantAdapter);
 
         return view;
     }
 
-    private List<Merchant> getListMerchant() {
+    private List<Merchant> getListMerchant(View v) {
         List<Merchant> merchants= new ArrayList<>();
         merchantList= new ArrayList<>();
         ApiService apiService= UtilApp.retrofitCF().create(ApiService.class);
@@ -67,10 +63,7 @@ private RecyclerView rcvMerchant;
             public void onResponse(Call<ApiResponse<List<Merchant>>> call, Response<ApiResponse<List<Merchant>>> response) {
                 if(response.isSuccessful()){
                     merchantList= response.body().getData();
-                    for (Merchant m : merchantList) {
-                        Log.d("data2", m.toString());
-                    }
-                    handleMerchantList(merchantList);
+                    handleMerchantList(merchantList,v);
                 }
             }
 
@@ -82,11 +75,13 @@ private RecyclerView rcvMerchant;
         return merchants;
     }
 
-    private void handleMerchantList(List<Merchant> merchants) {
+    private void handleMerchantList(List<Merchant> merchants, View v) {
         // Truy cập dữ liệu sau khi tải xong ở đây
-        for (Merchant m : merchants) {
-            Log.d("data2", m.toString());
-        }
+        GridLayoutManager gridLayoutManager= new GridLayoutManager(v.getContext(),3);
+//        LinearLayoutManager gridLayoutManager= new LinearLayoutManager(view.getContext(),RecyclerView.HORIZONTAL,false);
+        rcvMerchant.setLayoutManager(gridLayoutManager);
+        MerchantAdapter merchantAdapter= new MerchantAdapter(merchants);
+        rcvMerchant.setAdapter(merchantAdapter);
     }
 
     @Override
