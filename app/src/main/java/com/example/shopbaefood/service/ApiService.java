@@ -13,6 +13,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiService {
@@ -32,9 +33,17 @@ public interface ApiService {
     @GET("merchantp/all")
     Call<ApiResponse<List<Merchant>>> fetMerAll();
 
+    @GET("merchantp/detail")
+    Call<ApiResponse<List<Product>>> fetProAll(@Query("id") Long id);
+
+    @POST("cart/product/{productId}/user/{userId}")
+    Call<ApiResponse> addToCart(@Path("productId") Long productId, @Path("userId") Long userId);
+
     // mock api
     @GET("merchant")
+
     Call<List<Merchant>> getMerAll();
+
     //mock api
     @GET("product")
     Call<List<Product>> getProAll();

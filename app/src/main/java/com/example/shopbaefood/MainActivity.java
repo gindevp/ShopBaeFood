@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 
 import com.example.shopbaefood.model.dto.AccountToken;
 import com.example.shopbaefood.ui.LoginActivity;
@@ -16,6 +17,7 @@ import com.example.shopbaefood.ui.admin.HomeAdminActivity;
 import com.example.shopbaefood.ui.merchant.HomeMerchantActivity;
 import com.example.shopbaefood.ui.user.HomeUserActivity;
 import com.example.shopbaefood.util.Role;
+import com.example.shopbaefood.util.UtilApp;
 import com.google.gson.Gson;
 
 
@@ -32,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
         gson = new Gson();
         intent = new Intent();
-
-        Log.d("Activity","mainHello");
         screenHello();
     }
 

@@ -37,9 +37,8 @@
                 android:layout_height="32dp"/>
         </androidx.cardview.widget.CardView>
 
-        <!-- Đặt nút 3 chấm bên phải -->
         <ImageView
-            android:id="@+id/toolbar_overflow"
+            android:id="@+id/cart_product"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/cart"
@@ -47,20 +46,32 @@
             android:layout_marginEnd="16dp"/>
 
     </androidx.appcompat.widget.Toolbar>
+
     <!-- Phần ảnh và thông tin -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
 
-        <ImageView
-            android:id="@+id/merchantImage"
-            android:layout_width="125dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:scaleType="centerCrop"
-            android:src="@drawable/user" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            app:cardCornerRadius="16dp"> <!-- Điều này sẽ làm tròn góc ảnh -->
+
+            <ImageView
+                android:id="@+id/merchantImage"
+                android:layout_width="125dp"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/user" />
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -83,12 +94,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/icon_status_mer"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_marginRight="15dp"
-                    android:src="@drawable/green_shape" />
+
             <TextView
                 android:id="@+id/merchantStatus"
                 android:layout_width="wrap_content"
@@ -96,7 +102,13 @@
                 android:text="Đánh Giá: 4.5"
                 android:textSize="18sp"
                 android:layout_gravity="start"
-                android:paddingTop="8dp" /></LinearLayout>
+                android:paddingTop="8dp" />
+                <ImageView
+                android:id="@+id/icon_status_mer"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/green_shape" /></LinearLayout>
 
             <TextView
                 android:id="@+id/merchantAddress"
@@ -112,12 +124,25 @@
     <!-- Thanh tìm kiếm -->
 
     <!-- Danh sách các món ăn -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_detail"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"
-        android:layout_marginTop="16dp" />
+        android:layout_weight="3">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar_mer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="visible" />
+    </FrameLayout>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_mer_detail"
         android:layout_width="match_parent"
