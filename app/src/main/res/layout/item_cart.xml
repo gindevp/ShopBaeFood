@@ -65,18 +65,6 @@
             android:textColor="#00C853"
             android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/product_price_old"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/product_name"
-            android:layout_marginStart="37dp"
-            android:layout_marginTop="20dp"
-            android:layout_toEndOf="@id/product_price_new"
-            android:text="Giá cũ"
-            android:textColor="#B0B0B0"
-            android:textSize="16sp" />
-
         <ImageView
             android:id="@+id/img_add_to_cart"
             android:layout_width="42dp"

@@ -95,42 +95,39 @@ public class MerDetailActivity extends AppCompatActivity {
     }
 
     private void getProduct(Long id) {
-        ApiService apiService = UtilApp.retrofitCF().create(ApiService.class);
-        Call<ApiResponse<List<Product>>> call = apiService.fetProAll(id);
-        call.enqueue(new Callback<ApiResponse<List<Product>>>() {
-            @Override
-            public void onResponse(Call<ApiResponse<List<Product>>> call, Response<ApiResponse<List<Product>>> response) {
-                progressBar.setVisibility(View.GONE);
-                handleProductList(response.body().getData(),id);
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponse<List<Product>>> call, Throwable t) {
-                Notification.sweetAlertNow(MerDetailActivity.this, SweetAlertDialog.ERROR_TYPE,"lỗi hệ thống","");
-            }
-        });
-
-//        mock api
-//        ApiService apiService=UtilApp.retrofitCFMock().create(ApiService.class);
-//        Call<List<Product>> call= apiService.getProAll();
-//        call.enqueue(new Callback<List<Product>>() {
+//        ApiService apiService = UtilApp.retrofitCF().create(ApiService.class);
+//        Call<ApiResponse<List<Product>>> call = apiService.fetProAll(id);
+//        call.enqueue(new Callback<ApiResponse<List<Product>>>() {
 //            @Override
-//            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
-//                for (Product p:response.body()
-//                     ) {
-//                    Log.d("product",p.toString());
-//                }
-//                handleProductList(response.body());
+//            public void onResponse(Call<ApiResponse<List<Product>>> call, Response<ApiResponse<List<Product>>> response) {
+//                progressBar.setVisibility(View.GONE);
+//                handleProductList(response.body().getData());
 //            }
 //
 //            @Override
-//            public void onFailure(Call<List<Product>> call, Throwable t) {
-//
+//            public void onFailure(Call<ApiResponse<List<Product>>> call, Throwable t) {
+//                Notification.sweetAlertNow(MerDetailActivity.this, SweetAlertDialog.ERROR_TYPE,"lỗi hệ thống","");
 //            }
 //        });
+
+//        mock api
+        ApiService apiService=UtilApp.retrofitCFMock().create(ApiService.class);
+        Call<List<Product>> call= apiService.getProAll();
+        call.enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                progressBar.setVisibility(View.GONE);
+                handleProductList(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {
+
+            }
+        });
     }
 
-    private void handleProductList(List<Product> productList,Long id) {
+    private void handleProductList(List<Product> productList) {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         rcvProduct.setLayoutManager(gridLayoutManager);
         ProductAdapter adapter = new ProductAdapter(productList);

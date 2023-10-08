@@ -50,8 +50,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product, parent, false);
         View view2 = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_mer_detail, parent, false);
         SharedPreferences info = view2.getContext().getSharedPreferences("info", Context.MODE_PRIVATE);
-        accountToken = gson.fromJson(info.getString("info", ""), AccountToken.class);
-        userId = accountToken.getUser().getId();
+        if (!info.getString("info", "").isEmpty()) {
+            accountToken = gson.fromJson(info.getString("info", ""), AccountToken.class);
+            userId = accountToken.getUser().getId();
+        }
         return new ProductViewHolder(view);
     }
 
@@ -78,11 +80,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.imgAddToCart.setOnClickListener(view -> {
             // TODO: them code add to card kèm alert
             Long proId = product.getId();
-            Log.d("cart","userId: "+userId+" productId"+proId );
+            Log.d("cart", "userId: " + userId + " productId" + proId);
             holder.imgAddToCart.setImageResource(R.drawable.add_to_cart_checked);
             new Handler().postDelayed(() -> {
                 holder.imgAddToCart.setImageResource(R.drawable.add_to_cart);
-            },1000);
+            }, 1000);
             ApiService apiService = UtilApp.retrofitAuth(view.getContext()).create(ApiService.class);
             Call<ApiResponse> call = apiService.addToCart(proId, userId);
             call.enqueue(new Callback<ApiResponse>() {
@@ -90,18 +92,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                     if (response.isSuccessful()) {
                         //thêm thành công
-                        Notification.sweetAlertNow(view.getContext(), SweetAlertDialog.SUCCESS_TYPE,"Success","Thêm vào rỏ hàng thành công",1000);
+                        Notification.sweetAlertNow(view.getContext(), SweetAlertDialog.SUCCESS_TYPE, "Success", "Thêm vào rỏ hàng thành công", 1000);
                     } else {
                         //thêm không thành công
-                        Notification.sweetAlertNow(view.getContext(), SweetAlertDialog.ERROR_TYPE,"Error","Thêm không thành công");
+                        Notification.sweetAlertNow(view.getContext(), SweetAlertDialog.ERROR_TYPE, "Error", "Thêm không thành công");
                     }
                 }
 
                 @Override
                 public void onFailure(Call<ApiResponse> call, Throwable t) {
-                        // Thông báo lỗi do hệ thống
-                    Log.d("err",t.getMessage());
-                    Notification.sweetAlertNow(view.getContext(),SweetAlertDialog.ERROR_TYPE,"Error server","Lỗi hệ thống phía server");
+                    // Thông báo lỗi do hệ thống
+                    Log.d("err", t.getMessage());
+                    Notification.sweetAlertNow(view.getContext(), SweetAlertDialog.ERROR_TYPE, "Error server", "Lỗi hệ thống phía server");
                 }
             });
         });
