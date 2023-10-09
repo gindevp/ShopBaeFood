@@ -10,7 +10,7 @@ public class Product {
     private String image;
     private int quantity;
     private boolean deleteFlag;
-
+private Merchant merchant;
     public Long getId() {
         return id;
     }
@@ -81,6 +81,14 @@ public class Product {
 
     public void setDeleteFlag(boolean deleteFlag) {
         this.deleteFlag = deleteFlag;
+    }
+
+    public Merchant getMerchant() {
+        return merchant;
+    }
+
+    public void setMerchant(Merchant merchant) {
+        this.merchant = merchant;
     }
 
     @Override

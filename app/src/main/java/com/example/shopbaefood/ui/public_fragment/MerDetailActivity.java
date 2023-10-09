@@ -43,6 +43,8 @@ public class MerDetailActivity extends AppCompatActivity {
     TextView merStatus;
     TextView merAddress;
 
+    ImageView cart_product;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +54,7 @@ public class MerDetailActivity extends AppCompatActivity {
         progressBar=findViewById(R.id.progressBar_mer);;
         intent = getIntent();
         Merchant merchant = (Merchant) intent.getSerializableExtra("merchant");
-        // TODO: viết mã merchant
+
         merImage = findViewById(R.id.merchantImage);
         merIcon = findViewById(R.id.icon_status_mer);
         merName = findViewById(R.id.merchantName);
@@ -90,41 +92,49 @@ public class MerDetailActivity extends AppCompatActivity {
         });
         rcvProduct = findViewById(R.id.recyclerView_detail);
         getProduct(merchant.getId());
-
+        cart_product= findViewById(R.id.cart_product);
+        cart_product.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent.setClass(v.getContext(), CartActivity.class);
+                intent.putExtra("merchant",merchant);
+                startActivity(intent);
+            }
+        });
 
     }
 
     private void getProduct(Long id) {
-//        ApiService apiService = UtilApp.retrofitCF().create(ApiService.class);
-//        Call<ApiResponse<List<Product>>> call = apiService.fetProAll(id);
-//        call.enqueue(new Callback<ApiResponse<List<Product>>>() {
+        ApiService apiService = UtilApp.retrofitCF().create(ApiService.class);
+        Call<ApiResponse<List<Product>>> call = apiService.fetProAll(id);
+        call.enqueue(new Callback<ApiResponse<List<Product>>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<List<Product>>> call, Response<ApiResponse<List<Product>>> response) {
+                progressBar.setVisibility(View.GONE);
+                handleProductList(response.body().getData());
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<List<Product>>> call, Throwable t) {
+                Notification.sweetAlertNow(MerDetailActivity.this, SweetAlertDialog.ERROR_TYPE,"lỗi hệ thống","");
+            }
+        });
+
+//        mock api
+//        ApiService apiService=UtilApp.retrofitCFMock().create(ApiService.class);
+//        Call<List<Product>> call= apiService.getProAll();
+//        call.enqueue(new Callback<List<Product>>() {
 //            @Override
-//            public void onResponse(Call<ApiResponse<List<Product>>> call, Response<ApiResponse<List<Product>>> response) {
+//            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
 //                progressBar.setVisibility(View.GONE);
-//                handleProductList(response.body().getData());
+//                handleProductList(response.body());
 //            }
 //
 //            @Override
-//            public void onFailure(Call<ApiResponse<List<Product>>> call, Throwable t) {
-//                Notification.sweetAlertNow(MerDetailActivity.this, SweetAlertDialog.ERROR_TYPE,"lỗi hệ thống","");
+//            public void onFailure(Call<List<Product>> call, Throwable t) {
+//
 //            }
 //        });
-
-//        mock api
-        ApiService apiService=UtilApp.retrofitCFMock().create(ApiService.class);
-        Call<List<Product>> call= apiService.getProAll();
-        call.enqueue(new Callback<List<Product>>() {
-            @Override
-            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
-                progressBar.setVisibility(View.GONE);
-                handleProductList(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<List<Product>> call, Throwable t) {
-
-            }
-        });
     }
 
     private void handleProductList(List<Product> productList) {

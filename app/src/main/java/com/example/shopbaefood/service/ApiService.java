@@ -1,5 +1,6 @@
 package com.example.shopbaefood.service;
 
+import com.example.shopbaefood.model.Cart;
 import com.example.shopbaefood.model.Merchant;
 import com.example.shopbaefood.model.Product;
 import com.example.shopbaefood.model.dto.AccountRegisterDTO;
@@ -38,6 +39,9 @@ public interface ApiService {
 
     @POST("cart/product/{productId}/user/{userId}")
     Call<ApiResponse> addToCart(@Path("productId") Long productId, @Path("userId") Long userId);
+
+    @GET("cart/user/{userId}/merchant/{merId}")
+    Call<ApiResponse<List<Cart>>> listCart(@Path("userId") Long userId, @Path("merId") Long merId);
 
     // mock api
     @GET("merchant")

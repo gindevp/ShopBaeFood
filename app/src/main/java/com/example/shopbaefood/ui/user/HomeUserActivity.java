@@ -11,7 +11,6 @@ import com.example.shopbaefood.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeUserActivity extends AppCompatActivity {
-    Intent intent;
     private ViewPager mViewPager;
     private BottomNavigationView mBottomNavigationView;
 

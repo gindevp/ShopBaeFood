@@ -26,7 +26,7 @@
             app:cardUseCompatPadding="true">
 
             <ImageView
-                android:id="@+id/image_product"
+                android:id="@+id/image_cart_product"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
@@ -43,7 +43,7 @@
         <!-- Nút thêm (dấu cộng) phía bên phải -->
 
         <TextView
-            android:id="@+id/product_name"
+            android:id="@+id/product_cart_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="26dp"
@@ -54,25 +54,49 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/product_price_new"
+            android:id="@+id/product_cart_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/product_name"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="20dp"
-            android:layout_toEndOf="@id/layout_item_pro"
-            android:text="Giá mới"
-            android:textColor="#00C853"
+            android:layout_below="@id/product_cart_name"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="21dp"
+            android:layout_toEndOf="@+id/img_cart_down"
+            android:text="1"
+            android:textColor="#111211"
             android:textSize="16sp" />
 
         <ImageView
-            android:id="@+id/img_add_to_cart"
+            android:id="@+id/img_cart_down"
             android:layout_width="42dp"
             android:layout_height="42dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
+            android:layout_below="@+id/product_cart_name"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="11dp"
             android:layout_marginEnd="0dp"
+            android:layout_toEndOf="@+id/layout_item_pro"
+            android:src="@drawable/minus" />
+
+        <ImageView
+            android:id="@+id/img_cart_up"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_below="@+id/product_cart_name"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="0dp"
+            android:layout_toEndOf="@+id/product_cart_total"
             android:src="@drawable/add_to_cart" />
+
+        <ImageView
+            android:id="@+id/img_cart_close"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:src="@android:drawable/ic_menu_close_clear_cancel" />
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

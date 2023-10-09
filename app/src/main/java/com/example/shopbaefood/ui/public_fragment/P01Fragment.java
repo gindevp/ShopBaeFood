@@ -19,12 +19,14 @@ import com.example.shopbaefood.adapter.MerchantAdapter;
 import com.example.shopbaefood.model.Merchant;
 import com.example.shopbaefood.model.dto.ApiResponse;
 import com.example.shopbaefood.service.ApiService;
+import com.example.shopbaefood.util.Notification;
 import com.example.shopbaefood.util.UtilApp;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -57,38 +59,39 @@ public class P01Fragment extends Fragment {
     }
 
     private void getListMerchant(View v) {
-//        ApiService apiService= UtilApp.retrofitCF().create(ApiService.class);
-//        Call<ApiResponse<List<Merchant>>> call= apiService.fetMerAll();
-//        call.enqueue(new Callback<ApiResponse<List<Merchant>>>() {
-//            @Override
-//            public void onResponse(Call<ApiResponse<List<Merchant>>> call, Response<ApiResponse<List<Merchant>>> response) {
-//                if(response.isSuccessful()){
-//                    progressBar.setVisibility(View.GONE);
-//                    handleMerchantList(response.body().getData(),v);
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ApiResponse<List<Merchant>>> call, Throwable t) {
-//
-//            }
-//        });
-
-        //Mock api
-        ApiService apiService= UtilApp.retrofitCFMock().create(ApiService.class);
-        Call<List<Merchant>> call= apiService.getMerAll();
-        call.enqueue(new Callback<List<Merchant>>() {
+        ApiService apiService= UtilApp.retrofitCF().create(ApiService.class);
+        Call<ApiResponse<List<Merchant>>> call= apiService.fetMerAll();
+        call.enqueue(new Callback<ApiResponse<List<Merchant>>>() {
             @Override
-            public void onResponse(Call<List<Merchant>> call, Response<List<Merchant>> response) {
-                progressBar.setVisibility(View.GONE);
-                handleMerchantList(response.body(),v);
+            public void onResponse(Call<ApiResponse<List<Merchant>>> call, Response<ApiResponse<List<Merchant>>> response) {
+                if(response.isSuccessful()){
+                    progressBar.setVisibility(View.GONE);
+                    handleMerchantList(response.body().getData(),v);
+                }
             }
 
             @Override
-            public void onFailure(Call<List<Merchant>> call, Throwable t) {
+            public void onFailure(Call<ApiResponse<List<Merchant>>> call, Throwable t) {
+                Notification.sweetAlertNow(v.getContext(), SweetAlertDialog.ERROR_TYPE,"lỗi hệ thống","");
 
             }
         });
+
+        //Mock api
+//        ApiService apiService= UtilApp.retrofitCFMock().create(ApiService.class);
+//        Call<List<Merchant>> call= apiService.getMerAll();
+//        call.enqueue(new Callback<List<Merchant>>() {
+//            @Override
+//            public void onResponse(Call<List<Merchant>> call, Response<List<Merchant>> response) {
+//                progressBar.setVisibility(View.GONE);
+//                handleMerchantList(response.body(),v);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Merchant>> call, Throwable t) {
+//
+//            }
+//        });
     }
 
     private void handleMerchantList(List<Merchant> merchants, View v) {
