@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.shopbaefood.R;
 import com.example.shopbaefood.model.dto.AccountToken;
 import com.example.shopbaefood.ui.LoginActivity;
+import com.example.shopbaefood.util.UtilApp;
 import com.google.gson.Gson;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -57,7 +58,11 @@ public class C02Fragment extends Fragment {
 
         info= view.getContext().getSharedPreferences("info",Context.MODE_PRIVATE);
         AccountToken accountToken= gson.fromJson(info.getString("info",""), AccountToken.class);
-
+        UtilApp.getImagePicasso(accountToken.getUser().getAvatar(),imgUser);
+        txtUserName.setText(accountToken.getUser().getName());
+        txtUserAddress.setText(accountToken.getUser().getAddress());
+        txtUserEmail.setText(accountToken.getRoles()[0]);
+        txtUserPhone.setText(accountToken.getUser().getPhone());
 
         Button button = view.findViewById(R.id.logout2);
         button.setOnClickListener(v -> {
