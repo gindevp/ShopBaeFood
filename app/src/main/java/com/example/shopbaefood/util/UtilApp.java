@@ -92,23 +92,17 @@ public class UtilApp {
                 .setContentText(content)
                 .setConfirmText(confirmText)
                 .setCancelText(cancelText)
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        if (listener != null) {
-                            listener.onConfirm();
-                        }
-                        sDialog.dismissWithAnimation();
+                .setConfirmClickListener(sDialog -> {
+                    if (listener != null) {
+                        listener.onConfirm();
                     }
+                    sDialog.dismissWithAnimation();
                 })
-                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        if (listener != null) {
-                            listener.onCancel();
-                        }
-                        sDialog.cancel();
+                .setCancelClickListener(sDialog -> {
+                    if (listener != null) {
+                        listener.onCancel();
                     }
+                    sDialog.cancel();
                 })
                 .show();
     }
