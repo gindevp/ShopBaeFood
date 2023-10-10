@@ -43,19 +43,29 @@
     <ToggleButton
         android:id="@+id/toggle1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_gravity="center|clip_vertical"
+        android:layout_marginTop="5dp"
         android:background="@drawable/toggle_cart"
         android:backgroundTint="#3684BF"
         android:checked="true"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:textColor="#ffffff "
-        android:textOff="Đơn hàng"
-        android:textOn="Thanh toán" />
+        android:textOff="Thanh toán"
+        android:textOn="Đơn hàng" />
     <FrameLayout
+        android:id="@+id/layout_pay"
         android:layout_width="match_parent"
         android:layout_height="378dp"
         android:layout_weight="3">
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_empty_cart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/emty_cart"
+            android:visibility="gone"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_cart"
             android:layout_width="match_parent"
@@ -94,7 +104,27 @@
             app:icon="@android:drawable/arrow_down_float"
             app:iconGravity="textEnd" />
     </FrameLayout>
+    <FrameLayout
+        android:id="@+id/layout_order"
+        android:layout_width="match_parent"
+        android:layout_height="378dp"
+        android:layout_weight="3"
+        android:visibility="gone">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_order"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="visible" />
+
+    </FrameLayout>
     <!-- Phần ảnh và thông tin -->
     <ScrollView
         android:id="@+id/checkout"
@@ -187,12 +217,11 @@
                     android:layout_width="267dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
+                    android:layout_weight="1"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
                     android:paddingStart="5dp"
                     android:paddingTop="16dp"
-                    android:text="Nhà 1"
-                    android:inputType="textMultiLine"
-                    android:gravity="top"
-                    android:layout_weight="1"
                     android:textSize="16sp" />
                 >
             </LinearLayout>
@@ -225,14 +254,14 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/login"
+                android:id="@+id/paybtn"
                 android:layout_width="277dp"
                 android:layout_height="45dp"
                 android:layout_gravity="center"
                 android:backgroundTint="@color/purple"
                 android:foregroundGravity="center"
                 android:gravity="center"
-                android:text="Thanh toán"
+                android:text="Mua hàng"
                 android:textSize="18sp"
                 app:cornerRadius="20dp" />
         </LinearLayout>

@@ -43,9 +43,16 @@ public interface ApiService {
     @GET("cart/user/{userId}/merchant/{merId}")
     Call<ApiResponse<List<Cart>>> listCart(@Path("userId") Long userId, @Path("merId") Long merId);
 
+    @GET("cart/product/{productId}/user/{userId}")
+    Call<ApiResponse> downCart(@Path("productId") Long productId,@Path("userId") Long userId);
+
+    @GET("cart/product/{productId}")
+    Call<ApiResponse> remove(@Path("productId") Long productId);
+
+    @POST("cart/order/user/{userId}/merchant/{merId}")
+    Call<ApiResponse> odering(@Path("userId") Long userId,@Path("merId") Long merId,@Query("note") String note,@Query("address") String address,@Query("sum") double sum);
     // mock api
     @GET("merchant")
-
     Call<List<Merchant>> getMerAll();
 
     //mock api

@@ -69,37 +69,31 @@ public class MerDetailActivity extends AppCompatActivity {
         merStatus.setText(status ? "Đang hoạt động" : "Đóng cửa rồi");
 
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                intent.setClass(MerDetailActivity.this, HomeUserActivity.class);
-                switch (item.getItemId()) {
-                    case R.id.tab1:
-                        onBackPressed();
-                        return true;
-                    case R.id.tab2:
-                        intent.putExtra("pageToDisplay", 1); // 1 là trang bạn muốn hiển thị
-                        startActivity(intent);
-                        return true;
-                    case R.id.tab3:
-                        intent.putExtra("pageToDisplay", 2); // 1 là trang bạn muốn hiển thị
-                        startActivity(intent);
-                        return true;
-                    // Thêm các case cho các item khác nếu cần
-                }
-                return false;
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            intent.setClass(MerDetailActivity.this, HomeUserActivity.class);
+            switch (item.getItemId()) {
+                case R.id.tab1:
+                    onBackPressed();
+                    return true;
+                case R.id.tab2:
+                    intent.putExtra("pageToDisplay", 1); // 1 là trang bạn muốn hiển thị
+                    startActivity(intent);
+                    return true;
+                case R.id.tab3:
+                    intent.putExtra("pageToDisplay", 2); // 1 là trang bạn muốn hiển thị
+                    startActivity(intent);
+                    return true;
+                // Thêm các case cho các item khác nếu cần
             }
+            return false;
         });
         rcvProduct = findViewById(R.id.recyclerView_detail);
         getProduct(merchant.getId());
         cart_product= findViewById(R.id.cart_product);
-        cart_product.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intent.setClass(v.getContext(), CartActivity.class);
-                intent.putExtra("merchant",merchant);
-                startActivity(intent);
-            }
+        cart_product.setOnClickListener(v -> {
+            intent.setClass(v.getContext(), CartActivity.class);
+            intent.putExtra("merchant",merchant);
+            startActivity(intent);
         });
 
     }
@@ -116,7 +110,7 @@ public class MerDetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ApiResponse<List<Product>>> call, Throwable t) {
-                Notification.sweetAlertNow(MerDetailActivity.this, SweetAlertDialog.ERROR_TYPE,"lỗi hệ thống","");
+                Notification.sweetAlert(MerDetailActivity.this, SweetAlertDialog.ERROR_TYPE,"lỗi hệ thống","");
             }
         });
 

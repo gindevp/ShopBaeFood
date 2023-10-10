@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -81,5 +82,39 @@ public class UtilApp {
         }
 
         return false;
+    }
+
+    public static void confirmationDialog(Context context, String title, String content,
+                                              String confirmText, String cancelText,
+                                              final OnConfirmationListener listener) {
+        new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+                .setTitleText(title)
+                .setContentText(content)
+                .setConfirmText(confirmText)
+                .setCancelText(cancelText)
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        if (listener != null) {
+                            listener.onConfirm();
+                        }
+                        sDialog.dismissWithAnimation();
+                    }
+                })
+                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        if (listener != null) {
+                            listener.onCancel();
+                        }
+                        sDialog.cancel();
+                    }
+                })
+                .show();
+    }
+    public interface OnConfirmationListener {
+        void onConfirm();
+
+        void onCancel();
     }
 }

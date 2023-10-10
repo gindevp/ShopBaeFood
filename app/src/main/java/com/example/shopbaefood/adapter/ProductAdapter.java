@@ -84,7 +84,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             holder.imgAddToCart.setImageResource(R.drawable.add_to_cart_checked);
             new Handler().postDelayed(() -> {
                 holder.imgAddToCart.setImageResource(R.drawable.add_to_cart);
-            }, 1000);
+            }, 200);
             ApiService apiService = UtilApp.retrofitAuth(view.getContext()).create(ApiService.class);
             Call<ApiResponse> call = apiService.addToCart(proId, userId);
             call.enqueue(new Callback<ApiResponse>() {

@@ -72,7 +72,7 @@ public class P01Fragment extends Fragment {
 
             @Override
             public void onFailure(Call<ApiResponse<List<Merchant>>> call, Throwable t) {
-                Notification.sweetAlertNow(v.getContext(), SweetAlertDialog.ERROR_TYPE,"lỗi hệ thống","");
+                Notification.sweetAlert(v.getContext(), SweetAlertDialog.ERROR_TYPE,"lỗi hệ thống","");
 
             }
         });

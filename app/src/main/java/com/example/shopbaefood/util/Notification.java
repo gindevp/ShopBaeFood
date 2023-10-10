@@ -41,4 +41,9 @@ public class Notification {
 // Hiển thị hộp thoại
         sweetAlertDialog.show();
     }
+    public static void sweetAlert(Context context, int type, String title, String content) {
+        new SweetAlertDialog(context, type)
+                .setTitleText(title)
+                .setContentText(content).show();
+    }
 }
