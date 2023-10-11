@@ -1,4 +1,4 @@
-package com.example.shopbaefood.ui.user;
+package com.example.shopbaefood.ui.publicc;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,17 +23,14 @@ import com.google.gson.Gson;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
-public class C02Fragment extends Fragment {
+public class UserDetailFragment extends Fragment {
 
     private ImageView imgUser;
-    private TextView txtUserName;
-    private TextView txtUserAddress;
-    private TextView txtUserEmail;
-    private TextView txtUserPhone;
+    private TextView txtUserName, txtUserAddress, txtUserEmail, txtUserPhone;
     private Button btnEdit;
     private Gson gson;
     SharedPreferences info;
-    public C02Fragment() {
+    public UserDetailFragment() {
 
     }
 
@@ -46,7 +43,7 @@ public class C02Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_c02, container, false);
+        View view= inflater.inflate(R.layout.fragment_user_detail, container, false);
 
         gson= new Gson();
         imgUser=view.findViewById(R.id.imageUser);
@@ -58,7 +55,11 @@ public class C02Fragment extends Fragment {
 
         info= view.getContext().getSharedPreferences("info",Context.MODE_PRIVATE);
         AccountToken accountToken= gson.fromJson(info.getString("info",""), AccountToken.class);
-        UtilApp.getImagePicasso(accountToken.getUser().getAvatar(),imgUser);
+        if(accountToken.getUser()!=null){
+            UtilApp.getImagePicasso(accountToken.getUser().getAvatar(),imgUser);
+        }else {
+            UtilApp.getImagePicasso(accountToken.getMerchant().getAvatar(),imgUser);
+        }
         txtUserName.setText(accountToken.getUser().getName());
         txtUserAddress.setText(accountToken.getUser().getAddress());
         txtUserEmail.setText(accountToken.getRoles()[0]);

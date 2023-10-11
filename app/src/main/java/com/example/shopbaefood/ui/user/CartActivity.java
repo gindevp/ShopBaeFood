@@ -1,11 +1,10 @@
-package com.example.shopbaefood.ui.public_fragment;
+package com.example.shopbaefood.ui.user;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -22,13 +20,13 @@ import android.widget.ToggleButton;
 
 import com.example.shopbaefood.R;
 import com.example.shopbaefood.adapter.CartAdapter;
+import com.example.shopbaefood.adapter.OrderAdapter;
 import com.example.shopbaefood.model.Cart;
 import com.example.shopbaefood.model.Merchant;
-import com.example.shopbaefood.model.User;
+import com.example.shopbaefood.model.Order;
 import com.example.shopbaefood.model.dto.AccountToken;
 import com.example.shopbaefood.model.dto.ApiResponse;
 import com.example.shopbaefood.service.ApiService;
-import com.example.shopbaefood.ui.user.HomeUserActivity;
 import com.example.shopbaefood.util.Notification;
 import com.example.shopbaefood.util.UtilApp;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -44,22 +42,13 @@ import retrofit2.Response;
 public class CartActivity extends AppCompatActivity {
     Intent intent;
     BottomNavigationView bottomNavigationView;
-    private RecyclerView rcvCart;
-    private ProgressBar progressBar;
-
+    private ProgressBar progressBar, progressBar2;
     private ScrollView scrollView;
-
-    private Button payUp;
-    private Button payDown;
-    private TextView merchantName;
-    private TextView price;
-    private FrameLayout layoutPay;
-    private FrameLayout layoutOrder;
+    private Button payUp, payDown, payBtn;
+    private TextView merchantName, price, note, address;
+    private FrameLayout layoutPay, layoutOrder;
     private ToggleButton toggleButton;
-    private Button payBtn;
-    private TextView note;
-    private TextView address;
-    private RecyclerView rcvEmtyCart;
+    private RecyclerView rcvEmtyCart, rcvOrder, rcvCart;
     Gson gson;
 
     @Override
@@ -67,6 +56,8 @@ public class CartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
+        progressBar2=findViewById(R.id.progressBar_order);
+        rcvOrder=findViewById(R.id.recyclerView_order);
         address=findViewById(R.id.cart_address_val);
         note=findViewById(R.id.cart_note_val);
         payBtn=findViewById(R.id.paybtn);
@@ -126,6 +117,28 @@ public class CartActivity extends AppCompatActivity {
             if (!isChecked) {
                 layoutPay.setVisibility(View.GONE);
                 layoutOrder.setVisibility(View.VISIBLE);
+                scrollView.setVisibility(View.GONE);
+                payUp.setVisibility(View.VISIBLE);
+                payDown.setVisibility(View.GONE);
+                ApiService apiService=UtilApp.retrofitAuth(this).create((ApiService.class));
+                Call<ApiResponse<List<Order>>> call= apiService.orderHistory(user.getUser().getId());
+                call.enqueue(new Callback<ApiResponse<List<Order>>>() {
+                    @Override
+                    public void onResponse(Call<ApiResponse<List<Order>>> call, Response<ApiResponse<List<Order>>> response) {
+                        if(response.isSuccessful()){
+                            progressBar2.setVisibility(View.GONE);
+                            handlerOrderList(response.body().getData());
+                        }else {
+                            Notification.sweetAlert(CartActivity.this,SweetAlertDialog.ERROR_TYPE,"Error","Lỗi rồi, thử lại đi");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiResponse<List<Order>>> call, Throwable t) {
+                        Notification.sweetAlert(CartActivity.this,SweetAlertDialog.ERROR_TYPE,"Error","Lỗi hệ thống phía server");
+                    }
+                });
+
             } else {
                 layoutPay.setVisibility(View.VISIBLE);
                 layoutOrder.setVisibility(View.GONE);
@@ -143,6 +156,9 @@ public class CartActivity extends AppCompatActivity {
                         adapter.clearCart();
                         rcvCart.setVisibility(View.GONE);
                         rcvEmtyCart.setVisibility(View.VISIBLE);
+                        payBtn.setEnabled(false);
+                        address.setText("");
+                        note.setText("");
                         Notification.sweetAlertNow(CartActivity.this,SweetAlertDialog.SUCCESS_TYPE,"Success","Đặt hàng thành công");
                     }else {
                         Notification.sweetAlertNow(CartActivity.this,SweetAlertDialog.ERROR_TYPE,"Error","Đặt hàng không thành công");
@@ -195,6 +211,12 @@ public class CartActivity extends AppCompatActivity {
         rcvCart.setAdapter(adapter);
     }
 
+    private void handlerOrderList(List<Order> data) {
+        GridLayoutManager gridLayoutManager= new GridLayoutManager(this,1);
+        rcvOrder.setLayoutManager(gridLayoutManager);
+        OrderAdapter adapter= new OrderAdapter(data);
+        rcvOrder.setAdapter(adapter);
+    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();

@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shopbaefood.R;
 import com.example.shopbaefood.model.Merchant;
-import com.example.shopbaefood.ui.public_fragment.MerDetailActivity;
+import com.example.shopbaefood.ui.publicc.MerDetailActivity;
 import com.example.shopbaefood.util.UtilApp;
 
 import java.util.List;
@@ -59,11 +59,9 @@ public class MerchantAdapter extends RecyclerView.Adapter<MerchantAdapter.Mercha
     }
 
     public class MerchantViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imgMerchant;
-        private TextView tvNameMerchant;
-        private TextView tvAddressMerchant;
+        private ImageView imgMerchant, imgIcon;
+        private TextView tvNameMerchant, tvAddressMerchant;
         private CardView cardView;
-        private ImageView imgIcon;
 
         public MerchantViewHolder(@NonNull View itemView) {
             super(itemView);

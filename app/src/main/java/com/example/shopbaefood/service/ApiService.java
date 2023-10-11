@@ -2,6 +2,8 @@ package com.example.shopbaefood.service;
 
 import com.example.shopbaefood.model.Cart;
 import com.example.shopbaefood.model.Merchant;
+import com.example.shopbaefood.model.Order;
+import com.example.shopbaefood.model.OrderDetail;
 import com.example.shopbaefood.model.Product;
 import com.example.shopbaefood.model.dto.AccountRegisterDTO;
 import com.example.shopbaefood.model.dto.AccountToken;
@@ -18,7 +20,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiService {
-
+//api public
     @POST("login")
     Call<ApiResponse> login(@Body LoginResponse response);
 
@@ -37,6 +39,7 @@ public interface ApiService {
     @GET("merchantp/detail")
     Call<ApiResponse<List<Product>>> fetProAll(@Query("id") Long id);
 
+    //api user
     @POST("cart/product/{productId}/user/{userId}")
     Call<ApiResponse> addToCart(@Path("productId") Long productId, @Path("userId") Long userId);
 
@@ -51,11 +54,18 @@ public interface ApiService {
 
     @POST("cart/order/user/{userId}/merchant/{merId}")
     Call<ApiResponse> odering(@Path("userId") Long userId,@Path("merId") Long merId,@Query("note") String note,@Query("address") String address,@Query("sum") double sum);
+    @GET("cart/order/history/user/{userId}")
+    Call<ApiResponse<List<Order>>> orderHistory(@Path("userId") Long userId);
+
+    @GET("cart/detail/order/{orderId}")
+    Call<ApiResponse<List<OrderDetail>>> orderDetail(@Path("orderId") Long orderId);
+    //api merchant
+
+
     // mock api
     @GET("merchant")
     Call<List<Merchant>> getMerAll();
 
-    //mock api
     @GET("product")
     Call<List<Product>> getProAll();
 }

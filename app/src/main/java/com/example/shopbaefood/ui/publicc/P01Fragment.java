@@ -1,17 +1,14 @@
-package com.example.shopbaefood.ui.public_fragment;
+package com.example.shopbaefood.ui.publicc;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.example.shopbaefood.R;
@@ -21,9 +18,7 @@ import com.example.shopbaefood.model.dto.ApiResponse;
 import com.example.shopbaefood.service.ApiService;
 import com.example.shopbaefood.util.Notification;
 import com.example.shopbaefood.util.UtilApp;
-import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;

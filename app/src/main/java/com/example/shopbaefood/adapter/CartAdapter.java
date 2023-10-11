@@ -200,9 +200,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     private void setTotal(Integer price, String cal) {
         String totalS = String.valueOf(total.getText());
-
-        Log.d("stringg",total.getText().toString());
-        Log.d("stringg",totalS.substring(0, totalS.length() - 2));
         if ("plus".equals(cal)) {
             total.setText(
                     (Integer.parseInt(totalS.substring(0, totalS.length() - 2)) + price) + " đ"
@@ -220,12 +217,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     }
 
     public class CartViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imgCart;
-        private TextView cartProName;
-        private TextView cartProTotal;
-        private ImageView imgCartDown;
-        private ImageView imgCartUp;
-        private ImageView imgCartClose;
+        private TextView cartProName, cartProTotal;
+        private ImageView imgCartDown, imgCartUp, imgCartClose, imgCart;
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);

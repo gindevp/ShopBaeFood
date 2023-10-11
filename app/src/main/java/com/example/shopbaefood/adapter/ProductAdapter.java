@@ -52,7 +52,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         SharedPreferences info = view2.getContext().getSharedPreferences("info", Context.MODE_PRIVATE);
         if (!info.getString("info", "").isEmpty()) {
             accountToken = gson.fromJson(info.getString("info", ""), AccountToken.class);
-            userId = accountToken.getUser().getId();
+
+            if(accountToken.getUser()!=null){
+                userId = accountToken.getUser().getId();
+            }
+
         }
         return new ProductViewHolder(view);
     }
@@ -77,36 +81,40 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         holder.tvNewPrice.setText(String.valueOf(product.getNewPrice()));
         UtilApp.getImagePicasso(product.getImage(), holder.imgProduct);
-        holder.imgAddToCart.setOnClickListener(view -> {
-            // TODO: them code add to card kèm alert
-            Long proId = product.getId();
-            Log.d("cart", "userId: " + userId + " productId" + proId);
-            holder.imgAddToCart.setImageResource(R.drawable.add_to_cart_checked);
-            new Handler().postDelayed(() -> {
-                holder.imgAddToCart.setImageResource(R.drawable.add_to_cart);
-            }, 200);
-            ApiService apiService = UtilApp.retrofitAuth(view.getContext()).create(ApiService.class);
-            Call<ApiResponse> call = apiService.addToCart(proId, userId);
-            call.enqueue(new Callback<ApiResponse>() {
-                @Override
-                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                    if (response.isSuccessful()) {
-                        //thêm thành công
-                        Notification.sweetAlertNow(view.getContext(), SweetAlertDialog.SUCCESS_TYPE, "Success", "Thêm vào rỏ hàng thành công", 1000);
-                    } else {
-                        //thêm không thành công
-                        Notification.sweetAlertNow(view.getContext(), SweetAlertDialog.ERROR_TYPE, "Error", "Thêm không thành công");
+        if(accountToken.getUser()!=null){
+            holder.imgAddToCart.setOnClickListener(view -> {
+                // TODO: them code add to card kèm alert
+                Long proId = product.getId();
+                Log.d("cart", "userId: " + userId + " productId" + proId);
+                holder.imgAddToCart.setImageResource(R.drawable.add_to_cart_checked);
+                new Handler().postDelayed(() -> {
+                    holder.imgAddToCart.setImageResource(R.drawable.add_to_cart);
+                }, 200);
+                ApiService apiService = UtilApp.retrofitAuth(view.getContext()).create(ApiService.class);
+                Call<ApiResponse> call = apiService.addToCart(proId, userId);
+                call.enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                        if (response.isSuccessful()) {
+                            //thêm thành công
+                            Notification.sweetAlertNow(view.getContext(), SweetAlertDialog.SUCCESS_TYPE, "Success", "Thêm vào rỏ hàng thành công", 1000);
+                        } else {
+                            //thêm không thành công
+                            Notification.sweetAlertNow(view.getContext(), SweetAlertDialog.ERROR_TYPE, "Error", "Thêm không thành công");
+                        }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<ApiResponse> call, Throwable t) {
-                    // Thông báo lỗi do hệ thống
-                    Log.d("err", t.getMessage());
-                    Notification.sweetAlertNow(view.getContext(), SweetAlertDialog.ERROR_TYPE, "Error server", "Lỗi hệ thống phía server");
-                }
+                    @Override
+                    public void onFailure(Call<ApiResponse> call, Throwable t) {
+                        // Thông báo lỗi do hệ thống
+                        Log.d("err", t.getMessage());
+                        Notification.sweetAlertNow(view.getContext(), SweetAlertDialog.ERROR_TYPE, "Error server", "Lỗi hệ thống phía server");
+                    }
+                });
             });
-        });
+        }else {
+            holder.imgAddToCart.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -118,11 +126,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     public class ProductViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imgProduct;
-        private TextView tvName;
-        private TextView tvNewPrice;
-        private TextView tvOldPrice;
-        private ImageView imgAddToCart;
+        private ImageView imgProduct, imgAddToCart;
+        private TextView tvName, tvNewPrice, tvOldPrice;
 
 
         public ProductViewHolder(@NonNull View itemView) {

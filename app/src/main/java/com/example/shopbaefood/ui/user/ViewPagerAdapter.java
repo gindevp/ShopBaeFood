@@ -5,7 +5,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.example.shopbaefood.ui.public_fragment.P01Fragment;
+import com.example.shopbaefood.ui.publicc.P01Fragment;
+import com.example.shopbaefood.ui.publicc.UserDetailFragment;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -19,7 +20,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         switch (position){
             case 0: return new P01Fragment();
             case 1: return new C01Fragment();
-            case 2: return new C02Fragment();
+            case 2: return new UserDetailFragment();
             default: return new P01Fragment();
         }
 

@@ -1,14 +1,17 @@
 package com.example.shopbaefood.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
-public class Order {
+public class Order implements Serializable {
     private Long id;
     private User user;
     private String note;
-    private LocalDateTime orderdate;
+    private Integer[] orderdate;
     private String status;
-    private Long merchant_id;
+    private Merchant merchant;
     private double totalPrice;
     private String deliveryAddress;
     private String pdf;
@@ -38,11 +41,24 @@ public class Order {
         this.note = note;
     }
 
-    public LocalDateTime getOrderdate() {
-        return orderdate;
+    public String getOrderdate() {
+        Integer[] orderdate = this.orderdate;
+
+        // Tạo đối tượng LocalDateTime từ mảng "orderdate"
+        LocalDateTime localDateTime = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            localDateTime = LocalDateTime.of(orderdate[0], orderdate[1], orderdate[2], orderdate[3], orderdate[4], orderdate[5]);
+
+
+        // Định dạng "hh:mm dd/MM/yyyy"
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
+
+        // Chuyển đổi thành định dạng mong muốn
+        return localDateTime.format(formatter); }
+         return null;
     }
 
-    public void setOrderdate(LocalDateTime orderdate) {
+    public void setOrderdate(Integer[] orderdate) {
         this.orderdate = orderdate;
     }
 
@@ -54,12 +70,12 @@ public class Order {
         this.status = status;
     }
 
-    public Long getMerchant_id() {
-        return merchant_id;
+    public Merchant getMerchant() {
+        return merchant;
     }
 
-    public void setMerchant_id(Long merchant_id) {
-        this.merchant_id = merchant_id;
+    public void setMerchant(Merchant merchant) {
+        this.merchant= merchant;
     }
 
     public double getTotalPrice() {

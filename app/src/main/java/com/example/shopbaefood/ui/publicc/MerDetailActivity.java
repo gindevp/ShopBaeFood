@@ -1,14 +1,13 @@
-package com.example.shopbaefood.ui.public_fragment;
+package com.example.shopbaefood.ui.publicc;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -18,12 +17,15 @@ import com.example.shopbaefood.R;
 import com.example.shopbaefood.adapter.ProductAdapter;
 import com.example.shopbaefood.model.Merchant;
 import com.example.shopbaefood.model.Product;
+import com.example.shopbaefood.model.dto.AccountToken;
 import com.example.shopbaefood.model.dto.ApiResponse;
 import com.example.shopbaefood.service.ApiService;
+import com.example.shopbaefood.ui.user.CartActivity;
 import com.example.shopbaefood.ui.user.HomeUserActivity;
 import com.example.shopbaefood.util.Notification;
 import com.example.shopbaefood.util.UtilApp;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -37,13 +39,11 @@ public class MerDetailActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     private RecyclerView rcvProduct;
     private ProgressBar progressBar;
-    ImageView merImage;
-    ImageView merIcon;
-    TextView merName;
-    TextView merStatus;
-    TextView merAddress;
-
-    ImageView cart_product;
+    ImageView merImage, merIcon,cart_product;
+    TextView merName, merStatus, merAddress;
+    AccountToken accountToken;
+    Gson gson;
+    SharedPreferences info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,10 @@ public class MerDetailActivity extends AppCompatActivity {
         progressBar=findViewById(R.id.progressBar_mer);;
         intent = getIntent();
         Merchant merchant = (Merchant) intent.getSerializableExtra("merchant");
+
+        gson=new Gson();
+        info= getSharedPreferences("info", Context.MODE_PRIVATE);
+        accountToken= gson.fromJson(info.getString("info",""), AccountToken.class);
 
         merImage = findViewById(R.id.merchantImage);
         merIcon = findViewById(R.id.icon_status_mer);
@@ -90,11 +94,16 @@ public class MerDetailActivity extends AppCompatActivity {
         rcvProduct = findViewById(R.id.recyclerView_detail);
         getProduct(merchant.getId());
         cart_product= findViewById(R.id.cart_product);
-        cart_product.setOnClickListener(v -> {
-            intent.setClass(v.getContext(), CartActivity.class);
-            intent.putExtra("merchant",merchant);
-            startActivity(intent);
-        });
+        if(accountToken.getUser()!=null){
+            cart_product.setOnClickListener(v -> {
+                intent.setClass(v.getContext(), CartActivity.class);
+                intent.putExtra("merchant",merchant);
+                startActivity(intent);
+            });
+        }else {
+            cart_product.setVisibility(View.GONE);
+        }
+
 
     }
 

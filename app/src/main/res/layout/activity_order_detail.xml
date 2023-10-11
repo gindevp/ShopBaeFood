@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/purple"
+        android:theme="?attr/actionBarTheme">
+
+
+        <!-- Đặt title ở giữa của thanh toolbar -->
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Đặt hàng"
+            android:textColor="#fff"
+            android:textSize="18sp" />
+
+        <!-- Đặt ảnh nhỏ bên trái (thay thế bằng icon của người dùng) -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="16dp"
+            app:cardCornerRadius="50dp"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <FrameLayout
+        android:id="@+id/layout_order_detail"
+        android:layout_width="match_parent"
+        android:layout_height="378dp"
+        android:layout_weight="3">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_order_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar_order_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="visible" />
+    </FrameLayout>
+
+    <ScrollView
+        android:id="@+id/checkout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="115dp"
+            android:layout_margin="10dp"
+            android:layout_weight="2"
+            android:background="@drawable/shape1"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/cart_merchant_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:paddingTop="16dp"
+                        android:paddingEnd="5dp"
+                        android:text="Tên Quán Ăn:"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/order_detail_mer_name_val"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:paddingStart="5dp"
+                        android:paddingTop="16dp"
+                        android:text="Quán 1"
+                        android:textSize="16sp" />
+                    >
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/cart_price_total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:paddingTop="16dp"
+                        android:paddingEnd="5dp"
+                        android:text="Tổng tiền:"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/order_detail_price_total_val"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:paddingStart="5dp"
+                        android:paddingTop="16dp"
+                        android:text="Tiền 1"
+                        android:textSize="16sp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/cart_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:paddingTop="16dp"
+                        android:paddingEnd="5dp"
+                        android:text="Địa chỉ nhận:"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/order_detail_address_val"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_weight="1"
+                        android:paddingStart="5dp"
+                        android:paddingTop="16dp"
+                        android:text="Tiền 1"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/order_detail_note"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:paddingTop="16dp"
+                        android:paddingEnd="5dp"
+                        android:text="Ghi chú:"
+                        android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/order_detail_note_val"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_weight="1"
+                        android:paddingStart="5dp"
+                        android:paddingTop="16dp"
+                        android:text="Tiền 1"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_received"
+                    android:layout_width="277dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/purple"
+                    android:foregroundGravity="center"
+                    android:gravity="center"
+                    android:text="Đã nhận hàng"
+                    android:textSize="18sp"
+                    app:cornerRadius="20dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_order_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/purple"
+        app:itemIconTint="@color/color_navigation"
+        app:itemTextColor="@color/color_navigation"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_nav_c_menu" />
+</LinearLayout>

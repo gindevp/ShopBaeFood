@@ -3,7 +3,7 @@ package com.example.shopbaefood.model;
 public class Cart {
     private Long id;
     private int quantity;
-    private  Double price;
+    private Double price;
     private Double totalPrice;
     private boolean isFavorite;
     private boolean deleteFlag;

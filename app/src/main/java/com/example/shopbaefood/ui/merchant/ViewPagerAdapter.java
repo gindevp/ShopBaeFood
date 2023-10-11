@@ -5,8 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.example.shopbaefood.ui.admin.M01Fragment;
-import com.example.shopbaefood.ui.public_fragment.P01Fragment;
+import com.example.shopbaefood.ui.publicc.P01Fragment;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 

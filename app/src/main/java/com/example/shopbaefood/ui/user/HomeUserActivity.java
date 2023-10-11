@@ -8,17 +8,25 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.shopbaefood.R;
+import com.example.shopbaefood.util.Notification;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class HomeUserActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private BottomNavigationView mBottomNavigationView;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_user);
 
+        intent= getIntent();
+        if(intent.hasExtra("logSuccess")){
+            Notification.sweetAlertNow(this, SweetAlertDialog.SUCCESS_TYPE,"Login success","Bạn đăng nhập thành công");
+        }
         mViewPager = findViewById(R.id.viewpageUser);
         mBottomNavigationView = findViewById(R.id.bottom_navigation);
 
