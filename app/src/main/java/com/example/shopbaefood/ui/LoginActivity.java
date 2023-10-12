@@ -150,7 +150,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
+      Notification.sweetAlert(this,SweetAlertDialog.ERROR_TYPE,"NO","");
     }
 
     @Override

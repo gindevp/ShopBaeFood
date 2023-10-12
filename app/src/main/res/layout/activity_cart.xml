@@ -34,20 +34,38 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <ToggleButton
-        android:id="@+id/toggle1"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_gravity="center|clip_vertical"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/toggle_cart"
-        android:backgroundTint="#3684BF"
-        android:checked="true"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:textColor="#ffffff "
-        android:textOff="Thanh toán"
-        android:textOn="Đơn hàng" />
+        <!-- Thanh trạng thái -->
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/toggle_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="6dp"
+        android:orientation="horizontal"
+        app:checkedButton="@+id/toggle_status1"
+        app:singleSelection="true">
+
+        <!-- Trạng thái 1 -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/toggle_status1"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Thanh toán" />
+
+        <!-- Trạng thái 2 -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/toggle_status2"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Đơn hàng" />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
     <FrameLayout
         android:id="@+id/layout_pay"
         android:layout_width="match_parent"

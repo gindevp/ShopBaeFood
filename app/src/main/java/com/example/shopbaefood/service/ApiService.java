@@ -20,7 +20,8 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiService {
-//api public
+
+    //api public
     @POST("login")
     Call<ApiResponse> login(@Body LoginResponse response);
 
@@ -38,6 +39,8 @@ public interface ApiService {
 
     @GET("merchantp/detail")
     Call<ApiResponse<List<Product>>> fetProAll(@Query("id") Long id);
+
+
 
     //api user
     @POST("cart/product/{productId}/user/{userId}")
@@ -59,7 +62,14 @@ public interface ApiService {
 
     @GET("cart/detail/order/{orderId}")
     Call<ApiResponse<List<OrderDetail>>> orderDetail(@Path("orderId") Long orderId);
+
+
+
     //api merchant
+    @GET("merchant/order")
+    Call<ApiResponse<List<Order>>> orderPending(@Query("merchantId") Long merchantId);
+
+
 
 
     // mock api
