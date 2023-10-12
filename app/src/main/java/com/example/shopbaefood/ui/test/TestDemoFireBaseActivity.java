@@ -23,7 +23,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-// DÙng tool firebase connect và truyền ảnh đọc ảnh, Uri đọc ảnh cũng ok thay vì
+// DÙng tool firebase connect và truyền ảnh đọc ảnh, util đã có thể dùng firebase, uri có thể chứa link dẫn thiết bị dùng để đọc ảnh nhanh k thể đọc URL ảnh internet như picasso đươc
+// Nhớ tạo database SQlite để lưu thông tin người dùng vào và đọc nó ( thông tin user, merchant, admin, sở thích của người dùng, ...)
+// Tập trung vào nốt quản lý đơn hàng và quản lý sản phẩm, task 2 có thể về nhà làm
 public class TestDemoFireBaseActivity extends AppCompatActivity {
 
     ActivityTestDemoFireBaseBinding binding;
