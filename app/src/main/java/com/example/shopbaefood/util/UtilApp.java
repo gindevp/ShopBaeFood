@@ -1,7 +1,9 @@
 package com.example.shopbaefood.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -10,11 +12,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.shopbaefood.model.dto.AccountToken;
 import com.example.shopbaefood.model.intercepter.RetrofitClient;
 import com.example.shopbaefood.service.ApiService;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Locale;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit2.Retrofit;
@@ -110,5 +117,35 @@ public class UtilApp {
         void onConfirm();
 
         void onCancel();
+    }
+
+    public static void uploadImageToFirebaseStorage(Uri imageUri, OnImageUploadListener listener) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.CHINESE);
+        Date now = new Date();
+        String filename = formatter.format(now);
+
+        StorageReference storageRef = storage.getReference().child("images/" + filename);
+
+        storageRef.putFile(imageUri)
+                .addOnSuccessListener(taskSnapshot -> {
+                    storageRef.getDownloadUrl()
+                            .addOnSuccessListener(downloadUri -> {
+                                String imageUrl = downloadUri.toString();
+                                listener.onSuccess(imageUrl);
+                            })
+                            .addOnFailureListener(e -> {
+                                listener.onFailure("Failed to get image URL.");
+                            });
+                })
+                .addOnFailureListener(e -> {
+                    listener.onFailure("Failed to upload image.");
+                });
+    }
+
+    public interface OnImageUploadListener {
+        void onSuccess(String imageUrl);
+
+        void onFailure(String error);
     }
 }

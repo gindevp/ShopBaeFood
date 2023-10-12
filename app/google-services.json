@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "244735960125",
+    "project_id": "shopbaefoodappandroid",
+    "storage_bucket": "shopbaefoodappandroid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:244735960125:android:00df682c38d71fa7bfb654",
+        "android_client_info": {
+          "package_name": "com.example.shopbaefood"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxQIbBKTLWYvWUe-LgJxUNhtEfIPVLbHA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

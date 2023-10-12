@@ -17,6 +17,9 @@
         tools:replace="android:icon"
         tools:targetApi="31">
         <activity
+            android:name=".ui.test.TestDemoFireBaseActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.user.OrderDetailActivity"
             android:exported="false" />
         <activity

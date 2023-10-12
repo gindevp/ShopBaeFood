@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "contacts.db";
+    private static final String DATABASE_NAME = "ShopbaeFood.db";
     private static final int DATABASE_VERSION = 1;
 
     public static final String TABLE_CONTACTS = "contacts";
