@@ -53,6 +53,7 @@ public class CartActivity extends AppCompatActivity {
     private MaterialButton status1Button, status2Button;
     private RecyclerView rcvEmtyCart, rcvOrder, rcvCart;
     Gson gson;
+    AccountToken user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +84,7 @@ public class CartActivity extends AppCompatActivity {
         Merchant merchant = (Merchant) intent.getSerializableExtra("merchant");
         merchantName.setText(merchant.getName());
         SharedPreferences info = getSharedPreferences("info", MODE_PRIVATE);
-        AccountToken user = gson.fromJson(info.getString("info", ""), AccountToken.class);
+        user = gson.fromJson(info.getString("info", ""), AccountToken.class);
         getCart(user.getUser().getId(), merchant.getId());
         Log.d("logCart", "userid:" + user.getUser().getId() + "merId" + merchant.getId());
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -91,15 +92,15 @@ public class CartActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 intent.setClass(CartActivity.this, HomeUserActivity.class);
                 switch (item.getItemId()) {
-                    case R.id.tab1:
+                    case R.id.tab1_c:
                         intent.putExtra("pageToDisplay", 0); // 1 là trang bạn muốn hiển thị
                         startActivity(intent);
                         return true;
-                    case R.id.tab2:
+                    case R.id.tab2_c:
                         intent.putExtra("pageToDisplay", 1); // 1 là trang bạn muốn hiển thị
                         startActivity(intent);
                         return true;
-                    case R.id.tab3:
+                    case R.id.tab3_c:
                         intent.putExtra("pageToDisplay", 2); // 1 là trang bạn muốn hiển thị
                         startActivity(intent);
                         return true;
@@ -118,10 +119,11 @@ public class CartActivity extends AppCompatActivity {
             payUp.setVisibility(View.VISIBLE);
             payDown.setVisibility(View.GONE);
         });
-
+        isCheckedBtn();
         buttonToggleGroup.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
             if (isChecked) {
                 if (checkedId == R.id.toggle_status2) {
+                    isCheckedBtn();
                     layoutPay.setVisibility(View.GONE);
                     layoutOrder.setVisibility(View.VISIBLE);
                     scrollView.setVisibility(View.GONE);
@@ -147,22 +149,15 @@ public class CartActivity extends AppCompatActivity {
                     });
 
                 } else if (checkedId == R.id.toggle_status1) {
+                    isCheckedBtn();
                     layoutPay.setVisibility(View.VISIBLE);
                     layoutOrder.setVisibility(View.GONE);
                 }
             }
         });
 
-        status1Button.setOnClickListener(v -> {
-            if (!status1Button.isChecked()) {
-                status1Button.setChecked(true);
-            }
-        });
-        status2Button.setOnClickListener(v -> {
-            if (!status2Button.isChecked()) {
-                status2Button.setChecked(true);
-            }
-        });
+
+
         payBtn.setOnClickListener(v -> {
             ApiService apiService = UtilApp.retrofitAuth(this).create(ApiService.class);
             double sum = Double.parseDouble(String.valueOf(price.getText()).substring(0, price.getText().length() - 2));
@@ -190,6 +185,16 @@ public class CartActivity extends AppCompatActivity {
                 }
             });
         });
+    }
+
+    private void isCheckedBtn() {
+        if(status1Button.isChecked()){
+            status1Button.setClickable(false);
+            status2Button.setClickable(true);
+        }else if(status2Button.isChecked()){
+            status2Button.setClickable(false);
+            status1Button.setClickable(true);
+        }
     }
 
     private void getCart(Long userId, Long merId) {
@@ -233,7 +238,7 @@ public class CartActivity extends AppCompatActivity {
     private void handlerOrderList(List<Order> data) {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         rcvOrder.setLayoutManager(gridLayoutManager);
-        OrderAdapter adapter = new OrderAdapter(data);
+        OrderAdapter adapter = new OrderAdapter(data,user.getRoles()[0]);
         rcvOrder.setAdapter(adapter);
     }
 

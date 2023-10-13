@@ -37,13 +37,13 @@ public class HomeUserActivity extends AppCompatActivity {
         mViewPager.setCurrentItem(pageToDisplay);
         switch (pageToDisplay) {
             case 0:
-                mBottomNavigationView.getMenu().findItem(R.id.tab1).setChecked(true);
+                mBottomNavigationView.getMenu().findItem(R.id.tab1_c).setChecked(true);
                 break;
             case 1:
-                mBottomNavigationView.getMenu().findItem(R.id.tab2).setChecked(true);
+                mBottomNavigationView.getMenu().findItem(R.id.tab2_c).setChecked(true);
                 break;
             case 2:
-                mBottomNavigationView.getMenu().findItem(R.id.tab3).setChecked(true);
+                mBottomNavigationView.getMenu().findItem(R.id.tab3_c).setChecked(true);
                 break;
 
         }
@@ -57,13 +57,13 @@ public class HomeUserActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 switch (position) {
                     case 0:
-                        mBottomNavigationView.getMenu().findItem(R.id.tab1).setChecked(true);
+                        mBottomNavigationView.getMenu().findItem(R.id.tab1_c).setChecked(true);
                         break;
                     case 1:
-                        mBottomNavigationView.getMenu().findItem(R.id.tab2).setChecked(true);
+                        mBottomNavigationView.getMenu().findItem(R.id.tab2_c).setChecked(true);
                         break;
                     case 2:
-                        mBottomNavigationView.getMenu().findItem(R.id.tab3).setChecked(true);
+                        mBottomNavigationView.getMenu().findItem(R.id.tab3_c).setChecked(true);
                         break;
 
                 }
@@ -77,13 +77,13 @@ public class HomeUserActivity extends AppCompatActivity {
 
         mBottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
-                case R.id.tab1:
+                case R.id.tab1_c:
                     mViewPager.setCurrentItem(0);
                     break;
-                case R.id.tab2:
+                case R.id.tab2_c:
                     mViewPager.setCurrentItem(1);
                     break;
-                case R.id.tab3:
+                case R.id.tab3_c:
                     mViewPager.setCurrentItem(2);
                     break;
             }

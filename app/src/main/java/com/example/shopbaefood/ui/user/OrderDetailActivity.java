@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,11 +18,15 @@ import com.example.shopbaefood.R;
 import com.example.shopbaefood.adapter.OrderDetailAdapter;
 import com.example.shopbaefood.model.Order;
 import com.example.shopbaefood.model.OrderDetail;
+import com.example.shopbaefood.model.dto.AccountToken;
 import com.example.shopbaefood.model.dto.ApiResponse;
 import com.example.shopbaefood.service.ApiService;
+import com.example.shopbaefood.ui.merchant.HomeMerchantActivity;
 import com.example.shopbaefood.util.Notification;
+import com.example.shopbaefood.util.Role;
 import com.example.shopbaefood.util.UtilApp;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -35,12 +41,15 @@ public class OrderDetailActivity extends AppCompatActivity {
     RecyclerView rcvOrderDetail;
     ProgressBar progressBar;
     TextView orderMerName, orderMerTotal, orderMerAddress, orderMerNote;
+    AccountToken accountToken;
+    Gson gson;
+    SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
 
-        bottomNavigationView = findViewById(R.id.nav_order_detail);
+
         rcvOrderDetail=findViewById(R.id.recyclerView_order_detail);
         progressBar=findViewById(R.id.progressBar_order_detail);
         orderMerName=findViewById(R.id.order_detail_mer_name_val);
@@ -53,34 +62,58 @@ public class OrderDetailActivity extends AppCompatActivity {
         if(intent.hasExtra("order")){
             order=(Order) intent.getSerializableExtra("order");
         }
+        gson= new Gson();
         getOrderDetail(order.getId());
         orderMerName.setText(order.getMerchant().getName());
         orderMerTotal.setText(String.valueOf(order.getTotalPrice()));
         orderMerAddress.setText(order.getDeliveryAddress());
         orderMerNote.setText(order.getNote());
+        sharedPreferences= getSharedPreferences("info", Context.MODE_PRIVATE);
+        accountToken= gson.fromJson(sharedPreferences.getString("info",""), AccountToken.class);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if(accountToken.getRoles()[0].equals(Role.ROLE_USER)){
+            bottomNavigationView = findViewById(R.id.nav_order_detail_user);
+            bottomNavigationView.setVisibility(View.VISIBLE);
+            bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
                 intent.setClass(OrderDetailActivity.this, HomeUserActivity.class);
                 switch (item.getItemId()) {
-                    case R.id.tab1:
+                    case R.id.tab1_c:
                         intent.putExtra("pageToDisplay", 0); // 1 là trang bạn muốn hiển thị
                         startActivity(intent);
                         return true;
-                    case R.id.tab2:
+                    case R.id.tab2_c:
                         intent.putExtra("pageToDisplay", 1); // 1 là trang bạn muốn hiển thị
                         startActivity(intent);
                         return true;
-                    case R.id.tab3:
+                    case R.id.tab3_c:
                         intent.putExtra("pageToDisplay", 2); // 1 là trang bạn muốn hiển thị
                         startActivity(intent);
                         return true;
                 }
                 return false;
-            }
-        });
-
+            });
+        }else {
+            bottomNavigationView = findViewById(R.id.nav_order_detail_merchant);
+            bottomNavigationView.setVisibility(View.VISIBLE);
+            bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+                intent.setClass(OrderDetailActivity.this, HomeMerchantActivity.class);
+                switch (item.getItemId()) {
+                    case R.id.tab1_s:
+                        intent.putExtra("pageToDisplay", 0); // 1 là trang bạn muốn hiển thị
+                        startActivity(intent);
+                        return true;
+                    case R.id.tab2_s:
+                        intent.putExtra("pageToDisplay", 1); // 1 là trang bạn muốn hiển thị
+                        startActivity(intent);
+                        return true;
+                    case R.id.tab3_s:
+                        intent.putExtra("pageToDisplay", 2); // 1 là trang bạn muốn hiển thị
+                        startActivity(intent);
+                        return true;
+                }
+                return false;
+            });
+        }
     }
 
     private void getOrderDetail(Long orderId) {
@@ -108,7 +141,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     private void handlerOrderDetailList(List<OrderDetail> data) {
         GridLayoutManager gridLayoutManager= new GridLayoutManager(this,1);
         rcvOrderDetail.setLayoutManager(gridLayoutManager);
-        OrderDetailAdapter adapter= new OrderDetailAdapter(data);
+        OrderDetailAdapter adapter= new OrderDetailAdapter(data,accountToken.getRoles()[0]);
         rcvOrderDetail.setAdapter(adapter);
     }
 }

@@ -17,9 +17,11 @@ import java.util.List;
 
 public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.OrderDetailViewHolder> {
     private List<OrderDetail> orderDetails;
+    private String role;
 
-    public OrderDetailAdapter(List<OrderDetail> orderDetails) {
+    public OrderDetailAdapter(List<OrderDetail> orderDetails, String role) {
         this.orderDetails = orderDetails;
+        this.role=role;
     }
 
     @NonNull

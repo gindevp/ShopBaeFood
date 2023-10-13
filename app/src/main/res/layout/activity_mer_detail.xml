@@ -150,7 +150,7 @@
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/nav_mer_detail"
+        android:id="@+id/nav_mer_detail_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -158,5 +158,17 @@
         app:itemIconTint="@color/color_navigation"
         app:itemTextColor="@color/color_navigation"
         app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_nav_c_menu" />
+        app:menu="@menu/bottom_nav_c_menu"
+        android:visibility="gone"/>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_mer_detail_merchant"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/purple"
+        app:itemIconTint="@color/color_navigation"
+        app:itemTextColor="@color/color_navigation"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_nav_s_menu"
+        android:visibility="gone"/>
 </LinearLayout>

@@ -1,18 +1,23 @@
-package com.example.shopbaefood.model;
+package com.example.shopbaefood.model.dto;
 
-import java.io.Serializable;
-
-public class Product implements Serializable {
+public class ProductForm {
     private Long id;
     private String name;
     private String shortDescription;
-    private Double numberOrder;
     private Double oldPrice;
     private Double newPrice;
     private String image;
     private int quantity;
-    private boolean deleteFlag;
-    private Merchant merchant;
+
+    public ProductForm(String name, String shortDescription, Double oldPrice, Double newPrice, String image, int quantity) {
+        this.name = name;
+        this.shortDescription = shortDescription;
+        this.oldPrice = oldPrice;
+        this.newPrice = newPrice;
+        this.image = image;
+        this.quantity = quantity;
+    }
+
     public Long getId() {
         return id;
     }
@@ -35,14 +40,6 @@ public class Product implements Serializable {
 
     public void setShortDescription(String shortDescription) {
         this.shortDescription = shortDescription;
-    }
-
-    public Double getNumberOrder() {
-        return numberOrder;
-    }
-
-    public void setNumberOrder(Double numberOrder) {
-        this.numberOrder = numberOrder;
     }
 
     public Double getOldPrice() {
@@ -75,36 +72,5 @@ public class Product implements Serializable {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public boolean isDeleteFlag() {
-        return deleteFlag;
-    }
-
-    public void setDeleteFlag(boolean deleteFlag) {
-        this.deleteFlag = deleteFlag;
-    }
-
-    public Merchant getMerchant() {
-        return merchant;
-    }
-
-    public void setMerchant(Merchant merchant) {
-        this.merchant = merchant;
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", shortDescription='" + shortDescription + '\'' +
-                ", numberOrder=" + numberOrder +
-                ", oldPrice=" + oldPrice +
-                ", newPrice=" + newPrice +
-                ", image='" + image + '\'' +
-                ", quantity=" + quantity +
-                ", deleteFlag=" + deleteFlag +
-                '}';
     }
 }

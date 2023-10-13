@@ -68,6 +68,13 @@ public interface ApiService {
     //api merchant
     @GET("merchant/order")
     Call<ApiResponse<List<Order>>> orderPending(@Query("merchantId") Long merchantId);
+    @GET("merchant/order/received")
+    Call<ApiResponse<List<Order>>> orderReceived(@Query("merchantId") Long merchantId);
+
+    @GET("merchant/order/history")
+    Call<ApiResponse<List<Order>>> orderHistoryMer(@Query("merchantId") Long merchantId);
+    @GET("merchant/product/save")
+    Call<ApiResponse> saveProduct(@Query("merchantId") Long merchantId);
 
 
 

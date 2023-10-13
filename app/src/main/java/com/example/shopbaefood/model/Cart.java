@@ -1,6 +1,8 @@
 package com.example.shopbaefood.model;
 
-public class Cart {
+import java.io.Serializable;
+
+public class Cart implements Serializable {
     private Long id;
     private int quantity;
     private Double price;

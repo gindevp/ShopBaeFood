@@ -26,11 +26,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class P01Fragment extends Fragment {
+public class HomeFragment extends Fragment {
     private RecyclerView rcvMerchant;
     private ProgressBar progressBar;
 
-    public P01Fragment() {
+    public HomeFragment() {
     }
 
     @Override
@@ -44,7 +44,7 @@ public class P01Fragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_p01, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         rcvMerchant = view.findViewById(R.id.recycler_view_p);
         progressBar=view.findViewById(R.id.progressBar_p);
@@ -91,7 +91,7 @@ public class P01Fragment extends Fragment {
 
     private void handleMerchantList(List<Merchant> merchants, View v) {
         // Truy cập dữ liệu sau khi tải xong ở đây
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(v.getContext(), 3);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(v.getContext(), 2);
 //        LinearLayoutManager gridLayoutManager= new LinearLayoutManager(view.getContext(),RecyclerView.HORIZONTAL,false);
         rcvMerchant.setLayoutManager(gridLayoutManager);
         MerchantAdapter merchantAdapter = new MerchantAdapter(merchants);

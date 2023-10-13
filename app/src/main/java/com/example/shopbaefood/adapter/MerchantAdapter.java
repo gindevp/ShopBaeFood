@@ -1,6 +1,7 @@
 package com.example.shopbaefood.adapter;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,13 @@ public class MerchantAdapter extends RecyclerView.Adapter<MerchantAdapter.Mercha
         UtilApp.getImagePicasso(merchant.getAvatar(), holder.imgMerchant);
         holder.tvNameMerchant.setText(merchant.getName());
         holder.tvAddressMerchant.setText(merchant.getAddress());
+        holder.tvClock.setTextColor(UtilApp.isTime(merchant.getOpenTime(),merchant.getCloseTime())?Color.argb(255,0,128,0):Color.RED);
+        if(merchant.getOpenTime()!=null){
+            holder.tvClock.setText(merchant.getOpenTime()+" - "+merchant.getCloseTime());
+        }else {
+            holder.tvClock.setText("null");
+        }
+
     }
 
     @Override
@@ -60,11 +68,12 @@ public class MerchantAdapter extends RecyclerView.Adapter<MerchantAdapter.Mercha
 
     public class MerchantViewHolder extends RecyclerView.ViewHolder {
         private ImageView imgMerchant, imgIcon;
-        private TextView tvNameMerchant, tvAddressMerchant;
+        private TextView tvNameMerchant, tvAddressMerchant, tvClock;
         private CardView cardView;
 
         public MerchantViewHolder(@NonNull View itemView) {
             super(itemView);
+            tvClock=itemView.findViewById(R.id.clock_merchant);
             imgIcon = itemView.findViewById(R.id.img_shop_icon);
             cardView = itemView.findViewById(R.id.card_merchant);
             imgMerchant = itemView.findViewById(R.id.img_merchant);

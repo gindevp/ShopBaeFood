@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/tab1"
+        android:id="@+id/tab1_s"
         android:icon="@drawable/home"
         android:title="Trang chủ" />
     <item
-        android:id="@+id/tab2"
-        android:icon="@drawable/book"
+        android:id="@+id/tab2_s"
+        android:icon="@drawable/manage_pro"
         android:title="Đơn hàng" />
     <item
-        android:id="@+id/tab3"
+        android:id="@+id/tab3_s"
+        android:icon="@drawable/shop"
+        android:title="Sản phẩm" />
+    <item
+        android:id="@+id/tab4_s"
         android:icon="@drawable/user"
         android:title="Đăng xuất" />
 

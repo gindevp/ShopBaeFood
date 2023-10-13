@@ -1,7 +1,7 @@
 package com.example.shopbaefood.ui.test;
 
 
-import androidx.annotation.NonNull;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,16 +12,7 @@ import android.widget.Toast;
 
 import com.example.shopbaefood.databinding.ActivityTestDemoFireBaseBinding;
 import com.example.shopbaefood.util.UtilApp;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 // DÙng tool firebase connect và truyền ảnh đọc ảnh, util đã có thể dùng firebase, uri có thể chứa link dẫn thiết bị dùng để đọc ảnh nhanh k thể đọc URL ảnh internet như picasso đươc
 // Nhớ tạo database SQlite để lưu thông tin người dùng vào và đọc nó ( thông tin user, merchant, admin, sở thích của người dùng, ...)
@@ -30,8 +21,6 @@ public class TestDemoFireBaseActivity extends AppCompatActivity {
 
     ActivityTestDemoFireBaseBinding binding;
     Uri imageUri;
-
-    StorageReference storageReference;
 
 
     @Override

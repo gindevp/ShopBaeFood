@@ -20,9 +20,11 @@ import com.example.shopbaefood.model.Product;
 import com.example.shopbaefood.model.dto.AccountToken;
 import com.example.shopbaefood.model.dto.ApiResponse;
 import com.example.shopbaefood.service.ApiService;
+import com.example.shopbaefood.ui.merchant.HomeMerchantActivity;
 import com.example.shopbaefood.ui.user.CartActivity;
 import com.example.shopbaefood.ui.user.HomeUserActivity;
 import com.example.shopbaefood.util.Notification;
+import com.example.shopbaefood.util.Role;
 import com.example.shopbaefood.util.UtilApp;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
@@ -39,7 +41,7 @@ public class MerDetailActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     private RecyclerView rcvProduct;
     private ProgressBar progressBar;
-    ImageView merImage, merIcon,cart_product;
+    ImageView merImage, merIcon, cart_product;
     TextView merName, merStatus, merAddress;
     AccountToken accountToken;
     Gson gson;
@@ -50,14 +52,14 @@ public class MerDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mer_detail);
 
-        bottomNavigationView = findViewById(R.id.nav_mer_detail);
-        progressBar=findViewById(R.id.progressBar_mer);;
+        progressBar = findViewById(R.id.progressBar_mer);
+        ;
         intent = getIntent();
         Merchant merchant = (Merchant) intent.getSerializableExtra("merchant");
 
-        gson=new Gson();
-        info= getSharedPreferences("info", Context.MODE_PRIVATE);
-        accountToken= gson.fromJson(info.getString("info",""), AccountToken.class);
+        gson = new Gson();
+        info = getSharedPreferences("info", Context.MODE_PRIVATE);
+        accountToken = gson.fromJson(info.getString("info", ""), AccountToken.class);
 
         merImage = findViewById(R.id.merchantImage);
         merIcon = findViewById(R.id.icon_status_mer);
@@ -72,35 +74,63 @@ public class MerDetailActivity extends AppCompatActivity {
         merAddress.setText(merchant.getAddress());
         merStatus.setText(status ? "Đang hoạt động" : "Đóng cửa rồi");
 
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            intent.setClass(MerDetailActivity.this, HomeUserActivity.class);
-            switch (item.getItemId()) {
-                case R.id.tab1:
-                    onBackPressed();
-                    return true;
-                case R.id.tab2:
-                    intent.putExtra("pageToDisplay", 1); // 1 là trang bạn muốn hiển thị
-                    startActivity(intent);
-                    return true;
-                case R.id.tab3:
-                    intent.putExtra("pageToDisplay", 2); // 1 là trang bạn muốn hiển thị
-                    startActivity(intent);
-                    return true;
-                // Thêm các case cho các item khác nếu cần
-            }
-            return false;
-        });
+        if (accountToken.getRoles()[0].equals(Role.ROLE_USER)) {
+            bottomNavigationView = findViewById(R.id.nav_mer_detail_user);
+            bottomNavigationView.setVisibility(View.VISIBLE);
+            bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+                intent.setClass(MerDetailActivity.this, HomeUserActivity.class);
+                switch (item.getItemId()) {
+                    case R.id.tab1_c:
+                        onBackPressed();
+                        return true;
+                    case R.id.tab2_c:
+                        intent.putExtra("pageToDisplay", 1); // 1 là trang bạn muốn hiển thị
+                        startActivity(intent);
+                        return true;
+                    case R.id.tab3_c:
+                        intent.putExtra("pageToDisplay", 2); // 1 là trang bạn muốn hiển thị
+                        startActivity(intent);
+                        return true;
+                    // Thêm các case cho các item khác nếu cần
+                }
+                return false;
+            });
+        } else {
+            bottomNavigationView = findViewById(R.id.nav_mer_detail_merchant);
+            bottomNavigationView.setVisibility(View.VISIBLE);
+            bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+                intent.setClass(MerDetailActivity.this, HomeMerchantActivity.class);
+                switch (item.getItemId()) {
+                    case R.id.tab1_s:
+                        onBackPressed();
+                        return true;
+                    case R.id.tab2_s:
+                        intent.putExtra("pageToDisplay", 1); // 1 là trang bạn muốn hiển thị
+                        startActivity(intent);
+                        return true;
+                    case R.id.tab3_s:
+                        intent.putExtra("pageToDisplay", 2); // 1 là trang bạn muốn hiển thị
+                        startActivity(intent);
+                        return true;
+                    case R.id.tab4_s:
+                        intent.putExtra("pageToDisplay", 3); // 1 là trang bạn muốn hiển thị
+                        startActivity(intent);
+                        return true;
+                    // Thêm các case cho các item khác nếu cần
+                }
+                return false;
+            });
+        }
         rcvProduct = findViewById(R.id.recyclerView_detail);
         getProduct(merchant.getId());
-        cart_product= findViewById(R.id.cart_product);
-        if(accountToken.getUser()!=null){
+        cart_product = findViewById(R.id.cart_product);
+        if (accountToken.getUser() != null) {
             cart_product.setOnClickListener(v -> {
                 intent.setClass(v.getContext(), CartActivity.class);
-                intent.putExtra("merchant",merchant);
+                intent.putExtra("merchant", merchant);
                 startActivity(intent);
             });
-        }else {
+        } else {
             cart_product.setVisibility(View.GONE);
         }
 
@@ -119,7 +149,7 @@ public class MerDetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ApiResponse<List<Product>>> call, Throwable t) {
-                Notification.sweetAlert(MerDetailActivity.this, SweetAlertDialog.ERROR_TYPE,"lỗi hệ thống","");
+                Notification.sweetAlert(MerDetailActivity.this, SweetAlertDialog.ERROR_TYPE, "lỗi hệ thống", "");
             }
         });
 

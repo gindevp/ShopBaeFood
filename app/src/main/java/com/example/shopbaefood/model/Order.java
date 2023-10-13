@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Order implements Serializable {
     private Long id;
-    private User user;
+    private User appUser;
     private String note;
     private Integer[] orderdate;
     private String status;
@@ -25,12 +25,12 @@ public class Order implements Serializable {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public User getAppUser() {
+        return appUser;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setAppUser(User appUser) {
+        this.appUser = appUser;
     }
 
     public String getNote() {

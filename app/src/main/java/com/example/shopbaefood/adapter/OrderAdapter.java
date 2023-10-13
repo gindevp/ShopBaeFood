@@ -17,21 +17,23 @@ import com.example.shopbaefood.R;
 import com.example.shopbaefood.model.Order;
 import com.example.shopbaefood.ui.user.CartActivity;
 import com.example.shopbaefood.ui.user.OrderDetailActivity;
+import com.example.shopbaefood.util.Role;
 
 import java.util.List;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
     private List<Order> orderList;
+    private String role;
 
-    public OrderAdapter(List<Order> orderList) {
+    public OrderAdapter(List<Order> orderList,String role) {
         this.orderList = orderList;
+        this.role=role;
     }
 
     @NonNull
     @Override
     public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_order,parent,false);
-
         return new OrderViewHolder(view);
     }
 
@@ -41,7 +43,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         if(order==null){
             return;
         }
-        holder.txtOrderName.setText(order.getMerchant().getName());
+        if(role.equals(Role.ROLE_USER)){
+            holder.txtOrderTitle.setText("Tên quán:");
+            holder.txtOrderName.setText(order.getMerchant().getName());
+        }else {
+            holder.txtOrderTitle.setText("Tên người mua:");
+            holder.txtOrderName.setText(order.getAppUser().getName());
+        }
         holder.txtOrderStatus.setText(order.getStatus());
         holder.txtOrderTime.setText(order.getOrderdate());
         holder.txtOrderPrice.setText( String.valueOf(order.getTotalPrice()));
@@ -62,10 +70,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     }
 
     public class OrderViewHolder extends RecyclerView.ViewHolder{
-        private TextView txtOrderName, txtOrderPrice, txtOrderStatus, txtOrderTime;
+        private TextView txtOrderTitle, txtOrderName, txtOrderPrice, txtOrderStatus, txtOrderTime;
         private ImageView orderBtn;
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
+            txtOrderTitle=itemView.findViewById(R.id.order_status3);
             txtOrderName=itemView.findViewById(R.id.order_of_merchant_name);
             txtOrderPrice=itemView.findViewById(R.id.order_price2);
             txtOrderStatus=itemView.findViewById(R.id.order_status2);

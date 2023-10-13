@@ -31,6 +31,7 @@ public class UserDetailFragment extends Fragment {
     private Button btnEdit;
     private Gson gson;
     SharedPreferences info;
+    AccountToken accountToken;
     public UserDetailFragment() {
 
     }
@@ -55,16 +56,21 @@ public class UserDetailFragment extends Fragment {
         btnEdit= view.findViewById(R.id.buttonEdit);
 
         info= view.getContext().getSharedPreferences("info",Context.MODE_PRIVATE);
-        AccountToken accountToken= gson.fromJson(info.getString("info",""), AccountToken.class);
+        accountToken= gson.fromJson(info.getString("info",""), AccountToken.class);
         if(accountToken.getUser()!=null){
             UtilApp.getImagePicasso(accountToken.getUser().getAvatar(),imgUser);
+            txtUserName.setText(accountToken.getUser().getName());
+            txtUserAddress.setText(accountToken.getUser().getAddress());
+            txtUserEmail.setText(accountToken.getRoles()[0]);
+            txtUserPhone.setText(accountToken.getUser().getPhone());
         }else {
             UtilApp.getImagePicasso(accountToken.getMerchant().getAvatar(),imgUser);
+            txtUserName.setText(accountToken.getMerchant().getName());
+            txtUserAddress.setText(accountToken.getMerchant().getAddress());
+            txtUserEmail.setText(accountToken.getRoles()[0]);
+            txtUserPhone.setText(accountToken.getMerchant().getPhone());
         }
-        txtUserName.setText(accountToken.getUser().getName());
-        txtUserAddress.setText(accountToken.getUser().getAddress());
-        txtUserEmail.setText(accountToken.getRoles()[0]);
-        txtUserPhone.setText(accountToken.getUser().getPhone());
+
 
         Button button = view.findViewById(R.id.logout2);
         button.setOnClickListener(v -> {

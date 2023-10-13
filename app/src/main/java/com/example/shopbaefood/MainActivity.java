@@ -7,9 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.shopbaefood.model.dto.AccountToken;
 import com.example.shopbaefood.ui.LoginActivity;
@@ -36,6 +39,24 @@ public class MainActivity extends AppCompatActivity {
         gson = new Gson();
         intent = new Intent();
         screenHello();
+        ProgressBar progressBar = findViewById(R.id.progressBar);
+        TextView textViewProgress = findViewById(R.id.textViewProgress);
+        CountDownTimer countDownTimer = new CountDownTimer(2000, 10) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                int progress = (int) (2000 - millisUntilFinished);
+                progressBar.setProgress(progress);
+                int percentage = (int) (progress / 20.0);
+                textViewProgress.setText(percentage + "%");
+            }
+
+            @Override
+            public void onFinish() {
+                progressBar.setProgress(2000);
+                textViewProgress.setText("100%");
+            }
+        };
+        countDownTimer.start();
     }
 
     private void screenHello() {
@@ -76,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
         }else {
             // Intent để chuyển sang màn hình chính (MainActivity)
             intent.setClass(MainActivity.this, LoginActivity.class);
-            intent.setClass(MainActivity.this, TestDemoFireBaseActivity.class);
             startActivity(intent);
             finish(); // Kết thúc WelcomeActivity để ngăn quay lại nó từ màn hình chính
         }
