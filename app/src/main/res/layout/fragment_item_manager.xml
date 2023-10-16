@@ -10,7 +10,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_p"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/purple"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
 
+            <!-- Đặt title ở giữa của thanh toolbar -->
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Quán ăn"
+                android:textColor="#fff"
+                android:textSize="18sp" />
+
+            <!-- Đặt ảnh nhỏ bên trái (thay thế bằng icon của người dùng) -->
+
+            <!-- Đặt nút 3 chấm bên phải -->
+
+        </androidx.appcompat.widget.Toolbar>
         <!-- RecyclerView for displaying products -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewProducts"
@@ -19,81 +44,123 @@
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/buttonAdProduct"
+            android:id="@+id/popup_pro_up"
+            android:backgroundTint="#3684BF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
-            android:text="Add Product" />
-        <!-- Form for adding a new product -->
-        <LinearLayout
-            android:layout_width="match_parent"
+            app:icon="@android:drawable/arrow_up_float"
+            app:cornerRadius="20dp"
+            android:text="Thêm sản phẩm"
+            android:visibility="visible"/>
+        <Button
+            android:id="@+id/popup_pro_down"
+            android:backgroundTint="#3684BF"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="7dp"
-            android:background="@drawable/shape1"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_gravity="bottom|center"
+            app:icon="@android:drawable/arrow_down_float"
+            app:cornerRadius="20dp"
+            android:text="Đóng"
+            android:visibility="gone"/>
+        <!-- Form for adding a new product -->
+        <ScrollView
+            android:id="@+id/add_product_mer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
-            <EditText
-                android:id="@+id/product_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Tên sản phẩm" />
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:layout_margin="7dp"
+                android:background="@drawable/shape1"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                <ImageView
-                    android:id="@+id/upload_product_cloud"
-                    android:layout_width="73dp"
-                    android:layout_height="57dp"
-                    android:layout_gravity="bottom"
-                    android:src="@drawable/upload_cloud" />
-<androidx.cardview.widget.CardView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:cardCornerRadius="10dp">
+                <EditText
+                    android:id="@+id/product_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tên sản phẩm" />
 
-    <ImageView
-        android:id="@+id/showw_image_product"
-        android:layout_width="wrap_content"
-        android:layout_height="170dp"
-        android:background="@color/red"
-        android:src="@drawable/upload_cloud" /></androidx.cardview.widget.CardView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/upload_product_cloud"
+                        android:layout_width="73dp"
+                        android:layout_height="57dp"
+                        android:layout_gravity="bottom"
+                        android:src="@drawable/upload_cloud" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fillViewport="true"
+                        app:cardCornerRadius="10dp">
+
+                        <ImageView
+                            android:id="@+id/showw_image_product"
+                            android:layout_width="wrap_content"
+                            android:layout_height="170dp"
+                            android:src="@drawable/upload_cloud"
+                            android:visibility="gone"/>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/product_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Mô tả ngắn" />
+
+                <EditText
+                    android:id="@+id/product_old_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Giá cũ"
+                    android:inputType="numberDecimal" />
+
+                <EditText
+                    android:id="@+id/product_new_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Giá mới"
+                    android:inputType="numberDecimal" />
+
+                <EditText
+                    android:id="@+id/product_quantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Số lượng"
+                    android:inputType="number" />
+
+                <Button
+                    android:id="@+id/btn_add_product"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:enabled="false"
+                    android:backgroundTint="#3684BF"
+                    android:text="Add Product" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Số lượng"
+                    android:inputType="number"
+                    android:visibility="invisible" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Số lượng"
+                    android:inputType="number"
+                    android:visibility="invisible" />
             </LinearLayout>
-            <EditText
-                android:id="@+id/product_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Mô tả ngắn" />
-
-            <EditText
-                android:id="@+id/product_old_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Giá cũ"
-                android:inputType="numberDecimal" />
-
-            <EditText
-                android:id="@+id/product_new_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Giá mới"
-                android:inputType="numberDecimal" />
-
-            <EditText
-                android:id="@+id/product_quantity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Số lượng"
-                android:inputType="number" />
-
-            <Button
-                android:id="@+id/btn_add_product"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Add Product" />
-        </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 
 

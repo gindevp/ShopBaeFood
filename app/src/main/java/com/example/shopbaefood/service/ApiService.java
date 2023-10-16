@@ -9,6 +9,7 @@ import com.example.shopbaefood.model.dto.AccountRegisterDTO;
 import com.example.shopbaefood.model.dto.AccountToken;
 import com.example.shopbaefood.model.dto.ApiResponse;
 import com.example.shopbaefood.model.dto.LoginResponse;
+import com.example.shopbaefood.model.dto.ProductForm;
 
 import java.util.List;
 
@@ -70,15 +71,12 @@ public interface ApiService {
     Call<ApiResponse<List<Order>>> orderPending(@Query("merchantId") Long merchantId);
     @GET("merchant/order/received")
     Call<ApiResponse<List<Order>>> orderReceived(@Query("merchantId") Long merchantId);
-
     @GET("merchant/order/history")
     Call<ApiResponse<List<Order>>> orderHistoryMer(@Query("merchantId") Long merchantId);
-    @GET("merchant/product/save")
-    Call<ApiResponse> saveProduct(@Query("merchantId") Long merchantId);
-
-
-
-
+    @POST("merchant/product/save")
+    Call<ApiResponse> saveProduct(@Body ProductForm productForm, @Query("merchantId") Long merchantId);
+    @GET("merchant/product")
+    Call<ApiResponse<List<Product>>> listProduct(@Query("merchantId") Long merchantId);
     // mock api
     @GET("merchant")
     Call<List<Merchant>> getMerAll();
