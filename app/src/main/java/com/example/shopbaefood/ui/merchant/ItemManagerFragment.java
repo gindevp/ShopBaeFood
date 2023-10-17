@@ -86,8 +86,49 @@ public class ItemManagerFragment extends Fragment {
             binding.popupProUp.setVisibility(View.VISIBLE);
             binding.popupProDown.setVisibility(View.GONE);
         });
+        binding.btnEditSubmit.setOnClickListener(v->{
+            productForm= new ProductForm(
+                    Long.parseLong(binding.idPro.getText().toString()),
+                    binding.productName.getText().toString(),
+                    binding.productDescription.getText().toString(),
+                    Double.parseDouble(binding.productOldPrice.toString()),
+                    Double.parseDouble(binding.productNewPrice.toString()),
+                    binding.imageLinkHide.getText().toString(),
+                    Integer.parseInt(binding.productQuantity.getText().toString())
+                    );
+            ApiService apiService= UtilApp.retrofitAuth(v.getContext()).create(ApiService.class);
+            Call<ApiResponse> call= apiService.editProduct(productForm, accountToken.getId());
+            call.enqueue(new Callback<ApiResponse>() {
+                @Override
+                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                    if(response.isSuccessful()){
+                        Notification.sweetAlert(v.getContext(),SweetAlertDialog.SUCCESS_TYPE,"Success","Bạn sửa thành công ròi ");
+                        clearForm();
+                    }else {
+                        Notification.sweetAlert(v.getContext(),SweetAlertDialog.ERROR_TYPE,"Lỗi ròi","");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ApiResponse> call, Throwable t) {
+                    Notification.sweetAlert(v.getContext(),SweetAlertDialog.ERROR_TYPE,"Lỗi server ròi","");
+                }
+            });
+        });
         showListProduct(view);
         return view;
+    }
+
+    private void clearForm() {
+        binding.productName.setText("");
+        binding.imageLinkHide.setText("");
+        binding.productDescription.setText("");
+        binding.productQuantity.setText("");
+        binding.productNewPrice.setText("");
+        binding.productOldPrice.setText("");
+        binding.idPro.setText("");
+        binding.numberOrderPro.setText("");
+        binding.showwImageProduct.setImageResource(R.drawable.user);
     }
 
     private void showListProduct(View view) {
@@ -131,6 +172,7 @@ public class ItemManagerFragment extends Fragment {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if (response.isSuccessful()) {
+                    clearForm();
                     Notification.sweetAlertNow(view.getContext(), SweetAlertDialog.SUCCESS_TYPE, "Success", "Thêm sản phẩm thành công", 1000);
                 } else {
                     Notification.sweetAlert(view.getContext(), SweetAlertDialog.ERROR_TYPE, "Error", "Lỗi ròi không thêm được");

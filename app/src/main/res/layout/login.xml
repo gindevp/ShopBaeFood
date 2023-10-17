@@ -57,6 +57,7 @@
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background"
                 android:layout_marginTop="40dp"/>
+
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -70,7 +71,15 @@
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background"
                 android:layout_marginTop="20dp"/>
-
+            <TextView
+                android:id="@+id/login_valid_Error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Tên đăng nhập và mật khẩu không được để trống"
+                android:textColor="@color/red"
+                android:textSize="14sp"
+                android:visibility="gone" />
             <TextView
                 android:id="@+id/forgotpass"
                 android:layout_width="129dp"

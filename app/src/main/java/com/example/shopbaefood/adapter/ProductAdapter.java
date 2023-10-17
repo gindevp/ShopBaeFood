@@ -148,6 +148,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                                 binding.productOldPrice.setText(product.getOldPrice().toString());
                                 binding.idPro.setText(product.getId().toString());
                                 binding.numberOrderPro.setText(product.getNumberOrder().toString());
+                                UtilApp.getImagePicasso(product.getImage(),binding.showwImageProduct);
 
                                 return true;
                             case R.id.action_delete:
@@ -160,6 +161,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                                             @Override
                                             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                                                 if (response.isSuccessful()) {
+                                                    Notification.sweetAlertNow(v.getContext(),SweetAlertDialog.SUCCESS_TYPE,"Success","Xóa thành công",1000);
                                                     int position = holder.getAdapterPosition();
                                                     if (position != -1) {
                                                         productList.remove(position);

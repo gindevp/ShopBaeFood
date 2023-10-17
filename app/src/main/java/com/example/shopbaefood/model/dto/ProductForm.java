@@ -9,6 +9,16 @@ public class ProductForm {
     private String image;
     private int quantity;
 
+    public ProductForm(Long id, String name, String shortDescription, Double oldPrice, Double newPrice, String image, int quantity) {
+        this.id = id;
+        this.name = name;
+        this.shortDescription = shortDescription;
+        this.oldPrice = oldPrice;
+        this.newPrice = newPrice;
+        this.image = image;
+        this.quantity = quantity;
+    }
+
     public ProductForm(String name, String shortDescription, Double oldPrice, Double newPrice, String image, int quantity) {
         this.name = name;
         this.shortDescription = shortDescription;

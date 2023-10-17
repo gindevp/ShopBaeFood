@@ -94,7 +94,9 @@ public class LoginActivity extends AppCompatActivity {
         submit.setOnClickListener(v -> {
             EditText userName = findViewById(R.id.username);
             EditText passWord = findViewById(R.id.password);
+if(userName.getText()=null||passWord.getText()=null){
 
+}
             LoginResponse login = new LoginResponse();
             login.setUserName(userName.getText().toString());
             login.setPassword(passWord.getText().toString());
