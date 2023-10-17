@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.example.shopbaefood.R;
@@ -77,8 +78,11 @@ public class ItemManagerFragment extends Fragment {
             binding.popupProDown.setVisibility(View.VISIBLE);
         });
         binding.popupProDown.setOnClickListener(v -> {
-            binding.recyclerViewProducts.setVisibility(View.VISIBLE);
+            UtilApp.closeKeyBoard(v);
+            binding.btnEditSubmit.setVisibility(View.GONE);
+            binding.btnAddProduct.setVisibility(View.VISIBLE);
             binding.addProductMer.setVisibility(View.GONE);
+            binding.recyclerViewProducts.setVisibility(View.VISIBLE);
             binding.popupProUp.setVisibility(View.VISIBLE);
             binding.popupProDown.setVisibility(View.GONE);
         });
@@ -109,16 +113,17 @@ public class ItemManagerFragment extends Fragment {
     private void handlerProduct(View view, List<Product> productList) {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(view.getContext(), 1);
         binding.recyclerViewProducts.setLayoutManager(gridLayoutManager);
-        ProductAdapter adapter = new ProductAdapter(productList);
+        ProductAdapter adapter = new ProductAdapter(productList, true, binding);
         binding.recyclerViewProducts.setAdapter(adapter);
     }
 
-    private void saveProduct(View view, String imageURL) {
+    private void saveProduct(View view) {
         productForm = new ProductForm(binding.productName.getText().toString(),
                 binding.productDescription.getText().toString(),
                 Double.parseDouble(binding.productOldPrice.getText().toString()),
                 Double.parseDouble(binding.productNewPrice.getText().toString()),
-                imageURL, Integer.parseInt(binding.productQuantity.getText().toString()));
+                binding.imageLinkHide.getText().toString(),
+                Integer.parseInt(binding.productQuantity.getText().toString()));
 
         ApiService apiService = UtilApp.retrofitAuth(view.getContext()).create(ApiService.class);
         Call<ApiResponse> call = apiService.saveProduct(productForm, accountToken.getMerchant().getId());
@@ -144,7 +149,8 @@ public class ItemManagerFragment extends Fragment {
             @Override
             public void onSuccess(String imageUrl) {
                 Toast.makeText(view.getContext(), "success", Toast.LENGTH_SHORT).show();
-                saveProduct(view, imageUrl);
+                binding.imageLinkHide.setText(imageUrl);
+                saveProduct(view);
             }
 
             @Override

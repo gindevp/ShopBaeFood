@@ -15,6 +15,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -40,7 +41,8 @@ public interface ApiService {
 
     @GET("merchantp/detail")
     Call<ApiResponse<List<Product>>> fetProAll(@Query("id") Long id);
-
+    @GET("a/detail/order/{orderId}")
+    Call<ApiResponse<List<OrderDetail>>> orderDetail(@Path("orderId") Long orderId);
 
 
     //api user
@@ -61,9 +63,6 @@ public interface ApiService {
     @GET("cart/order/history/user/{userId}")
     Call<ApiResponse<List<Order>>> orderHistory(@Path("userId") Long userId);
 
-    @GET("cart/detail/order/{orderId}")
-    Call<ApiResponse<List<OrderDetail>>> orderDetail(@Path("orderId") Long orderId);
-
 
 
     //api merchant
@@ -75,6 +74,10 @@ public interface ApiService {
     Call<ApiResponse<List<Order>>> orderHistoryMer(@Query("merchantId") Long merchantId);
     @POST("merchant/product/save")
     Call<ApiResponse> saveProduct(@Body ProductForm productForm, @Query("merchantId") Long merchantId);
+    @POST("merchant/product/edit")
+    Call<ApiResponse> editProduct(@Body ProductForm productForm, @Query("merchantId") Long merchantId);
+    @DELETE("merchant/product/delete/{merchantId}")
+    Call<ApiResponse> deleteProduct(@Path("merchantId") Long merchantId);
     @GET("merchant/product")
     Call<ApiResponse<List<Product>>> listProduct(@Query("merchantId") Long merchantId);
     // mock api

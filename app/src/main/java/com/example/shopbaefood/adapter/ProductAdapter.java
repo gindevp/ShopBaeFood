@@ -13,11 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shopbaefood.R;
+import com.example.shopbaefood.databinding.FragmentItemManagerBinding;
 import com.example.shopbaefood.model.Product;
 import com.example.shopbaefood.model.dto.AccountToken;
 import com.example.shopbaefood.model.dto.ApiResponse;
@@ -38,9 +41,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private Gson gson;
     private AccountToken accountToken;
     private Long userId;
+    private boolean screen;
+    private FragmentItemManagerBinding binding;
 
-    public ProductAdapter(List<Product> productList) {
+    public ProductAdapter(List<Product> productList, boolean screen, FragmentItemManagerBinding binding) {
         this.productList = productList;
+        this.screen = screen;
+        this.binding = binding;
+    }
+
+    public ProductAdapter(List<Product> productList, boolean screen) {
+        this.productList = productList;
+        this.screen = screen;
     }
 
     @NonNull
@@ -53,7 +65,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         if (!info.getString("info", "").isEmpty()) {
             accountToken = gson.fromJson(info.getString("info", ""), AccountToken.class);
 
-            if(accountToken.getUser()!=null){
+            if (accountToken.getUser() != null) {
                 userId = accountToken.getUser().getId();
             }
 
@@ -81,7 +93,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         holder.tvNewPrice.setText(String.valueOf(product.getNewPrice()));
         UtilApp.getImagePicasso(product.getImage(), holder.imgProduct);
-        if(accountToken.getUser()!=null){
+        if (accountToken.getUser() != null) {
             holder.imgAddToCart.setOnClickListener(view -> {
                 // TODO: them code add to card kèm alert
                 Long proId = product.getId();
@@ -112,9 +124,76 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                     }
                 });
             });
-        }else {
-            holder.imgAddToCart.setVisibility(View.GONE);
+        } else {
+            if (screen) {
+                holder.imgAddToCart.setImageResource(R.drawable.menu_product);
+                holder.imgAddToCart.setOnClickListener(v -> {
+                    PopupMenu popupMenu = new PopupMenu(v.getContext(), v);
+                    popupMenu.getMenuInflater().inflate(R.menu.edit_product_menu, popupMenu.getMenu());
+                    popupMenu.setOnMenuItemClickListener(item -> {
+                        Log.d("logItem:", ((Integer) item.getItemId()).toString());
+                        switch (item.getItemId()) {
+                            case R.id.action_edit:
+                                binding.addProductMer.setVisibility(View.VISIBLE);
+                                binding.btnAddProduct.setVisibility(View.GONE);
+                                binding.btnEditSubmit.setVisibility(View.VISIBLE);
+                                binding.popupProUp.setVisibility(View.GONE);
+                                binding.popupProDown.setVisibility(View.VISIBLE);
+
+                                binding.productName.setText(product.getName());
+                                binding.imageLinkHide.setText(product.getImage());
+                                binding.productDescription.setText(product.getShortDescription());
+                                binding.productQuantity.setText(String.valueOf(product.getQuantity()));
+                                binding.productNewPrice.setText(product.getNewPrice().toString());
+                                binding.productOldPrice.setText(product.getOldPrice().toString());
+                                binding.idPro.setText(product.getId().toString());
+                                binding.numberOrderPro.setText(product.getNumberOrder().toString());
+
+                                return true;
+                            case R.id.action_delete:
+                                UtilApp.confirmationDialog(v.getContext(), "Remove", "Bạn có chăc muốn xóa", "Xóa", "Hủy", new UtilApp.OnConfirmationListener() {
+                                    @Override
+                                    public void onConfirm() {
+                                        ApiService apiService = UtilApp.retrofitAuth(v.getContext()).create(ApiService.class);
+                                        Call<ApiResponse> call = apiService.deleteProduct(product.getId());
+                                        call.enqueue(new Callback<ApiResponse>() {
+                                            @Override
+                                            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                                                if (response.isSuccessful()) {
+                                                    int position = holder.getAdapterPosition();
+                                                    if (position != -1) {
+                                                        productList.remove(position);
+                                                        notifyItemRemoved(position);
+                                                    }
+                                                } else {
+                                                    Notification.sweetAlert(v.getContext(), SweetAlertDialog.ERROR_TYPE, "Error", "Lỗi ròi thử lại đi");
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                                                Notification.sweetAlert(v.getContext(), SweetAlertDialog.ERROR_TYPE, "Error", "Lỗi server ròi thử lại đi");
+                                            }
+                                        });
+
+                                    }
+
+                                    @Override
+                                    public void onCancel() {
+                                    }
+                                });
+                                return true;
+                            default:
+                                return false;
+                        }
+                    });
+                    popupMenu.show();
+                });
+            } else {
+                holder.imgAddToCart.setVisibility(View.GONE);
+            }
         }
+
     }
 
     @Override

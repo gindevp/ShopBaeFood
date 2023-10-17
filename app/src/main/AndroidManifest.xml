@@ -20,7 +20,7 @@
             android:name=".ui.test.TestDemoFireBaseActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.user.OrderDetailActivity"
+            android:name=".ui.publicc.OrderDetailActivity"
             android:exported="false" />
         <activity
             android:name=".ui.user.CartActivity"

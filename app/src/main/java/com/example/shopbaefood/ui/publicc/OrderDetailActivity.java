@@ -1,6 +1,5 @@
-package com.example.shopbaefood.ui.user;
+package com.example.shopbaefood.ui.publicc;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -22,6 +20,7 @@ import com.example.shopbaefood.model.dto.AccountToken;
 import com.example.shopbaefood.model.dto.ApiResponse;
 import com.example.shopbaefood.service.ApiService;
 import com.example.shopbaefood.ui.merchant.HomeMerchantActivity;
+import com.example.shopbaefood.ui.user.HomeUserActivity;
 import com.example.shopbaefood.util.Notification;
 import com.example.shopbaefood.util.Role;
 import com.example.shopbaefood.util.UtilApp;
@@ -48,7 +47,6 @@ public class OrderDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
-
 
         rcvOrderDetail=findViewById(R.id.recyclerView_order_detail);
         progressBar=findViewById(R.id.progressBar_order_detail);

@@ -63,6 +63,8 @@
             app:cornerRadius="20dp"
             android:text="Đóng"
             android:visibility="gone"/>
+
+
         <!-- Form for adding a new product -->
         <ScrollView
             android:id="@+id/add_product_mer"
@@ -145,20 +147,39 @@
                     android:enabled="false"
                     android:backgroundTint="#3684BF"
                     android:text="Add Product" />
+                <Button
+                    android:id="@+id/btn_edit_submit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#3684BF"
+                    android:layout_gravity="center"
+                    android:text="submit"
+                    android:visibility="gone"
+                    app:cornerRadius="20dp"
+                    app:icon="@drawable/ic_check_black_24dp" />
 
                 <EditText
+                    android:id="@+id/image_link_hide"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Số lượng"
+                    android:inputType="number"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/number_order_pro"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Số lượng"
                     android:inputType="number"
                     android:visibility="invisible" />
-
                 <EditText
+                    android:id="@+id/id_pro"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Số lượng"
                     android:inputType="number"
-                    android:visibility="invisible" />
+                    android:visibility="gone" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

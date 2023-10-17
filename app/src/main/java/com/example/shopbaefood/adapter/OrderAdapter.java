@@ -1,22 +1,18 @@
 package com.example.shopbaefood.adapter;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shopbaefood.R;
 import com.example.shopbaefood.model.Order;
-import com.example.shopbaefood.ui.user.CartActivity;
-import com.example.shopbaefood.ui.user.OrderDetailActivity;
+import com.example.shopbaefood.ui.publicc.OrderDetailActivity;
 import com.example.shopbaefood.util.Role;
 
 import java.util.List;
