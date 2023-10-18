@@ -69,7 +69,11 @@ public class ItemManagerFragment extends Fragment {
             selectImage();
         });
         binding.btnAddProduct.setOnClickListener(v -> {
-            uploadImage(v);
+            if(binding.idPro.getText().toString().isEmpty()){
+                uploadImage(v);
+            } else {
+                saveProduct(v);
+            }
         });
         binding.popupProUp.setOnClickListener(v -> {
             binding.addProductMer.setVisibility(View.VISIBLE);
@@ -79,7 +83,6 @@ public class ItemManagerFragment extends Fragment {
         });
         binding.popupProDown.setOnClickListener(v -> {
             UtilApp.closeKeyBoard(v);
-            binding.btnEditSubmit.setVisibility(View.GONE);
             binding.btnAddProduct.setVisibility(View.VISIBLE);
             binding.addProductMer.setVisibility(View.GONE);
             binding.recyclerViewProducts.setVisibility(View.VISIBLE);
@@ -91,17 +94,22 @@ public class ItemManagerFragment extends Fragment {
                     Long.parseLong(binding.idPro.getText().toString()),
                     binding.productName.getText().toString(),
                     binding.productDescription.getText().toString(),
-                    Double.parseDouble(binding.productOldPrice.toString()),
-                    Double.parseDouble(binding.productNewPrice.toString()),
+                    Double.parseDouble(binding.productOldPrice.getText().toString()),
+                    Double.parseDouble(binding.productNewPrice.getText().toString()),
                     binding.imageLinkHide.getText().toString(),
                     Integer.parseInt(binding.productQuantity.getText().toString())
                     );
             ApiService apiService= UtilApp.retrofitAuth(v.getContext()).create(ApiService.class);
-            Call<ApiResponse> call= apiService.editProduct(productForm, accountToken.getId());
+            Call<ApiResponse> call= apiService.editProduct(productForm, accountToken.getMerchant().getId());
             call.enqueue(new Callback<ApiResponse>() {
                 @Override
                 public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                     if(response.isSuccessful()){
+                        binding.btnEditSubmit.setVisibility(View.INVISIBLE);
+                        binding.addProductMer.setVisibility(View.GONE);
+                        binding.popupProUp.setVisibility(View.VISIBLE);
+                        binding.popupProDown.setVisibility(View.GONE);
+                        showListProduct(v);
                         Notification.sweetAlert(v.getContext(),SweetAlertDialog.SUCCESS_TYPE,"Success","Bạn sửa thành công ròi ");
                         clearForm();
                     }else {
@@ -114,6 +122,9 @@ public class ItemManagerFragment extends Fragment {
                     Notification.sweetAlert(v.getContext(),SweetAlertDialog.ERROR_TYPE,"Lỗi server ròi","");
                 }
             });
+        });
+        binding.btnClearProduct.setOnClickListener(v -> {
+            clearForm();
         });
         showListProduct(view);
         return view;
@@ -128,7 +139,8 @@ public class ItemManagerFragment extends Fragment {
         binding.productOldPrice.setText("");
         binding.idPro.setText("");
         binding.numberOrderPro.setText("");
-        binding.showwImageProduct.setImageResource(R.drawable.user);
+        binding.showwImageProduct.setVisibility(View.GONE);
+        binding.btnEditSubmit.setVisibility(View.INVISIBLE);
     }
 
     private void showListProduct(View view) {
@@ -172,7 +184,11 @@ public class ItemManagerFragment extends Fragment {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if (response.isSuccessful()) {
+                    binding.addProductMer.setVisibility(View.GONE);
+                    binding.popupProUp.setVisibility(View.VISIBLE);
+                    binding.popupProDown.setVisibility(View.GONE);
                     clearForm();
+                    showListProduct(view);
                     Notification.sweetAlertNow(view.getContext(), SweetAlertDialog.SUCCESS_TYPE, "Success", "Thêm sản phẩm thành công", 1000);
                 } else {
                     Notification.sweetAlert(view.getContext(), SweetAlertDialog.ERROR_TYPE, "Error", "Lỗi ròi không thêm được");
@@ -187,6 +203,9 @@ public class ItemManagerFragment extends Fragment {
     }
 
     private void uploadImage(View view) {
+        if(imageUri==null){
+            Notification.sweetAlertNow(view.getContext(), SweetAlertDialog.WARNING_TYPE, "Phải có ảnh", "");
+        }else {
         UtilApp.uploadImageToFirebaseStorage(imageUri, new UtilApp.OnImageUploadListener() {
             @Override
             public void onSuccess(String imageUrl) {
@@ -199,7 +218,7 @@ public class ItemManagerFragment extends Fragment {
             public void onFailure(String error) {
                 Toast.makeText(view.getContext(), "faile upload image", Toast.LENGTH_LONG).show();
             }
-        });
+        });}
     }
 
     private void selectImage() {
@@ -214,7 +233,6 @@ public class ItemManagerFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && data != null && data.getData() != null) {
             binding.showwImageProduct.setVisibility(View.VISIBLE);
-            binding.btnAddProduct.setEnabled(true);
             imageUri = data.getData();
             binding.showwImageProduct.setImageURI(imageUri);
         }

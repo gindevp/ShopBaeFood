@@ -3,6 +3,9 @@ package com.example.shopbaefood.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
@@ -18,7 +21,14 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -30,19 +40,19 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UtilApp {
-    public static final String URL = "http://192.168.52.218:8080/ShopbaeFoodApi/";
-    public static final String URLMock = "https://651e990a44a3a8aa4768a52a.mockapi.io/";
+    public static final String REALURL = "http://192.168.52.218:8080/ShopbaeFoodApi/";
+    public static final String URLMOCK = "https://651e990a44a3a8aa4768a52a.mockapi.io/";
 
     public static Retrofit retrofitCF() {
-        return new Retrofit.Builder().baseUrl(URL).addConverterFactory(GsonConverterFactory.create()).build();
+        return new Retrofit.Builder().baseUrl(REALURL).addConverterFactory(GsonConverterFactory.create()).build();
     }
 
     public static Retrofit retrofitCFMock() {
-        return new Retrofit.Builder().baseUrl(URLMock).addConverterFactory(GsonConverterFactory.create()).build();
+        return new Retrofit.Builder().baseUrl(URLMOCK).addConverterFactory(GsonConverterFactory.create()).build();
     }
 
     public static Retrofit retrofitAuth(Context context) {
-        return RetrofitClient.getClient(URL, getAuthToken(context));
+        return RetrofitClient.getClient(REALURL, getAuthToken(context));
     }
 
     private static String getAuthToken(Context context) {
@@ -52,7 +62,7 @@ public class UtilApp {
 
         if (!json.isEmpty()) {
             AccountToken accountToken = gson.fromJson(json, AccountToken.class);
-            Log.d("token",accountToken.getToken());
+            Log.d("token", accountToken.getToken());
             return accountToken.getToken();
         }
         return null;
@@ -94,8 +104,8 @@ public class UtilApp {
     }
 
     public static void confirmationDialog(Context context, String title, String content,
-                                              String confirmText, String cancelText,
-                                              final OnConfirmationListener listener) {
+                                          String confirmText, String cancelText,
+                                          final OnConfirmationListener listener) {
         new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
                 .setTitleText(title)
                 .setContentText(content)
@@ -115,6 +125,7 @@ public class UtilApp {
                 })
                 .show();
     }
+
     public interface OnConfirmationListener {
         void onConfirm();
 
@@ -151,11 +162,48 @@ public class UtilApp {
         void onFailure(String error);
     }
 
-    public static void closeKeyBoard(View v){
+    public static void closeKeyBoard(View v) {
         try {
             InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-        }catch (Exception e){
+        } catch (Exception e) {
         }
     }
+
+    public static void setImageFromBitmapByteBlob(byte[] byteArray, ImageView imageView) {
+// Chuyển mảng byte thành bitmap
+        Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+// Đặt bitmap vào ImageView
+        imageView.setImageBitmap(bitmap);
+    }
+
+        public static void loadImageAndConvertToByteArray(Context context, String imageUrl, final OnImageByteArrayListener listener) {
+            Picasso.get()
+                    .load(imageUrl)
+                    .into(new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                            byte[] byteArray = stream.toByteArray();
+                            listener.onByteArrayGenerated(byteArray);
+                        }
+
+                        @Override
+                        public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                            // Xử lý lỗi khi tải ảnh
+                            listener.onByteArrayGenerated(null);
+                        }
+
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+                            // Được gọi khi Picasso bắt đầu tải ảnh
+                        }
+                    });
+        }
+
+        public interface OnImageByteArrayListener {
+            void onByteArrayGenerated(byte[] byteArray);
+        }
+
 }

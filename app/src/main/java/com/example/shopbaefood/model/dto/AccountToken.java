@@ -12,6 +12,7 @@ public class AccountToken {
     private String[] roles;
     private Merchant merchant;
     private User user;
+    private String email;
 
     public Long getId() {
         return id;
@@ -61,6 +62,14 @@ public class AccountToken {
         this.user = user;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "ResponseToken{" +
@@ -70,6 +79,7 @@ public class AccountToken {
                 ", roles=" + Arrays.toString(roles) +
                 ", merchant=" + merchant +
                 ", user=" + user +
+                ", mail=" + email +
                 '}';
     }
 }

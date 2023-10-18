@@ -135,7 +135,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                         switch (item.getItemId()) {
                             case R.id.action_edit:
                                 binding.addProductMer.setVisibility(View.VISIBLE);
-                                binding.btnAddProduct.setVisibility(View.GONE);
                                 binding.btnEditSubmit.setVisibility(View.VISIBLE);
                                 binding.popupProUp.setVisibility(View.GONE);
                                 binding.popupProDown.setVisibility(View.VISIBLE);
@@ -148,6 +147,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                                 binding.productOldPrice.setText(product.getOldPrice().toString());
                                 binding.idPro.setText(product.getId().toString());
                                 binding.numberOrderPro.setText(product.getNumberOrder().toString());
+                                binding.showwImageProduct.setVisibility(View.VISIBLE);
                                 UtilApp.getImagePicasso(product.getImage(),binding.showwImageProduct);
 
                                 return true;

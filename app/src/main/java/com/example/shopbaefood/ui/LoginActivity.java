@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,16 +16,20 @@ import android.widget.TextView;
 import com.example.shopbaefood.R;
 import com.example.shopbaefood.model.dto.AccountToken;
 import com.example.shopbaefood.model.dto.ApiResponse;
+import com.example.shopbaefood.model.dto.ContactClient;
 import com.example.shopbaefood.model.dto.LoginResponse;
 import com.example.shopbaefood.service.ApiService;
 import com.example.shopbaefood.ui.admin.HomeAdminActivity;
 import com.example.shopbaefood.ui.merchant.HomeMerchantActivity;
 import com.example.shopbaefood.ui.user.HomeUserActivity;
+import com.example.shopbaefood.util.ContactClientDataSource;
 import com.example.shopbaefood.util.Notification;
 import com.example.shopbaefood.util.Role;
 import com.example.shopbaefood.util.UtilApp;
 import com.google.gson.Gson;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -35,20 +40,21 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
     Intent intent;
     Gson gson;
+    ContactClientDataSource dataSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        Log.d("Activity","login");
+        Log.d("Activity", "login");
         intent = getIntent();
-        gson= new Gson();
+        gson = new Gson();
         loginClick();
         forgotClick();
         registerClick();
-        if(intent.hasExtra("success")){
-            Notification.sweetAlertNow(this, SweetAlertDialog.WARNING_TYPE,"Đăng ký thành công","",1000);
+        if (intent.hasExtra("success")) {
+            Notification.sweetAlertNow(this, SweetAlertDialog.WARNING_TYPE, "Đăng ký thành công", "", 1000);
         }
         // Lấy đối tượng SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("info", Context.MODE_PRIVATE);
@@ -65,7 +71,6 @@ public class LoginActivity extends AppCompatActivity {
             Log.d("SharedPreferences", "Key: " + key + ", Value: " + value.toString());
         }
     }
-
 
 
     private void registerClick() {
@@ -94,76 +99,123 @@ public class LoginActivity extends AppCompatActivity {
         submit.setOnClickListener(v -> {
             EditText userName = findViewById(R.id.username);
             EditText passWord = findViewById(R.id.password);
-if(userName.getText()=null||passWord.getText()=null){
+            TextView valid = findViewById(R.id.login_valid_Error);
+            if (!userName.getText().toString().isEmpty() && !passWord.getText().toString().isEmpty()) {
+                LoginResponse login = new LoginResponse();
+                login.setUserName(userName.getText().toString());
+                login.setPassword(passWord.getText().toString());
 
-}
-            LoginResponse login = new LoginResponse();
-            login.setUserName(userName.getText().toString());
-            login.setPassword(passWord.getText().toString());
+                Call<ApiResponse> call = apiService.login(login);
+                call.enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                        if (response.isSuccessful()) {
+                            ApiResponse apiResponse = response.body();
+                            if (apiResponse.getData() != null) {
+                                Log.d("login", response.body().getData().toString());
 
-            Call<ApiResponse> call = apiService.login(login);
-            call.enqueue(new Callback<ApiResponse>() {
-                @Override
-                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                    if (response.isSuccessful()) {
-                        ApiResponse apiResponse = response.body();
-                        if (apiResponse.getData() != null) {
-                            Log.d("login", response.body().getData().toString());
-
-                            SharedPreferences info= getSharedPreferences("info", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor=info.edit();
-                            editor.putString("info",gson.toJson(response.body().getData()));
-                            editor.apply();
-                            AccountToken accountToken = gson.fromJson(gson.toJson(response.body().getData()), AccountToken.class);
-                            intent.putExtra("logSuccess","true");
-                            switch (accountToken.getRoles()[0]){
-                                case Role.ROLE_ADMIN:
-                                    intent.setClass(v.getContext(), HomeAdminActivity.class);
-                                    break;
-                                case Role.ROLE_MERCHANT:
-                                    intent.setClass(v.getContext(), HomeMerchantActivity.class);
-                                    break;
-                                case Role.ROLE_USER:
-                                    intent.setClass(v.getContext(), HomeUserActivity.class);
-                                    break;
+                                SharedPreferences info = getSharedPreferences("info", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = info.edit();
+                                editor.putString("info", gson.toJson(response.body().getData()));
+                                editor.apply();
+                                AccountToken accountToken = gson.fromJson(gson.toJson(response.body().getData()), AccountToken.class);
+                                try {
+                                    addContactClientToSqlite(accountToken);
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                intent.putExtra("logSuccess", "true");
+                                switch (accountToken.getRoles()[0]) {
+                                    case Role.ROLE_ADMIN:
+                                        intent.setClass(v.getContext(), HomeAdminActivity.class);
+                                        break;
+                                    case Role.ROLE_MERCHANT:
+                                        intent.setClass(v.getContext(), HomeMerchantActivity.class);
+                                        break;
+                                    case Role.ROLE_USER:
+                                        intent.setClass(v.getContext(), HomeUserActivity.class);
+                                        break;
+                                }
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                Log.d("login", response.body().getMessage());
+                                Notification.sweetAlertNow(v.getContext(), SweetAlertDialog.WARNING_TYPE, response.body().getMessage(), "");
                             }
-                            startActivity(intent);
-                            finish();
+
                         } else {
-                            Log.d("login", response.body().getMessage());
-                            Notification.sweetAlertNow(v.getContext(), SweetAlertDialog.WARNING_TYPE, response.body().getMessage(),"");
+                            Log.d("login", "sai");
+                            Notification.sweetAlertNow(v.getContext(), SweetAlertDialog.ERROR_TYPE, "Đăng nhập không thành công", "");
                         }
-
-                    } else {
-                        Log.d("login", "sai");
-                        Notification.sweetAlertNow(v.getContext(), SweetAlertDialog.ERROR_TYPE,"Đăng nhập không thành công","");
                     }
-                }
 
-                @Override
-                public void onFailure(Call<ApiResponse> call, Throwable t) {
-                    Log.d("t", t.getMessage().toString());
-                    Log.d("login", "fail");
-                    Notification.sweetAlertNow(v.getContext(), SweetAlertDialog.ERROR_TYPE,"Lỗi hệ thống bên server","");
-                }
-            });
+                    @Override
+                    public void onFailure(Call<ApiResponse> call, Throwable t) {
+                        Log.d("t", t.getMessage().toString());
+                        Log.d("login", "fail");
+                        Notification.sweetAlertNow(v.getContext(), SweetAlertDialog.ERROR_TYPE, "Lỗi hệ thống bên server", "");
+                    }
+                });
+            } else {
+                valid.setVisibility(View.VISIBLE);
+            }
         });
     }
 
     @Override
     public void onBackPressed() {
-      Notification.sweetAlert(this,SweetAlertDialog.ERROR_TYPE,"NO","");
+        Notification.sweetAlert(this, SweetAlertDialog.ERROR_TYPE, "NO", "");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("logggg","onResume");
-        intent= getIntent();
-        Log.d("logggg",((Boolean)intent.hasExtra("confirmSuccess")).toString());
-        if(intent.hasExtra("confirmSuccess")){
-            Log.d("alert","onResume");
-            Notification.sweetAlertNow(this, SweetAlertDialog.SUCCESS_TYPE,"Đổi thành công","",1000);
+        Log.d("logggg", "onResume");
+        intent = getIntent();
+        Log.d("logggg", ((Boolean) intent.hasExtra("confirmSuccess")).toString());
+        if (intent.hasExtra("confirmSuccess")) {
+            Log.d("alert", "onResume");
+            Notification.sweetAlertNow(this, SweetAlertDialog.SUCCESS_TYPE, "Đổi thành công", "", 1000);
         }
+    }
+
+    private void addContactClientToSqlite(AccountToken accountToken) throws IOException {
+        dataSource = new ContactClientDataSource(this);
+        if (accountToken.getUser() != null) {
+            UtilApp.loadImageAndConvertToByteArray(this, accountToken.getUser().getAvatar(), byteArray -> {
+                if(byteArray!=null){
+                    dataSource.open();
+                    dataSource.checkAndAddOrUpdateContactClient(new ContactClient(
+                            accountToken.getUser().getName(),
+                            accountToken.getUsername(),
+                            accountToken.getUser().getPhone(),
+                            accountToken.getUser().getAddress(),
+                            accountToken.getEmail(),byteArray
+                    ));
+                }
+            });
+
+        } else {
+            UtilApp.loadImageAndConvertToByteArray(this, accountToken.getMerchant().getAvatar(), byteArray -> {
+                if(byteArray!=null){
+                    dataSource.open();
+                    dataSource.checkAndAddOrUpdateContactClient(new ContactClient(
+                                    accountToken.getMerchant().getName(),
+                                    accountToken.getUsername(),
+                                    accountToken.getMerchant().getPhone(),
+                                    accountToken.getMerchant().getAddress(),
+                                    accountToken.getEmail(),byteArray
+                            )
+                    );
+                }
+            });
+
+        }
+        List<ContactClient> contactClient = dataSource.getAllContacts();
+        for (ContactClient x: contactClient
+             ) {
+            Log.d("contactlient:",x.toString());
+        }
+        dataSource.close();
     }
 }
