@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }else {
             // Intent để chuyển sang màn hình chính (MainActivity)
+
             intent.setClass(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish(); // Kết thúc WelcomeActivity để ngăn quay lại nó từ màn hình chính
