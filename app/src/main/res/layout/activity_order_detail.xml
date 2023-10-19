@@ -192,18 +192,60 @@
                         android:textColor="@color/white"
                         android:textSize="16sp" />
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-                <Button
-                    android:id="@+id/btn_received"
-                    android:layout_width="277dp"
-                    android:layout_height="45dp"
-                    android:layout_gravity="center"
-                    android:backgroundTint="@color/purple"
-                    android:foregroundGravity="center"
-                    android:gravity="center"
-                    android:text="Đã nhận hàng"
-                    android:textSize="18sp"
-                    app:cornerRadius="20dp" />
+                    <Button
+                        android:id="@+id/btn_user_received"
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="5dp"
+                        android:backgroundTint="@color/purple"
+                        android:foregroundGravity="center"
+                        android:gravity="center"
+                        android:text="Đã nhận hàng"
+                        android:textSize="18sp"
+                        app:cornerRadius="20dp" />
+
+                    <Button
+                        android:id="@+id/btn_user_refuse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="5dp"
+                        android:backgroundTint="@color/purple"
+                        android:foregroundGravity="center"
+                        android:gravity="center"
+                        android:text="Hủy đặt hàng"
+                        android:textSize="18sp"
+                        app:cornerRadius="20dp" />
+                    <Button
+                        android:id="@+id/btn_merchant_refuse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="5dp"
+                        android:backgroundTint="@color/purple"
+                        android:foregroundGravity="center"
+                        android:gravity="center"
+                        android:text="Từ chối đơn"
+                        android:textSize="18sp"
+                        app:cornerRadius="20dp" />
+                    <Button
+                        android:id="@+id/btn_merchant_active"
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="5dp"
+                        android:backgroundTint="@color/purple"
+                        android:foregroundGravity="center"
+                        android:gravity="center"
+                        android:text="Nhận đơn"
+                        android:textSize="18sp"
+                        app:cornerRadius="20dp" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

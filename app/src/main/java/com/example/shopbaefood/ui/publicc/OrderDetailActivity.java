@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -35,6 +36,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class OrderDetailActivity extends AppCompatActivity {
+    public static final String MERCHANT_PENDING="MERCHANT_PENDING";
+    public static final String MERCHANT_RECEIVED="MERCHANT_RECEIVED";
+    public static final String MERCHANT_REFUSE="MERCHANT_REFUSE";
+    public static final String USER_RECEIVED="USER_RECEIVED";
+    public static final String USER_REFUSE="USER_REFUSE";
     Intent intent;
     BottomNavigationView bottomNavigationView;
     RecyclerView rcvOrderDetail;
@@ -43,6 +49,10 @@ public class OrderDetailActivity extends AppCompatActivity {
     AccountToken accountToken;
     Gson gson;
     SharedPreferences sharedPreferences;
+
+    Order order;
+
+    Button merchantActive, merchantRefuse, userReceived, userRefuse;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,9 +64,12 @@ public class OrderDetailActivity extends AppCompatActivity {
         orderMerTotal=findViewById(R.id.order_detail_price_total_val);
         orderMerAddress=findViewById(R.id.order_detail_address_val);
         orderMerNote=findViewById(R.id.order_detail_note_val);
+        merchantActive=findViewById(R.id.btn_merchant_active);
+        merchantRefuse=findViewById(R.id.btn_merchant_refuse);
+        userReceived=findViewById(R.id.btn_user_received);
+        userRefuse= findViewById(R.id.btn_user_refuse);
 
         intent =getIntent();
-        Order order= new Order();
         if(intent.hasExtra("order")){
             order=(Order) intent.getSerializableExtra("order");
         }
@@ -90,6 +103,28 @@ public class OrderDetailActivity extends AppCompatActivity {
                 }
                 return false;
             });
+
+            switch (order.getStatus()){
+                case MERCHANT_PENDING:
+                    merchantActive.setVisibility(View.GONE);
+                    merchantRefuse.setVisibility(View.GONE);
+                    userRefuse.setVisibility(View.VISIBLE);
+                    userReceived.setVisibility(View.GONE);
+                    break;
+                case MERCHANT_RECEIVED:
+                    merchantActive.setVisibility(View.GONE);
+                    merchantRefuse.setVisibility(View.GONE);
+                    userRefuse.setVisibility(View.GONE);
+                    userReceived.setVisibility(View.VISIBLE);
+                    break;
+                default:
+                    merchantActive.setVisibility(View.GONE);
+                    merchantRefuse.setVisibility(View.GONE);
+                    userRefuse.setVisibility(View.GONE);
+                    userReceived.setVisibility(View.GONE);
+            }
+
+
         }else {
             bottomNavigationView = findViewById(R.id.nav_order_detail_merchant);
             bottomNavigationView.setVisibility(View.VISIBLE);
@@ -111,7 +146,22 @@ public class OrderDetailActivity extends AppCompatActivity {
                 }
                 return false;
             });
+
+            switch (order.getStatus()){
+                case MERCHANT_PENDING:
+                    merchantActive.setVisibility(View.VISIBLE);
+                    merchantRefuse.setVisibility(View.VISIBLE);
+                    userRefuse.setVisibility(View.GONE);
+                    userReceived.setVisibility(View.GONE);
+                    break;
+                default:
+                    merchantActive.setVisibility(View.GONE);
+                    merchantRefuse.setVisibility(View.GONE);
+                    userRefuse.setVisibility(View.GONE);
+                    userReceived.setVisibility(View.GONE);
+            }
         }
+
     }
 
     private void getOrderDetail(Long orderId) {
