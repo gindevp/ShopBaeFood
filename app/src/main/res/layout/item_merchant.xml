@@ -6,25 +6,38 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:layout_marginTop="10dp"
-    app:cardBackgroundColor="#D7E7F4"
-    app:cardCornerRadius="6dp">
+    android:backgroundTint="#00FBFBFB"
+    app:cardCornerRadius="7dp">
 
     <RelativeLayout
         android:id="@+id/layoutCard"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/shape1"
+        android:backgroundTint="#836A7077">
 
-        <ImageView
-            android:id="@+id/img_merchant"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/user" />
+            app:cardCornerRadius="15dp">
+
+            <ImageView
+                android:id="@+id/img_merchant"
+                android:layout_width="match_parent"
+                android:layout_height="97dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/user" />
+        </androidx.cardview.widget.CardView>
 
         <ImageView
             android:id="@+id/img_shop_icon"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="15dp"
+            android:layout_height="16dp"
             android:layout_gravity="start|top"
             android:layout_marginStart="1dp"
             android:layout_marginTop="1dp"
@@ -34,7 +47,7 @@
             android:id="@+id/layout_center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/img_merchant"
+            android:layout_below="@id/card"
             android:orientation="vertical">
 
             <LinearLayout
@@ -47,9 +60,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:padding="5dp"
                     android:text="@string/app_name"
-                    android:textColor="@color/black"
+                    android:textColor="@color/red"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -58,7 +70,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingStart="5dp">
 
                 <ImageView
                     android:layout_width="20dp"
@@ -78,7 +91,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="5dp">
 
                 <ImageView
                     android:layout_width="20dp"
@@ -94,7 +108,7 @@
                     android:layout_centerVertical="true"
                     android:paddingStart="5dp"
                     android:text="@string/app_name"
-                    android:textColor="@color/purple"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>

@@ -1,114 +1,234 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@drawable/background"
+    android:orientation="vertical">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_p"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/purple"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Đặt title ở giữa của thanh toolbar -->
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Thông tin"
+            android:textColor="#fff"
+            android:textSize="18sp" />
+        <!-- Đặt ảnh nhỏ bên trái (thay thế bằng icon của người dùng) -->
+
+        <!-- Đặt nút 3 chấm bên phải -->
+        <ImageView
+            android:id="@+id/logout"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/logout" />
+
+
+    </androidx.appcompat.widget.Toolbar>
     <!-- Ảnh người dùng -->
-    <ImageView
-        android:id="@+id/imageUser"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/user"
-        android:layout_gravity="center_horizontal"/>
+    <androidx.cardview.widget.CardView
+        android:layout_width="155dp"
+        android:layout_height="155dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="75dp">
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_margin="10dp"
+            app:cardBackgroundColor="@color/black"
+            app:cardCornerRadius="75dp">
+
+            <ImageView
+                android:id="@+id/imageUser"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/user" />
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.cardview.widget.CardView>
     <!-- Thông tin người dùng -->
-    <TextView
-        android:id="@+id/textUserName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tên người dùng"
-        android:textSize="18sp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"/>
 
-    <TextView
-        android:id="@+id/textUserAddress"
-        android:layout_width="wrap_content"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/white_background"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Địa chỉ"
-        android:textSize="16sp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="60dp"
+        android:backgroundTint="#D7D0D5DC"
+        app:cardCornerRadius="22dp">
 
-    <TextView
-        android:id="@+id/textUserEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Email"
-        android:textSize="16sp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape1"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textUserPhone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Số điện thoại"
-        android:textSize="16sp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp"/>
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|top|left"
+                android:layout_margin="5dp"
+                android:orientation="horizontal"
+                tools:ignore="MissingConstraints">
+
+                <ImageView
+                    android:layout_width="27dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/user" />
+
+                <TextView
+                    android:id="@+id/textUserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Tên người dùng"
+                    android:textColor="@color/purple"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_margin="5dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="@id/white_background"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linearLayout4"
+                tools:ignore="MissingConstraints">
+
+                <ImageView
+                    android:layout_width="27dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/location" />
+
+                <TextView
+                    android:id="@+id/textUserAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Địa chỉ"
+                    android:textColor="@color/purple"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_margin="5dp"
+                android:orientation="horizontal"
+                tools:ignore="MissingConstraints">
+
+                <ImageView
+                    android:layout_width="27dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/mail" />
+
+                <TextView
+                    android:id="@+id/textUserEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Email"
+                    android:textColor="@color/purple"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_margin="5dp"
+                android:orientation="horizontal"
+                tools:ignore="MissingConstraints">
+
+                <ImageView
+                    android:layout_width="27dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/phone" />
+
+                <TextView
+                    android:id="@+id/textUserPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Số điện thoại"
+                    android:textColor="@color/purple"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonEdit"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="7dp"
+                android:backgroundTint="@color/purple"
+                android:text="Chỉnh sửa"
+                app:icon="@drawable/pen"
+                app:iconPadding="0dp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
     <!-- Nút chỉnh sửa -->
+
+
     <Button
-        android:id="@+id/buttonEdit"
-        android:layout_width="wrap_content"
+        android:id="@+id/buttonRegister"
+        android:layout_width="217dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/purple"
-        android:text="Chỉnh sửa" />
+        android:text="Đăng ký người bán"
+        android:visibility="visible"
+        app:icon="@drawable/shop" />
 
-    <!-- Gạch ngang -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#000000"
-        android:layout_marginTop="16dp"/>
-
-    <!-- Nút soso1, soso2, soso3 -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp">
-
-        <Button
-            android:id="@+id/buttonSoso1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/purple"
-            android:text="Đăng ký bán" />
-
-        <Button
-            android:id="@+id/buttonSoso2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/purple"
-            android:text="Yêu thích" />
-
-    </LinearLayout>
-
-    <!-- Gạch ngang -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#000000"
-        android:layout_marginTop="16dp"/>
-
-    <!-- Nút đăng xuất -->
     <Button
-        android:id="@+id/logout2"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:layout_weight="1"
+        android:id="@+id/buttonFavorite"
+        android:layout_width="217dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="6dp"
         android:backgroundTint="@color/purple"
-        android:text="Đăng xuất" />
+        android:text="Đồ ăn bạn thích "
+        android:visibility="visible"
+        app:icon="@drawable/heart" />
+
+    <Button
+        android:id="@+id/buttonOrderHistory"
+        android:layout_width="217dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="6dp"
+        android:backgroundTint="@color/purple"
+        android:text="Đơn hàng và lịch sử "
+        android:visibility="visible"
+        app:icon="@drawable/cart" />
+
 
 </LinearLayout>

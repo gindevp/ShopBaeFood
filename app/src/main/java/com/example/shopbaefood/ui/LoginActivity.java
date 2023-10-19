@@ -77,6 +77,7 @@ public class LoginActivity extends AppCompatActivity {
         TextView register = findViewById(R.id.register);
         register.setOnClickListener(v -> {
             intent.setClass(this, RegisterActivity.class);
+            intent.putExtra("role","user");
             startActivity(intent);
             finish();
         });
@@ -181,25 +182,28 @@ public class LoginActivity extends AppCompatActivity {
 
     private void addContactClientToSqlite(AccountToken accountToken) throws IOException {
         dataSource = new ContactClientDataSource(this);
+        dataSource.open();
         if (accountToken.getUser() != null) {
             UtilApp.loadImageAndConvertToByteArray(this, accountToken.getUser().getAvatar(), byteArray -> {
                 if(byteArray!=null){
-                    dataSource.open();
-                    dataSource.checkAndAddOrUpdateContactClient(new ContactClient(
+                    Long idClient=dataSource.checkAndAddOrUpdateContactClient(new ContactClient(
                             accountToken.getUser().getName(),
                             accountToken.getUsername(),
                             accountToken.getUser().getPhone(),
                             accountToken.getUser().getAddress(),
                             accountToken.getEmail(),byteArray
                     ));
+                    SharedPreferences info = getSharedPreferences("info", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = info.edit();
+                    editor.putString("idClient",idClient.toString());
+                    editor.apply();
                 }
             });
 
         } else {
             UtilApp.loadImageAndConvertToByteArray(this, accountToken.getMerchant().getAvatar(), byteArray -> {
                 if(byteArray!=null){
-                    dataSource.open();
-                    dataSource.checkAndAddOrUpdateContactClient(new ContactClient(
+                    Long idClient=dataSource.checkAndAddOrUpdateContactClient(new ContactClient(
                                     accountToken.getMerchant().getName(),
                                     accountToken.getUsername(),
                                     accountToken.getMerchant().getPhone(),
@@ -207,6 +211,10 @@ public class LoginActivity extends AppCompatActivity {
                                     accountToken.getEmail(),byteArray
                             )
                     );
+                    SharedPreferences info = getSharedPreferences("info", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = info.edit();
+                    editor.putString("idClient",idClient.toString());
+                    editor.apply();
                 }
             });
 

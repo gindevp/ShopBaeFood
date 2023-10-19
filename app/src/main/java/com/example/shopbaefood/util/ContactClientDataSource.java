@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.shopbaefood.model.dto.ContactClient;
 
@@ -27,12 +28,10 @@ public class ContactClientDataSource {
     public void close() {
         dbHelper.close();
     }
-    public void checkAndAddOrUpdateContactClient(ContactClient contactClient) {
-        String selection = "id=?";
-        String[] selectionArgs = {String.valueOf(contactClient.getId())};
+    public long checkAndAddOrUpdateContactClient(ContactClient contactClient) {
 
-        Cursor cursor = database.query(CONTACT_CLIENT, null, selection, selectionArgs, null, null, null);
-        if (cursor.getCount() > 0) {
+        Cursor cursor = database.query(CONTACT_CLIENT, null, null, null, null, null, null);
+
             ContentValues values= new ContentValues();
             values.put("name", contactClient.getName());
             values.put("username", contactClient.getUsername());
@@ -41,19 +40,10 @@ public class ContactClientDataSource {
             values.put("email", contactClient.getEmail());
             values.put("avartar", contactClient.getAvartar());
 
-            database.update(CONTACT_CLIENT, values, selection, selectionArgs);
-        } else {
-            ContentValues values= new ContentValues();
-            values.put("name", contactClient.getName());
-            values.put("username", contactClient.getUsername());
-            values.put("phone", contactClient.getUsername());
-            values.put("address", contactClient.getUsername());
-            values.put("email", contactClient.getUsername());
-            values.put("avartar", contactClient.getAvartar());
+            long a= database.insert(CONTACT_CLIENT, null,values);
 
-            database.insert(CONTACT_CLIENT, null,values);
-        }
         cursor.close();
+        return a;
     }
     public List<ContactClient> getAllContacts() {
         List<ContactClient> contacts = new ArrayList<>();
@@ -69,6 +59,13 @@ public class ContactClientDataSource {
         cursor.close();
         return contacts;
     }
+
+    public void deleteAllContacts() {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete(CONTACT_CLIENT, null, null);
+        db.close();
+    }
+
     public ContactClient getContactById(int desiredId) {
         String whereClause = "id = ?";
         String[] whereArgs = {String.valueOf(desiredId)};

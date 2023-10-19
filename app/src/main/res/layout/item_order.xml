@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_margin="8dp"
+    android:backgroundTint="#C6D7E7F4"
     android:elevation="4dp"
     app:cardBackgroundColor="#D7E7F4"
     app:cardCornerRadius="12dp">
@@ -101,7 +102,7 @@
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="50dp"
             android:text="Thời gian"
-            android:textColor="#B0B0B0"
+            android:textColor="#1B1919"
             android:textSize="16sp" />
 
         <ImageView

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -30,11 +31,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
             android:layout_marginStart="16dp"
-            app:cardCornerRadius="50dp"/>
+            app:cardCornerRadius="50dp" />
 
     </androidx.appcompat.widget.Toolbar>
 
-        <!-- Thanh trạng thái -->
+    <!-- Thanh trạng thái -->
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/toggle_group"
         android:layout_width="match_parent"
@@ -54,7 +55,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Thanh toán" />
+            android:text="Thanh toán"
+            android:textColor="@color/purple" />
 
         <!-- Trạng thái 2 -->
         <com.google.android.material.button.MaterialButton
@@ -63,7 +65,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Đơn hàng" />
+            android:text="Đơn hàng"
+            android:textColor="@color/purple" />
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
     <FrameLayout
@@ -71,13 +74,15 @@
         android:layout_width="match_parent"
         android:layout_height="378dp"
         android:layout_weight="3">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_empty_cart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="5dp"
             android:background="@drawable/emty_cart"
-            android:visibility="gone"/>
+            android:visibility="gone" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_cart"
             android:layout_width="match_parent"
@@ -116,6 +121,7 @@
             app:icon="@android:drawable/arrow_down_float"
             app:iconGravity="textEnd" />
     </FrameLayout>
+
     <FrameLayout
         android:id="@+id/layout_order"
         android:layout_width="match_parent"
@@ -144,140 +150,156 @@
         android:layout_height="wrap_content"
         android:fillViewport="true"
         android:visibility="gone">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="115dp"
-        android:layout_margin="10dp"
-        android:layout_weight="1"
-        android:background="@drawable/shape1"
-        android:orientation="horizontal"
-        android:padding="10dp">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="115dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape1"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/cart_merchant_name"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:paddingTop="16dp"
-                    android:paddingEnd="5dp"
-                    android:text="Tên Quán Ăn:"
-                    android:textSize="16sp" />
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/cart_mer_name_val"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:paddingStart="5dp"
-                    android:paddingTop="16dp"
-                    android:text="Quán 1"
-                    android:textSize="16sp" />
-                ></LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/cart_price_total"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:paddingTop="16dp"
-                    android:paddingEnd="5dp"
-                    android:text="Tổng tiền:"
-                    android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/cart_merchant_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:paddingTop="16dp"
+                        android:paddingEnd="5dp"
+                        android:text="Tên Quán Ăn:"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/cart_price_total_val"
+                    <TextView
+                        android:id="@+id/cart_mer_name_val"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:paddingStart="5dp"
+                        android:paddingTop="16dp"
+                        android:text="Quán 1"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+                    >
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:paddingStart="5dp"
-                    android:paddingTop="16dp"
-                    android:text="Tiền 1"
-                    android:textSize="16sp" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/cart_price_total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:paddingTop="16dp"
+                        android:paddingEnd="5dp"
+                        android:text="Tổng tiền:"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/cart_price_total_val"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:paddingStart="5dp"
+                        android:paddingTop="16dp"
+                        android:text="Tiền 1"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/cart_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:paddingTop="16dp"
+                        android:paddingEnd="5dp"
+                        android:text="Địa chỉ nhận:"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/cart_address_val"
+                        android:layout_width="267dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_weight="1"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
+                        android:paddingStart="5dp"
+                        android:paddingTop="16dp"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+                    >
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/cart_note"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:paddingTop="16dp"
+                        android:paddingEnd="5dp"
+                        android:text="Ghi chú:"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/cart_note_val"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_weight="1"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
+                        android:paddingStart="5dp"
+                        android:paddingTop="16dp"
+                        android:textColor="@color/white"
+                        android:textColorHighlight="@color/purple"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/paybtn"
+                    android:layout_width="162dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/purple"
+                    android:foregroundGravity="center"
+                    android:gravity="center"
+                    android:text="Mua hàng"
+                    android:textSize="18sp"
+                    app:cornerRadius="20dp"
+                    app:icon="@drawable/cart"
+                    app:iconPadding="0dp" />
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/cart_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:paddingTop="16dp"
-                    android:paddingEnd="5dp"
-                    android:text="Địa chỉ nhận:"
-                    android:textSize="16sp" />
-
-                <EditText
-                    android:id="@+id/cart_address_val"
-                    android:layout_width="267dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_weight="1"
-                    android:gravity="top"
-                    android:inputType="textMultiLine"
-                    android:paddingStart="5dp"
-                    android:paddingTop="16dp"
-                    android:textSize="16sp" />
-                >
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/cart_note"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:paddingTop="16dp"
-                    android:paddingEnd="5dp"
-                    android:text="Ghi chú:"
-                    android:textSize="16sp" />
-
-                <EditText
-                    android:id="@+id/cart_note_val"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:inputType="textMultiLine"
-                    android:paddingStart="5dp"
-                    android:paddingTop="16dp"
-                    android:gravity="top"
-                    android:layout_weight="1"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/paybtn"
-                android:layout_width="277dp"
-                android:layout_height="45dp"
-                android:layout_gravity="center"
-                android:backgroundTint="@color/purple"
-                android:foregroundGravity="center"
-                android:gravity="center"
-                android:text="Mua hàng"
-                android:textSize="18sp"
-                app:cornerRadius="20dp" />
         </LinearLayout>
-    </LinearLayout></ScrollView>
+    </ScrollView>
 
     <!-- Thanh tìm kiếm -->
 

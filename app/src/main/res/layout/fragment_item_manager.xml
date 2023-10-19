@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background"
     tools:context=".ui.merchant.ItemManagerFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_p"
             android:layout_width="match_parent"
@@ -18,8 +20,7 @@
             android:theme="?attr/actionBarTheme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            >
+            app:layout_constraintTop_toTopOf="parent">
 
             <!-- Đặt title ở giữa của thanh toolbar -->
             <TextView
@@ -45,24 +46,25 @@
 
         <Button
             android:id="@+id/popup_pro_up"
-            android:backgroundTint="#3684BF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
-            app:icon="@android:drawable/arrow_up_float"
-            app:cornerRadius="20dp"
+            android:backgroundTint="#3684BF"
             android:text="Thêm sản phẩm"
-            android:visibility="visible"/>
+            android:visibility="visible"
+            app:cornerRadius="20dp"
+            app:icon="@android:drawable/arrow_up_float" />
+
         <Button
             android:id="@+id/popup_pro_down"
-            android:backgroundTint="#3684BF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
-            app:icon="@android:drawable/arrow_down_float"
-            app:cornerRadius="20dp"
+            android:backgroundTint="#3684BF"
             android:text="Đóng"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            app:cornerRadius="20dp"
+            app:icon="@android:drawable/arrow_down_float" />
 
 
         <!-- Form for adding a new product -->
@@ -84,7 +86,9 @@
                     android:id="@+id/product_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Tên sản phẩm" />
+                    android:hint="Tên sản phẩm"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/purple" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -116,28 +120,35 @@
                     android:id="@+id/product_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Mô tả ngắn" />
+                    android:hint="Mô tả ngắn"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/purple" />
 
                 <EditText
                     android:id="@+id/product_old_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Giá cũ"
-                    android:inputType="numberDecimal" />
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/purple" />
 
                 <EditText
                     android:id="@+id/product_new_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Giá mới"
-                    android:inputType="numberDecimal" />
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/purple" />
 
                 <EditText
                     android:id="@+id/product_quantity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Số lượng"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:textColorHint="@color/purple" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".ui.ConfirmOtpActivity">
 
     <ImageView
@@ -15,15 +16,19 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher" />
+        app:srcCompat="@drawable/logo" />
 
     <EditText
         android:id="@+id/username"
         android:layout_width="243dp"
         android:layout_height="53dp"
         android:layout_marginTop="264dp"
+        android:background="@drawable/shape1"
         android:hint="Nhập OTP"
+        android:padding="8dp"
         android:inputType="number"
+        android:textColor="@color/white"
+        android:textColorHint="@color/purple"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,8 +39,12 @@
         android:layout_width="243dp"
         android:layout_height="53dp"
         android:layout_marginTop="192dp"
+        android:background="@drawable/shape1"
         android:hint="Nhập mật khẩu mới"
         android:inputType="textPassword"
+        android:textColor="@color/white"
+        android:padding="8dp"
+        android:textColorHint="@color/purple"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.511"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,12 +55,14 @@
         android:layout_width="242dp"
         android:layout_height="43dp"
         android:layout_marginTop="40dp"
+        android:backgroundTint="@color/purple"
+        android:padding="8dp"
         android:text="Xác nhận OTP"
+        android:drawablePadding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username"
-        android:backgroundTint="@color/purple"/>
+        app:layout_constraintTop_toBottomOf="@+id/username" />
 
     <TextView
         android:id="@+id/count"

@@ -25,7 +25,6 @@ import com.example.shopbaefood.model.dto.AccountToken;
 import com.example.shopbaefood.model.dto.ApiResponse;
 import com.example.shopbaefood.model.dto.ProductForm;
 import com.example.shopbaefood.service.ApiService;
-import com.example.shopbaefood.ui.test.TestDemoFireBaseActivity;
 import com.example.shopbaefood.util.Notification;
 import com.example.shopbaefood.util.UtilApp;
 import com.google.gson.Gson;
@@ -184,9 +183,6 @@ public class ItemManagerFragment extends Fragment {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if (response.isSuccessful()) {
-                    binding.addProductMer.setVisibility(View.GONE);
-                    binding.popupProUp.setVisibility(View.VISIBLE);
-                    binding.popupProDown.setVisibility(View.GONE);
                     clearForm();
                     showListProduct(view);
                     Notification.sweetAlertNow(view.getContext(), SweetAlertDialog.SUCCESS_TYPE, "Success", "Thêm sản phẩm thành công", 1000);

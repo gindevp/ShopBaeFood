@@ -5,7 +5,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true" >
+    android:fillViewport="true" android:background="@drawable/background" >
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,55 +22,60 @@
         card_view:layout_constraintHorizontal_bias="0.5"
         card_view:layout_constraintStart_toStartOf="parent"
         card_view:layout_constraintTop_toTopOf="parent"
-        card_view:srcCompat="@mipmap/ic_launcher" />
+        card_view:srcCompat="@drawable/logo" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
+        android:backgroundTint="#D7D0D5DC"
         app:cardCornerRadius="30dp"
         app:cardElevation="20dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
             android:padding="24dp">
+
             <TextView
+                android:id="@+id/loginText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Login"
-                android:id="@+id/loginText"
-                android:textSize="36sp"
                 android:textAlignment="center"
-                android:textStyle="bold"
-                android:textColor="@color/purple"/>
+                android:textColor="@color/purple"
+                android:textSize="36sp"
+                android:textStyle="bold" />
+
             <EditText
+                android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:id="@+id/username"
+                android:layout_marginTop="40dp"
                 android:background="@drawable/shape1"
                 android:drawableLeft="@drawable/ic_baseline_person_24"
                 android:drawablePadding="8dp"
                 android:hint="Username"
                 android:padding="8dp"
                 android:textColor="@color/black"
-                android:textColorHighlight="@color/cardview_dark_background"
-                android:layout_marginTop="40dp"/>
+                android:textColorHighlight="@color/cardview_dark_background" />
 
             <EditText
+                android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:id="@+id/password"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/shape1"
                 android:drawableLeft="@drawable/ic_baseline_lock_24"
                 android:drawablePadding="8dp"
                 android:hint="Password"
-                android:padding="8dp"
                 android:inputType="textPassword"
+                android:padding="8dp"
                 android:textColor="@color/black"
-                android:textColorHighlight="@color/cardview_dark_background"
-                android:layout_marginTop="20dp"/>
+                android:textColorHighlight="@color/cardview_dark_background" />
+
             <TextView
                 android:id="@+id/login_valid_Error"
                 android:layout_width="match_parent"
@@ -80,6 +85,7 @@
                 android:textColor="@color/red"
                 android:textSize="14sp"
                 android:visibility="gone" />
+
             <TextView
                 android:id="@+id/forgotpass"
                 android:layout_width="129dp"
