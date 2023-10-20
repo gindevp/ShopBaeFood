@@ -152,7 +152,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
                                 return true;
                             case R.id.action_delete:
-                                UtilApp.confirmationDialog(v.getContext(), "Remove", "Bạn có chăc muốn xóa", "Xóa", "Hủy", new UtilApp.OnConfirmationListener() {
+                                Notification.confirmationDialog(v.getContext(), "Remove", "Bạn có chăc muốn xóa", "Xóa", "Hủy", new Notification.OnConfirmationListener() {
                                     @Override
                                     public void onConfirm() {
                                         ApiService apiService = UtilApp.retrofitAuth(v.getContext()).create(ApiService.class);

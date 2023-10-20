@@ -13,10 +13,12 @@ import com.example.shopbaefood.model.dto.ProductForm;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -60,6 +62,10 @@ public interface ApiService {
 
     @POST("cart/order/user/{userId}/merchant/{merId}")
     Call<ApiResponse> odering(@Path("userId") Long userId,@Path("merId") Long merId,@Query("note") String note,@Query("address") String address,@Query("sum") double sum);
+    @PATCH("cart/received/{orderId}")
+    Call<ApiResponse> orderUserReceived(@Path("orderId") Long orderId);
+    @PATCH("cart/refuse/{orderId}")
+    Call<ApiResponse> orderUserRefuse(@Path("orderId") Long orderId);
     @GET("cart/order/history/user/{userId}")
     Call<ApiResponse<List<Order>>> orderHistory(@Path("userId") Long userId);
 
@@ -80,6 +86,12 @@ public interface ApiService {
     Call<ApiResponse> deleteProduct(@Path("merchantId") Long merchantId);
     @GET("merchant/product")
     Call<ApiResponse<List<Product>>> listProduct(@Query("merchantId") Long merchantId);
+    @PATCH("merchant/order/received/{orderId}")
+    Call<ResponseBody> orderMerchantReceived(@Path("orderId") Long orderId);
+    @PATCH("merchant/order/refuse/{orderId}")
+    Call<ApiResponse> orderMerchantRefuse(@Path("orderId") Long orderId);
+
+
     // mock api
     @GET("merchant")
     Call<List<Merchant>> getMerAll();

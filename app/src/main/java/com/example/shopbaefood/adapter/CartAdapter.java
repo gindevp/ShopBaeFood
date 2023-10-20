@@ -1,6 +1,5 @@
 package com.example.shopbaefood.adapter;
 
-import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -98,7 +97,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             ApiService apiService = UtilApp.retrofitAuth(v.getContext()).create(ApiService.class);
 
             if (Integer.parseInt(String.valueOf(holder.cartProTotal.getText())) == 1) {
-                UtilApp.confirmationDialog(v.getContext(), "Xóa rỏ", "Giảm xuống 0 sẽ bị xóa bạn chắc có muốn xóa", "Xác nhận", "Hủy", new UtilApp.OnConfirmationListener() {
+                Notification.confirmationDialog(v.getContext(), "Xóa rỏ", "Giảm xuống 0 sẽ bị xóa bạn chắc có muốn xóa", "Xác nhận", "Hủy", new Notification.OnConfirmationListener() {
                     @Override
                     public void onConfirm() {
                         Call<ApiResponse> call1 = apiService.remove(cart.getProduct().getId());
@@ -156,7 +155,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         });
         holder.imgCartClose.setOnClickListener(v -> {
             ApiService apiService = UtilApp.retrofitAuth(v.getContext()).create(ApiService.class);
-            UtilApp.confirmationDialog(v.getContext(), "Xóa rỏ", "Bạn có chắc muốn xóa rỏ hàng này không", "Xác nhận", "Hủy", new UtilApp.OnConfirmationListener() {
+            Notification.confirmationDialog(v.getContext(), "Xóa rỏ", "Bạn có chắc muốn xóa rỏ hàng này không", "Xác nhận", "Hủy", new Notification.OnConfirmationListener() {
                 @Override
                 public void onConfirm() {
                     Call<ApiResponse> call1 = apiService.remove(cart.getProduct().getId());

@@ -1,6 +1,6 @@
 package com.example.shopbaefood.util;
 
-import android.app.Activity;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -12,11 +12,9 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.shopbaefood.model.dto.AccountToken;
 import com.example.shopbaefood.model.intercepter.RetrofitClient;
-import com.example.shopbaefood.service.ApiService;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
@@ -24,11 +22,6 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -103,34 +96,6 @@ public class UtilApp {
         return false;
     }
 
-    public static void confirmationDialog(Context context, String title, String content,
-                                          String confirmText, String cancelText,
-                                          final OnConfirmationListener listener) {
-        new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
-                .setTitleText(title)
-                .setContentText(content)
-                .setConfirmText(confirmText)
-                .setCancelText(cancelText)
-                .setConfirmClickListener(sDialog -> {
-                    if (listener != null) {
-                        listener.onConfirm();
-                    }
-                    sDialog.dismissWithAnimation();
-                })
-                .setCancelClickListener(sDialog -> {
-                    if (listener != null) {
-                        listener.onCancel();
-                    }
-                    sDialog.cancel();
-                })
-                .show();
-    }
-
-    public interface OnConfirmationListener {
-        void onConfirm();
-
-        void onCancel();
-    }
 
     public static void uploadImageToFirebaseStorage(Uri imageUri, OnImageUploadListener listener) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -193,6 +158,8 @@ public class UtilApp {
                         public void onBitmapFailed(Exception e, Drawable errorDrawable) {
                             // Xử lý lỗi khi tải ảnh
                             listener.onByteArrayGenerated(null);
+                            Notification.sweetAlert(context, SweetAlertDialog.ERROR_TYPE,"Err","");
+                            Log.d("exception",e.getMessage());
                         }
 
                         @Override

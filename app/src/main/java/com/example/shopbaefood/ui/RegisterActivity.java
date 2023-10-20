@@ -2,12 +2,9 @@ package com.example.shopbaefood.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
-import android.content.Context;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -15,8 +12,6 @@ import com.example.shopbaefood.R;
 import com.example.shopbaefood.model.dto.AccountRegisterDTO;
 import com.example.shopbaefood.model.dto.ApiResponse;
 import com.example.shopbaefood.service.ApiService;
-import com.example.shopbaefood.ui.publicc.HomeFragment;
-import com.example.shopbaefood.ui.publicc.UserDetailFragment;
 import com.example.shopbaefood.ui.user.HomeUserActivity;
 import com.example.shopbaefood.util.Notification;
 import com.example.shopbaefood.util.UtilApp;
