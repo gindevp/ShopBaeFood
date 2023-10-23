@@ -1,5 +1,6 @@
 package com.example.shopbaefood;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.shopbaefood.model.dto.AccountToken;
 import com.example.shopbaefood.ui.LoginActivity;
@@ -21,6 +23,9 @@ import com.example.shopbaefood.ui.merchant.HomeMerchantActivity;
 import com.example.shopbaefood.ui.user.HomeUserActivity;
 import com.example.shopbaefood.util.Role;
 import com.example.shopbaefood.util.UtilApp;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 
 
@@ -56,6 +61,23 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         countDownTimer.start();
+        firebaseToken();
+    }
+
+    private void firebaseToken() {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.d("Compile","Fetching FCM registration token failed");
+                        return;
+                    }
+                    // Get new FCM registration token
+                    String token = task.getResult();
+
+                    // Log and toast
+                    Log.d("token firebase",token.toString());
+                    Toast.makeText(MainActivity.this, token, Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void screenHello() {

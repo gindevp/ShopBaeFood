@@ -53,7 +53,6 @@ public class MerDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mer_detail);
 
         progressBar = findViewById(R.id.progressBar_mer);
-        ;
         intent = getIntent();
         Merchant merchant = (Merchant) intent.getSerializableExtra("merchant");
 

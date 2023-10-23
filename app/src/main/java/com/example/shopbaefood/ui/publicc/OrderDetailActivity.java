@@ -31,6 +31,7 @@ import com.example.shopbaefood.util.Notification;
 import com.example.shopbaefood.util.Role;
 import com.example.shopbaefood.util.UtilApp;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 
 
@@ -140,6 +141,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         } else {
             bottomNavigationView = findViewById(R.id.nav_order_detail_merchant);
             bottomNavigationView.setVisibility(View.VISIBLE);
+            bottomNavigationView.getMenu().findItem(R.id.tab2_s).setChecked(true);
             bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
                 intent.setClass(OrderDetailActivity.this, HomeMerchantActivity.class);
                 switch (item.getItemId()) {
@@ -190,7 +192,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                             Log.d("Response Data", response.body().toString());
                             if (response.isSuccessful()) {
                                 // Tạo một intent với hành động ACTION_CREATE_DOCUMENT
-                                Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+                                intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
                                 // Đặt loại tệp và thể loại mặc định (tùy chọn)
                                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                                 intent.setType("application/pdf");
@@ -351,6 +353,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         if (requestCode == 79 && resultCode == Activity.RESULT_OK) {
             if (resultData != null) {
                 Uri uri = resultData.getData();
+                Log.d("URILog:",uri.toString());
                 try {
                     // Mở OutputStream từ URI
                     OutputStream outputStream = getContentResolver().openOutputStream(uri);
@@ -373,13 +376,14 @@ public class OrderDetailActivity extends AppCompatActivity {
                 }
 
                 // Mở tệp PDF với URI
-                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent = new Intent(Intent.ACTION_VIEW);
                 intent.setDataAndType(uri, "application/pdf");
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 try {
                     startActivity(intent);
                 } catch (ActivityNotFoundException e) {
                     // Thực hiện hành động nếu không tìm thấy ứng dụng hỗ trợ xem PDF
+                    Notification.sweetAlert(this,SweetAlertDialog.ERROR_TYPE,"K thấy app hỗ trợ đọc","");
                 }
             }
         }

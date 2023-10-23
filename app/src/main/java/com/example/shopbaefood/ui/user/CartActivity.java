@@ -169,6 +169,10 @@ public class CartActivity extends AppCompatActivity {
                         CartAdapter adapter = (CartAdapter) rcvCart.getAdapter();
                         adapter.clearCart();
                         rcvCart.setVisibility(View.GONE);
+                        scrollView.setVisibility(View.GONE);
+                        payUp.setVisibility(View.VISIBLE);
+                        payDown.setVisibility(View.GONE);
+                        payUp.setEnabled(false);
                         rcvEmtyCart.setVisibility(View.VISIBLE);
                         payBtn.setEnabled(false);
                         address.setText("");
@@ -207,10 +211,12 @@ public class CartActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                     handleCartList(response.body().getData());
                     if (response.body().getData().isEmpty()) {
+                        payUp.setEnabled(false);
                         rcvCart.setVisibility(View.GONE);
                         rcvEmtyCart.setVisibility(View.VISIBLE);
                         payBtn.setEnabled(false);
                     } else {
+                        payUp.setEnabled(true);
                         rcvCart.setVisibility(View.VISIBLE);
                         rcvEmtyCart.setVisibility(View.GONE);
                         payBtn.setEnabled(true);
