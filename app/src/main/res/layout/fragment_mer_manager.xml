@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:orientation="vertical">
 
+    <!-- Thanh tiêu đề -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -14,14 +14,13 @@
         android:background="@color/purple"
         android:theme="?attr/actionBarTheme">
 
-
         <!-- Đặt title ở giữa của thanh toolbar -->
         <TextView
             android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Quản lý đơn hàng"
+            android:text="Quản lý người bán"
             android:textColor="#fff"
             android:textSize="18sp" />
 
@@ -31,13 +30,29 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
             android:layout_marginStart="16dp"
-            app:cardCornerRadius="50dp" />
+            app:cardCornerRadius="50dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/toolbar_icon"
+                android:layout_width="32dp"
+                android:layout_height="32dp" />
+        </androidx.cardview.widget.CardView>
+
+        <!-- Đặt nút 3 chấm bên phải -->
+        <ImageView
+            android:id="@+id/toolbar_overflow"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/cart" />
 
     </androidx.appcompat.widget.Toolbar>
 
+    <!-- RecyclerView để hiển thị danh sách quán ăn -->
     <!-- Thanh trạng thái -->
     <com.google.android.material.button.MaterialButtonToggleGroup
-        android:id="@+id/toggle_group_manager_order"
+        android:id="@+id/toggle_group_manager_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -45,35 +60,35 @@
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="6dp"
         android:orientation="horizontal"
-        app:checkedButton="@+id/toggle_manager_order_status1"
+        app:checkedButton="@id/toggle_manager_user_status1"
         app:singleSelection="true">
 
         <!-- Trạng thái 1 -->
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/toggle_manager_order_status1"
+            android:id="@+id/toggle_manager_user_status1"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Đơn chờ"
+            android:text="Chờ duyệt"
             android:textColor="@color/purple" />
         <!-- Trạng thái 2 -->
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/toggle_manager_order_status2"
+            android:id="@+id/toggle_manager_user_status2"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Đã nhận"
+            android:text="Hoạt động"
             android:textColor="@color/purple" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/toggle_manager_order_status3"
+            android:id="@+id/toggle_manager_user_status3"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Lịch sử"
+            android:text="Bị khóa"
             android:textColor="@color/purple" />
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
@@ -84,13 +99,13 @@
         android:layout_weight="3">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView_order_manager"
+            android:id="@+id/recyclerView_user_manager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="5dp" />
 
         <ProgressBar
-            android:id="@+id/progressBar_order_manager"
+            android:id="@+id/progressBar_user_manager"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -103,6 +118,5 @@
     <!-- Thanh tìm kiếm -->
 
     <!-- Danh sách các món ăn -->
-
 
 </LinearLayout>

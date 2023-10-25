@@ -8,6 +8,7 @@ import com.example.shopbaefood.model.Product;
 import com.example.shopbaefood.model.dto.AccountRegisterDTO;
 import com.example.shopbaefood.model.dto.AccountToken;
 import com.example.shopbaefood.model.dto.ApiResponse;
+import com.example.shopbaefood.model.dto.ClientManager;
 import com.example.shopbaefood.model.dto.LoginResponse;
 import com.example.shopbaefood.model.dto.ProductForm;
 
@@ -20,6 +21,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -90,6 +92,45 @@ public interface ApiService {
     Call<ResponseBody> orderMerchantReceived(@Path("orderId") Long orderId);
     @PATCH("merchant/order/refuse/{orderId}")
     Call<ApiResponse> orderMerchantRefuse(@Path("orderId") Long orderId);
+
+
+
+    //api admin
+
+    //manager merchant
+    @GET("admin/merchant")
+    Call<ApiResponse<List<ClientManager>>> getMerActive();
+    @GET("admin/merchant/pending")
+    Call<ApiResponse<List<ClientManager>>> getMerPending();
+    @GET("admin/merchant/block")
+    Call<ApiResponse<List<ClientManager>>> getMerBlock();
+    @PUT("admin/merchant/active/{id}")
+    Call<ApiResponse> activeMer(@Path("id") Long id);
+    @PUT("admin/merchant/refuse/{id}")
+    Call<ApiResponse> refuseMer(@Path("id") Long id);
+    @PUT("admin/merchant/block/{id}")
+    Call<ApiResponse> blockMer(@Path("id") Long id);
+    @PUT("admin/merchant/unblock/{id}")
+    Call<ApiResponse> unblockMer(@Path("id") Long id);
+
+    //manager user
+    @GET("admin/user")
+    Call<ApiResponse<List<ClientManager>>> getUserActive();
+    @GET("admin/user/pending")
+    Call<ApiResponse<List<ClientManager>>> getUserPending();
+    @GET("admin/user/block")
+    Call<ApiResponse<List<ClientManager>>> getUserBlock();
+    @PUT("admin/user/active/{id}")
+    Call<ApiResponse<ClientManager>> activeUser(@Path("id") Long id);
+    @PUT("admin/user/refuse/{id}")
+    Call<ApiResponse<ClientManager>> refuseUser(@Path("id") Long id);
+    @PUT("admin/user/block/{id}")
+    Call<ApiResponse<ClientManager>> blockUser(@Path("id") Long id);
+    @PUT("admin/user/unBlock/{id}")
+    Call<ApiResponse<ClientManager>> unblockUser(@Path("id") Long id);
+
+
+
 
 
     // mock api

@@ -19,7 +19,7 @@ import com.example.shopbaefood.util.UtilApp;
 
 import java.util.List;
 
-public class MerchantAdapter extends RecyclerView.Adapter<MerchantAdapter.MerchantViewHolder> {
+public class  MerchantAdapter extends RecyclerView.Adapter<MerchantAdapter.MerchantViewHolder> {
     private List<Merchant> merchantList;
 
     public MerchantAdapter(List<Merchant> merchantList) {

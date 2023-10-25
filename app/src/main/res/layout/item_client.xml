@@ -38,7 +38,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/ingredient_imageView"
+                    android:id="@+id/img_client"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     app:layout_constraintBottom_toBottomOf="@+id/white_background"
@@ -48,7 +48,7 @@
                     tools:srcCompat="@tools:sample/avatars" />
 
                 <ImageView
-                    android:id="@+id/ingredient_imageView2"
+                    android:id="@+id/img_client_menu"
                     android:layout_width="51dp"
                     android:layout_height="55dp"
                     android:layout_marginEnd="4dp"
@@ -59,7 +59,7 @@
                     tools:srcCompat="@drawable/menu_product" />
 
                 <TextView
-                    android:id="@+id/ingredient_name"
+                    android:id="@+id/txt_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
@@ -75,37 +75,45 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/ingredient_amount"
+                    android:id="@+id/txt_open_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="100"
-                    app:layout_constraintStart_toStartOf="@+id/ingredient_name"
-                    app:layout_constraintTop_toBottomOf="@+id/ingredient_name" />
+                    app:layout_constraintStart_toStartOf="@+id/txt_name"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_name" />
 
                 <TextView
-                    android:id="@+id/ingredient_unit"
+                    android:id="@+id/txt_closetime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/txt_closetime2"
+                    app:layout_constraintStart_toEndOf="@+id/txt_closetime2"
+                    app:layout_constraintTop_toTopOf="@+id/txt_closetime2" />
+
+                <TextView
+                    android:id="@+id/txt_closetime2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Grams"
-                    app:layout_constraintBottom_toBottomOf="@+id/ingredient_amount"
-                    app:layout_constraintStart_toEndOf="@+id/ingredient_amount"
-                    app:layout_constraintTop_toTopOf="@+id/ingredient_amount" />
+                    app:layout_constraintBottom_toBottomOf="@+id/txt_open_time"
+                    app:layout_constraintStart_toEndOf="@+id/txt_open_time"
+                    app:layout_constraintTop_toTopOf="@+id/txt_open_time"
+                    app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
-                    android:id="@+id/ingredient_consistency"
+                    android:id="@+id/txt_client_phone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="12dp"
                     android:text="Consistency"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/ingredient_amount"
-                    app:layout_constraintTop_toBottomOf="@+id/ingredient_amount" />
+                    app:layout_constraintStart_toStartOf="@+id/txt_open_time"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_open_time" />
 
                 <TextView
-                    android:id="@+id/ingredient_original"
+                    android:id="@+id/txt_client_address"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
@@ -114,8 +122,8 @@
                     android:text="Original"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/ingredient_consistency"
-                    app:layout_constraintTop_toBottomOf="@+id/ingredient_consistency"
+                    app:layout_constraintStart_toStartOf="@+id/txt_client_phone"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_client_phone"
                     app:layout_constraintVertical_bias="0.0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

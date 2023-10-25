@@ -148,6 +148,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Số lượng"
                     android:inputType="number"
+                    android:textColor="@color/white"
                     android:textColorHint="@color/purple" />
 
                 <LinearLayout

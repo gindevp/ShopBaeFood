@@ -378,7 +378,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                 // Mở tệp PDF với URI
                 intent = new Intent(Intent.ACTION_VIEW);
                 intent.setDataAndType(uri, "application/pdf");
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 try {
                     startActivity(intent);
                 } catch (ActivityNotFoundException e) {

@@ -27,6 +27,7 @@ import com.example.shopbaefood.model.Order;
 import com.example.shopbaefood.model.dto.AccountToken;
 import com.example.shopbaefood.model.dto.ApiResponse;
 import com.example.shopbaefood.service.ApiService;
+import com.example.shopbaefood.service.MyFirebaseService;
 import com.example.shopbaefood.util.Notification;
 import com.example.shopbaefood.util.UtilApp;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -53,6 +54,7 @@ public class CartActivity extends AppCompatActivity {
     private MaterialButton status1Button, status2Button;
     private RecyclerView rcvEmtyCart, rcvOrder, rcvCart;
     Gson gson;
+    Merchant merchant;
     AccountToken user;
 
     @Override
@@ -81,7 +83,7 @@ public class CartActivity extends AppCompatActivity {
         rcvEmtyCart = findViewById(R.id.recyclerView_empty_cart);
         gson = new Gson();
         intent = getIntent();
-        Merchant merchant = (Merchant) intent.getSerializableExtra("merchant");
+        merchant = (Merchant) intent.getSerializableExtra("merchant");
         merchantName.setText(merchant.getName());
         SharedPreferences info = getSharedPreferences("info", MODE_PRIVATE);
         user = gson.fromJson(info.getString("info", ""), AccountToken.class);
@@ -177,6 +179,7 @@ public class CartActivity extends AppCompatActivity {
                         payBtn.setEnabled(false);
                         address.setText("");
                         note.setText("");
+                        MyFirebaseService.sendMessageToTopic("order_merchant_"+merchant.getId(),"Người mua mới","Có người vừa đặt hàng tên: "+user.getUser().getName());
                         Notification.sweetAlertNow(CartActivity.this, SweetAlertDialog.SUCCESS_TYPE, "Success", "Đặt hàng thành công");
                     } else {
                         Notification.sweetAlertNow(CartActivity.this, SweetAlertDialog.ERROR_TYPE, "Error", "Đặt hàng không thành công");
@@ -251,5 +254,17 @@ public class CartActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        MyFirebaseService.subscribeToTopic("order_user_"+user.getId());
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        MyFirebaseService.unsubscribeFromTopic("order_user_"+user.getId());
     }
 }

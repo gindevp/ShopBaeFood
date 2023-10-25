@@ -15,12 +15,12 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position){
-            case 0: return new M01Fragment();
-            case 1: return new M02Fragment();
+            case 0: return new UserManagerFragment();
+            case 1: return new MerManagerFragment();
             case 2: return new M03Fragment();
             case 3: return new M04Fragment();
             case 4: return new M05Fragment();
-            default: return new M01Fragment();
+            default: return new UserManagerFragment();
         }
 
     }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/admin_active"
+        android:title="Duyệt" />
+    <item
+        android:id="@+id/admin_refuse"
+        android:title="Từ chối" />
+    <item
+        android:id="@+id/admin_block"
+        android:title="Khóa" />
+    <item
+        android:id="@+id/admin_unblock"
+        android:title="Mở khóa" />
+</menu>
