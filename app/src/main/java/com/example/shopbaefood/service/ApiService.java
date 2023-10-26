@@ -121,13 +121,13 @@ public interface ApiService {
     @GET("admin/user/block")
     Call<ApiResponse<List<ClientManager>>> getUserBlock();
     @PUT("admin/user/active/{id}")
-    Call<ApiResponse<ClientManager>> activeUser(@Path("id") Long id);
+    Call<ApiResponse> activeUser(@Path("id") Long id);
     @PUT("admin/user/refuse/{id}")
-    Call<ApiResponse<ClientManager>> refuseUser(@Path("id") Long id);
+    Call<ApiResponse> refuseUser(@Path("id") Long id);
     @PUT("admin/user/block/{id}")
-    Call<ApiResponse<ClientManager>> blockUser(@Path("id") Long id);
-    @PUT("admin/user/unBlock/{id}")
-    Call<ApiResponse<ClientManager>> unblockUser(@Path("id") Long id);
+    Call<ApiResponse> blockUser(@Path("id") Long id);
+    @PUT("admin/user/unblock/{id}")
+    Call<ApiResponse> unblockUser(@Path("id") Long id);
 
 
 

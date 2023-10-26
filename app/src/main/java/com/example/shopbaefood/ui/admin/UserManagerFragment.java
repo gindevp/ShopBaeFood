@@ -49,13 +49,13 @@ public class UserManagerFragment extends Fragment {
         }
         binding.toggleGroupManagerUser.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
             if (isChecked) {
-                if (checkedId == R.id.toggle_manager_order_status1) {
+                if (checkedId == binding.toggleManagerUserStatus1.getId()) {
                     getClientUser(view, 1);
                     isFalseClick();
-                } else if (checkedId == R.id.toggle_manager_order_status2) {
+                } else if (checkedId == binding.toggleManagerUserStatus2.getId()) {
                     getClientUser(view, 2);
                     isFalseClick();
-                } else if (checkedId == R.id.toggle_manager_order_status3) {
+                } else if (checkedId == binding.toggleManagerUserStatus3.getId()) {
                     getClientUser(view, 3);
                     isFalseClick();
                 }
@@ -122,7 +122,7 @@ public class UserManagerFragment extends Fragment {
     private void handerUser(List<ClientManager> data, View view) {
         GridLayoutManager gridLayoutManager= new GridLayoutManager(view.getContext(),1);
         binding.recyclerViewUserManager.setLayoutManager(gridLayoutManager);
-        ClientManagerAdapter adapter= new ClientManagerAdapter(data);
+        ClientManagerAdapter adapter= new ClientManagerAdapter(data, binding,true);
         binding.recyclerViewUserManager.setAdapter(adapter);
     }
 }
