@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewbinding.ViewBinding;
 
 import com.example.shopbaefood.R;
 import com.example.shopbaefood.databinding.FragmentUserManagerBinding;
@@ -28,10 +29,10 @@ import retrofit2.Response;
 
 public class ClientManagerAdapter extends RecyclerView.Adapter<ClientManagerAdapter.ClientManagerHolder> {
     private List<ClientManager> clientManagerList;
-    private FragmentUserManagerBinding binding;
+    private ViewBinding binding;
     private boolean flag;
 
-    public ClientManagerAdapter(List<ClientManager> clientManagerList, FragmentUserManagerBinding binding, boolean flag) {
+    public ClientManagerAdapter(List<ClientManager> clientManagerList, ViewBinding binding, boolean flag) {
         this.clientManagerList = clientManagerList;
         this.binding=binding;
         this.flag=flag;
