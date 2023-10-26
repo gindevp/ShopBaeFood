@@ -34,7 +34,6 @@ import retrofit2.Response;
 
 public class UserManagerFragment extends Fragment {
     private FragmentUserManagerBinding binding;
-    Gson gson;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
 import com.example.shopbaefood.R;
+import com.example.shopbaefood.databinding.FragmentMerManagerBinding;
 import com.example.shopbaefood.databinding.FragmentUserManagerBinding;
 import com.example.shopbaefood.model.dto.ApiResponse;
 import com.example.shopbaefood.model.dto.ClientManager;
@@ -70,6 +71,7 @@ public class ClientManagerAdapter extends RecyclerView.Adapter<ClientManagerAdap
                     break;
             }
             popupMenu.setOnMenuItemClickListener(item -> {
+
                 switch (item.getItemId()) {
                     case R.id.admin_active:
                         //dùng swal confirm
@@ -80,15 +82,20 @@ public class ClientManagerAdapter extends RecyclerView.Adapter<ClientManagerAdap
                                 Call<ApiResponse> call;
                                 if (flag) {
                                     call= apiService.activeUser(clientManager.getId());
+                                    ((FragmentUserManagerBinding) binding).progressBarUserManager.setVisibility(View.VISIBLE);
                                 }else {
                                     call= apiService.activeMer(clientManager.getId());
+                                    ((FragmentMerManagerBinding) binding).progressBarMerManager.setVisibility(View.VISIBLE);
                                 }
-                                binding.progressBarUserManager.setVisibility(View.VISIBLE);
                                 call.enqueue(new Callback<ApiResponse>() {
                                     @Override
                                     public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                                         if(response.isSuccessful()){
-                                            binding.progressBarUserManager.setVisibility(View.GONE);
+                                            if (flag) {
+                                                ((FragmentUserManagerBinding) binding).progressBarUserManager.setVisibility(View.GONE);
+                                            }else {
+                                                ((FragmentMerManagerBinding) binding).progressBarMerManager.setVisibility(View.GONE);
+                                            }
                                             int position = holder.getAdapterPosition();
                                             if (position != -1) {
                                                 clientManagerList.remove(position);
@@ -121,15 +128,21 @@ public class ClientManagerAdapter extends RecyclerView.Adapter<ClientManagerAdap
                                 Call<ApiResponse> call;
                                 if (flag) {
                                     call= apiService.refuseUser(clientManager.getId());
+                                    ((FragmentUserManagerBinding) binding).progressBarUserManager.setVisibility(View.VISIBLE);
                                 }else {
                                     call= apiService.refuseMer(clientManager.getId());
+                                    ((FragmentMerManagerBinding) binding).progressBarMerManager.setVisibility(View.VISIBLE);
                                 }
-                                binding.progressBarUserManager.setVisibility(View.VISIBLE);
+
                                 call.enqueue(new Callback<ApiResponse>() {
                                     @Override
                                     public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                                         if(response.isSuccessful()){
-                                            binding.progressBarUserManager.setVisibility(View.GONE);
+                                            if (flag) {
+                                                ((FragmentUserManagerBinding) binding).progressBarUserManager.setVisibility(View.GONE);
+                                            }else {
+                                                ((FragmentMerManagerBinding) binding).progressBarMerManager.setVisibility(View.GONE);
+                                            }
                                             int position = holder.getAdapterPosition();
                                             if (position != -1) {
                                                 clientManagerList.remove(position);
@@ -161,16 +174,21 @@ public class ClientManagerAdapter extends RecyclerView.Adapter<ClientManagerAdap
                                 ApiService apiService= UtilApp.retrofitAuth(v.getContext()).create(ApiService.class);
                                 Call<ApiResponse> call;
                                 if (flag) {
+                                    ((FragmentUserManagerBinding) binding).progressBarUserManager.setVisibility(View.VISIBLE);
                                     call= apiService.blockUser(clientManager.getId());
                                 }else {
+                                    ((FragmentUserManagerBinding) binding).progressBarUserManager.setVisibility(View.VISIBLE);
                                     call= apiService.blockMer(clientManager.getId());
                                 }
-                                binding.progressBarUserManager.setVisibility(View.VISIBLE);
                                 call.enqueue(new Callback<ApiResponse>() {
                                     @Override
                                     public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                                         if(response.isSuccessful()){
-                                            binding.progressBarUserManager.setVisibility(View.GONE);
+                                            if (flag) {
+                                                ((FragmentUserManagerBinding) binding).progressBarUserManager.setVisibility(View.GONE);
+                                            }else {
+                                                ((FragmentUserManagerBinding) binding).progressBarUserManager.setVisibility(View.GONE);
+                                            }
                                             int position = holder.getAdapterPosition();
                                             if (position != -1) {
                                                 clientManagerList.remove(position);
@@ -202,16 +220,21 @@ public class ClientManagerAdapter extends RecyclerView.Adapter<ClientManagerAdap
                                 ApiService apiService= UtilApp.retrofitAuth(v.getContext()).create(ApiService.class);
                                 Call<ApiResponse> call;
                                 if (flag) {
+                                    ((FragmentUserManagerBinding) binding).progressBarUserManager.setVisibility(View.VISIBLE);
                                     call= apiService.unblockUser(clientManager.getId());
                                 }else {
+                                    ((FragmentUserManagerBinding) binding).progressBarUserManager.setVisibility(View.VISIBLE);
                                     call= apiService.unblockMer(clientManager.getId());
                                 }
-                                binding.progressBarUserManager.setVisibility(View.VISIBLE);
                                 call.enqueue(new Callback<ApiResponse>() {
                                     @Override
                                     public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                                         if(response.isSuccessful()){
-                                            binding.progressBarUserManager.setVisibility(View.GONE);
+                                            if (flag) {
+                                                ((FragmentUserManagerBinding) binding).progressBarUserManager.setVisibility(View.GONE);
+                                            }else {
+                                                ((FragmentUserManagerBinding) binding).progressBarUserManager.setVisibility(View.GONE);
+                                            }
                                             int position = holder.getAdapterPosition();
                                             if (position != -1) {
                                                 clientManagerList.remove(position);
