@@ -1,5 +1,6 @@
 package com.example.shopbaefood.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,7 @@ public class ClientManagerAdapter extends RecyclerView.Adapter<ClientManagerAdap
         if(!flag){
             holder.txtOpentime.setText(clientManager.getOpenTime());
             holder.txtClosetime.setText(clientManager.getCloseTime());
+            holder.txtTimeSpace.setText("-");
         }
         UtilApp.getImagePicasso(clientManager.getAvatar(), holder.imgClient);
         holder.imgMenu.setImageResource(R.drawable.menu_product);
@@ -177,7 +179,7 @@ public class ClientManagerAdapter extends RecyclerView.Adapter<ClientManagerAdap
                                     ((FragmentUserManagerBinding) binding).progressBarUserManager.setVisibility(View.VISIBLE);
                                     call= apiService.blockUser(clientManager.getId());
                                 }else {
-                                    ((FragmentUserManagerBinding) binding).progressBarUserManager.setVisibility(View.VISIBLE);
+                                    ((FragmentMerManagerBinding) binding).progressBarMerManager.setVisibility(View.VISIBLE);
                                     call= apiService.blockMer(clientManager.getId());
                                 }
                                 call.enqueue(new Callback<ApiResponse>() {
@@ -187,7 +189,7 @@ public class ClientManagerAdapter extends RecyclerView.Adapter<ClientManagerAdap
                                             if (flag) {
                                                 ((FragmentUserManagerBinding) binding).progressBarUserManager.setVisibility(View.GONE);
                                             }else {
-                                                ((FragmentUserManagerBinding) binding).progressBarUserManager.setVisibility(View.GONE);
+                                                ((FragmentMerManagerBinding) binding).progressBarMerManager.setVisibility(View.GONE);
                                             }
                                             int position = holder.getAdapterPosition();
                                             if (position != -1) {
@@ -223,7 +225,7 @@ public class ClientManagerAdapter extends RecyclerView.Adapter<ClientManagerAdap
                                     ((FragmentUserManagerBinding) binding).progressBarUserManager.setVisibility(View.VISIBLE);
                                     call= apiService.unblockUser(clientManager.getId());
                                 }else {
-                                    ((FragmentUserManagerBinding) binding).progressBarUserManager.setVisibility(View.VISIBLE);
+                                    ((FragmentMerManagerBinding) binding).progressBarMerManager.setVisibility(View.VISIBLE);
                                     call= apiService.unblockMer(clientManager.getId());
                                 }
                                 call.enqueue(new Callback<ApiResponse>() {
@@ -233,7 +235,7 @@ public class ClientManagerAdapter extends RecyclerView.Adapter<ClientManagerAdap
                                             if (flag) {
                                                 ((FragmentUserManagerBinding) binding).progressBarUserManager.setVisibility(View.GONE);
                                             }else {
-                                                ((FragmentUserManagerBinding) binding).progressBarUserManager.setVisibility(View.GONE);
+                                                ((FragmentMerManagerBinding) binding).progressBarMerManager.setVisibility(View.GONE);
                                             }
                                             int position = holder.getAdapterPosition();
                                             if (position != -1) {
@@ -282,7 +284,7 @@ public class ClientManagerAdapter extends RecyclerView.Adapter<ClientManagerAdap
 
     public class ClientManagerHolder extends RecyclerView.ViewHolder {
         private ImageView imgClient, imgMenu;
-        private TextView txtName, txtPhone, txtAddress, txtOpentime, txtClosetime;
+        private TextView txtName, txtPhone, txtAddress, txtOpentime, txtClosetime,txtTimeSpace;
 
         public ClientManagerHolder(@NonNull View itemView) {
             super(itemView);
@@ -293,6 +295,7 @@ public class ClientManagerAdapter extends RecyclerView.Adapter<ClientManagerAdap
             txtPhone = itemView.findViewById(R.id.txt_client_phone);
             txtOpentime = itemView.findViewById(R.id.txt_open_time);
             txtClosetime = itemView.findViewById(R.id.txt_closetime);
+            txtTimeSpace=itemView.findViewById(R.id.txt_time_space);
         }
     }
 }

@@ -32,7 +32,18 @@
             android:layout_gravity="start|center_vertical"
             android:layout_marginStart="16dp"
             app:cardCornerRadius="50dp" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="16dp">
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/toolbar_icon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/logo"/>
+        </androidx.cardview.widget.CardView>
     </androidx.appcompat.widget.Toolbar>
 
     <FrameLayout
@@ -207,7 +218,8 @@
                         android:gravity="center"
                         android:text="Đã nhận hàng"
                         android:textSize="18sp"
-                        app:cornerRadius="20dp" />
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/ic_check_black_24dp" />
 
                     <Button
                         android:id="@+id/btn_user_refuse"
@@ -220,7 +232,9 @@
                         android:gravity="center"
                         android:text="Hủy đặt hàng"
                         android:textSize="18sp"
-                        app:cornerRadius="20dp" />
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/ic_clear_black_24dp" />
+
                     <Button
                         android:id="@+id/btn_merchant_refuse"
                         android:layout_width="wrap_content"
@@ -232,7 +246,9 @@
                         android:gravity="center"
                         android:text="Từ chối đơn"
                         android:textSize="18sp"
-                        app:cornerRadius="20dp" />
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/ic_clear_black_24dp" />
+
                     <Button
                         android:id="@+id/btn_merchant_active"
                         android:layout_width="wrap_content"
@@ -244,7 +260,8 @@
                         android:gravity="center"
                         android:text="Nhận đơn"
                         android:textSize="18sp"
-                        app:cornerRadius="20dp" />
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/ic_check_black_24dp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

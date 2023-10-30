@@ -87,12 +87,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/txt_closetime2"
-                    app:layout_constraintStart_toEndOf="@+id/txt_closetime2"
-                    app:layout_constraintTop_toTopOf="@+id/txt_closetime2" />
+                    app:layout_constraintBottom_toBottomOf="@+id/txt_time_space"
+                    app:layout_constraintStart_toEndOf="@+id/txt_time_space"
+                    app:layout_constraintTop_toTopOf="@+id/txt_time_space" />
 
                 <TextView
-                    android:id="@+id/txt_closetime2"
+                    android:id="@+id/txt_time_space"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"

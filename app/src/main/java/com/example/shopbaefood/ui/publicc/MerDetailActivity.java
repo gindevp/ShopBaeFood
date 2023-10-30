@@ -20,6 +20,7 @@ import com.example.shopbaefood.model.Product;
 import com.example.shopbaefood.model.dto.AccountToken;
 import com.example.shopbaefood.model.dto.ApiResponse;
 import com.example.shopbaefood.service.ApiService;
+import com.example.shopbaefood.ui.admin.HomeAdminActivity;
 import com.example.shopbaefood.ui.merchant.HomeMerchantActivity;
 import com.example.shopbaefood.ui.user.CartActivity;
 import com.example.shopbaefood.ui.user.HomeUserActivity;
@@ -94,6 +95,35 @@ public class MerDetailActivity extends AppCompatActivity {
                 }
                 return false;
             });
+        } else if (accountToken.getRoles()[0].equals(Role.ROLE_ADMIN)) {
+            bottomNavigationView = findViewById(R.id.nav_mer_detail_admin);
+            bottomNavigationView.setVisibility(View.VISIBLE);
+            bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+                intent.setClass(MerDetailActivity.this, HomeAdminActivity.class);
+                switch (item.getItemId()) {
+                    case R.id.tab1_m:
+                        onBackPressed();
+                        return true;
+                    case R.id.tab2_m:
+                        intent.putExtra("pageToDisplay", 1); // 1 là trang bạn muốn hiển thị
+                        startActivity(intent);
+                        return true;
+                    case R.id.tab3_m:
+                        intent.putExtra("pageToDisplay", 2); // 1 là trang bạn muốn hiển thị
+                        startActivity(intent);
+                        return true;
+                    case R.id.tab4_m:
+                        intent.putExtra("pageToDisplay", 3); // 1 là trang bạn muốn hiển thị
+                        startActivity(intent);
+                        return true;
+                    case R.id.tab5_m:
+                        intent.putExtra("pageToDisplay", 4); // 1 là trang bạn muốn hiển thị
+                        startActivity(intent);
+                        return true;
+                    // Thêm các case cho các item khác nếu cần
+                }
+                return false;
+            });
         } else {
             bottomNavigationView = findViewById(R.id.nav_mer_detail_merchant);
             bottomNavigationView.setVisibility(View.VISIBLE);
@@ -124,6 +154,9 @@ public class MerDetailActivity extends AppCompatActivity {
         getProduct(merchant.getId());
         cart_product = findViewById(R.id.cart_product);
         if (accountToken.getUser() != null) {
+            if(accountToken.getRoles()[0].equals(Role.ROLE_ADMIN)){
+                cart_product.setVisibility(View.GONE);
+            }
             cart_product.setOnClickListener(v -> {
                 intent.setClass(v.getContext(), CartActivity.class);
                 intent.putExtra("merchant", merchant);

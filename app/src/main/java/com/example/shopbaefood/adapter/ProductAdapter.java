@@ -26,6 +26,7 @@ import com.example.shopbaefood.model.dto.AccountToken;
 import com.example.shopbaefood.model.dto.ApiResponse;
 import com.example.shopbaefood.service.ApiService;
 import com.example.shopbaefood.util.Notification;
+import com.example.shopbaefood.util.Role;
 import com.example.shopbaefood.util.UtilApp;
 import com.google.gson.Gson;
 
@@ -94,6 +95,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.tvNewPrice.setText(String.valueOf(product.getNewPrice()));
         UtilApp.getImagePicasso(product.getImage(), holder.imgProduct);
         if (accountToken.getUser() != null) {
+            if(accountToken.getRoles()[0].equals(Role.ROLE_ADMIN)){
+                holder.imgAddToCart.setVisibility(View.GONE);
+            }
             holder.imgAddToCart.setOnClickListener(view -> {
                 // TODO: them code add to card kèm alert
                 Long proId = product.getId();

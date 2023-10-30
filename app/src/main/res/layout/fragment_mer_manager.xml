@@ -30,22 +30,21 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
             android:layout_marginStart="16dp"
-            app:cardCornerRadius="50dp">
+            app:cardCornerRadius="50dp"/>
+
+        <!-- Đặt nút 3 chấm bên phải -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="16dp">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/toolbar_icon"
                 android:layout_width="32dp"
-                android:layout_height="32dp" />
+                android:layout_height="32dp"
+                android:src="@drawable/logo"/>
         </androidx.cardview.widget.CardView>
-
-        <!-- Đặt nút 3 chấm bên phải -->
-        <ImageView
-            android:id="@+id/toolbar_overflow"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="end|center_vertical"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/cart" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -60,7 +59,7 @@
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="6dp"
         android:orientation="horizontal"
-        app:checkedButton="@id/toggle_manager_user_status1"
+        app:checkedButton="@id/toggle_manager_mer_status1"
         app:singleSelection="true">
 
         <!-- Trạng thái 1 -->

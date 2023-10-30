@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.example.shopbaefood.ui.publicc.HomeFragment;
+import com.example.shopbaefood.ui.publicc.UserDetailFragment;
+
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     public ViewPagerAdapter(@NonNull FragmentManager fm, int behavior) {
@@ -15,12 +18,12 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position){
-            case 0: return new UserManagerFragment();
+            case 0: return new HomeFragment();
             case 1: return new MerManagerFragment();
-            case 2: return new M03Fragment();
+            case 2: return new UserManagerFragment();
             case 3: return new M04Fragment();
-            case 4: return new M05Fragment();
-            default: return new UserManagerFragment();
+            case 4: return new UserDetailFragment();
+            default: return new MerManagerFragment();
         }
 
     }

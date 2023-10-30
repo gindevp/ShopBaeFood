@@ -30,13 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
             android:layout_marginStart="16dp"
-            app:cardCornerRadius="50dp">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/toolbar_icon"
-                android:layout_width="32dp"
-                android:layout_height="32dp" />
-        </androidx.cardview.widget.CardView>
+            app:cardCornerRadius="50dp"/>
 
         <ImageView
             android:id="@+id/cart_product"
@@ -45,7 +39,18 @@
             android:layout_gravity="end|center_vertical"
             android:layout_marginEnd="16dp"
             android:src="@drawable/cart" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="16dp">
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/toolbar_icon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/logo"/>
+        </androidx.cardview.widget.CardView>
     </androidx.appcompat.widget.Toolbar>
 
     <!-- Phần ảnh và thông tin -->
@@ -179,4 +184,16 @@
         app:itemTextColor="@color/color_navigation"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_nav_s_menu" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_mer_detail_admin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/purple"
+        android:visibility="gone"
+        app:itemIconTint="@color/color_navigation"
+        app:itemTextColor="@color/color_navigation"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_nav_m_menu" />
 </LinearLayout>

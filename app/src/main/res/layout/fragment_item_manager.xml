@@ -35,7 +35,18 @@
             <!-- Đặt ảnh nhỏ bên trái (thay thế bằng icon của người dùng) -->
 
             <!-- Đặt nút 3 chấm bên phải -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="16dp">
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/toolbar_icon"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/logo"/>
+            </androidx.cardview.widget.CardView>
         </androidx.appcompat.widget.Toolbar>
         <!-- RecyclerView for displaying products -->
         <androidx.recyclerview.widget.RecyclerView

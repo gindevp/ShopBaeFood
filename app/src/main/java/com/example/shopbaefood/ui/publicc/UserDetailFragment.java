@@ -23,6 +23,7 @@ import com.example.shopbaefood.ui.LoginActivity;
 import com.example.shopbaefood.ui.RegisterActivity;
 import com.example.shopbaefood.util.ContactClientDataSource;
 import com.example.shopbaefood.util.Notification;
+import com.example.shopbaefood.util.Role;
 import com.example.shopbaefood.util.UtilApp;
 import com.google.gson.Gson;
 
@@ -125,6 +126,11 @@ public class UserDetailFragment extends Fragment {
             btnRegister.setVisibility(View.GONE);
             btnFavorite.setVisibility(View.GONE);
             btnHistoryOrder.setVisibility(View.GONE);
+        }else {if(accountToken.getRoles()[0].equals(Role.ROLE_ADMIN)){
+            btnRegister.setVisibility(View.GONE);
+            btnFavorite.setVisibility(View.GONE);
+            btnHistoryOrder.setVisibility(View.GONE);
+        }
         }
 
         return view;
