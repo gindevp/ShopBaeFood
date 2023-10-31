@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    android:orientation="vertical">
+>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_p"
@@ -48,7 +54,7 @@
                 android:id="@+id/toolbar_icon"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/logo"/>
+                android:src="@drawable/logo" />
         </androidx.cardview.widget.CardView>
     </androidx.appcompat.widget.Toolbar>
     <!-- Ảnh người dùng -->
@@ -56,15 +62,15 @@
         android:layout_width="155dp"
         android:layout_height="155dp"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="75dp">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
             app:cardBackgroundColor="@color/black"
             app:cardCornerRadius="75dp">
 
@@ -73,8 +79,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/user" />
+                android:src="@drawable/ic_launcher_background" />
 
+            <ImageView
+                android:id="@+id/edit_cam"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom|center"
+                android:src="@drawable/cam"
+                android:visibility="invisible" />
+
+            <View
+                android:id="@+id/edit_viewImag"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_gravity="bottom"
+                android:background="#45231B1B"
+                android:visibility="invisible" />
         </androidx.cardview.widget.CardView>
 
     </androidx.cardview.widget.CardView>
@@ -97,33 +118,41 @@
 
             <LinearLayout
                 android:id="@+id/linearLayout4"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|top|left"
-                android:layout_margin="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
                 android:orientation="horizontal"
                 tools:ignore="MissingConstraints">
 
                 <ImageView
                     android:layout_width="27dp"
-                    android:layout_height="24dp"
+                    android:layout_height="match_parent"
                     android:src="@drawable/user" />
 
-                <TextView
+                <EditText
                     android:id="@+id/textUserName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:enabled="false"
                     android:text="Tên người dùng"
                     android:textColor="@color/purple"
                     android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
-                android:layout_margin="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="@id/white_background"
                 app:layout_constraintStart_toStartOf="parent"
@@ -132,62 +161,117 @@
 
                 <ImageView
                     android:layout_width="27dp"
-                    android:layout_height="22dp"
+                    android:layout_height="match_parent"
                     android:src="@drawable/location" />
 
-                <TextView
+                <EditText
                     android:id="@+id/textUserAddress"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:enabled="false"
                     android:text="Địa chỉ"
                     android:textColor="@color/purple"
                     android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
-                android:layout_margin="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
                 android:orientation="horizontal"
                 tools:ignore="MissingConstraints">
 
                 <ImageView
                     android:layout_width="27dp"
-                    android:layout_height="22dp"
+                    android:layout_height="match_parent"
                     android:src="@drawable/mail" />
 
-                <TextView
+                <EditText
                     android:id="@+id/textUserEmail"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:enabled="false"
                     android:text="Email"
                     android:textColor="@color/purple"
                     android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
-                android:layout_margin="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
                 android:orientation="horizontal"
                 tools:ignore="MissingConstraints">
 
                 <ImageView
                     android:layout_width="27dp"
-                    android:layout_height="22dp"
+                    android:layout_height="match_parent"
                     android:src="@drawable/phone" />
 
-                <TextView
+                <EditText
                     android:id="@+id/textUserPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:enabled="false"
+                    android:text="Số điện thoại"
+                    android:textColor="@color/purple"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/time_mer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="horizontal"
+                tools:ignore="MissingConstraints">
+
+                <ImageView
+                    android:layout_width="27dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/clock" />
+
+                <EditText
+                    android:id="@+id/textOpentime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Số điện thoại"
+                    android:enabled="false"
+                    android:hint="Open(hh:mm)"
+                    android:inputType="datetime"
+                    android:maxLength="5"
                     android:textColor="@color/purple"
+                    android:textColorHint="@color/purple"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/textClosetime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="15dp"
+                    android:enabled="false"
+                    android:hint="Close(hh:mm)"
+                    android:inputType="datetime"
+                    android:maxLength="5"
+                    android:textColor="@color/purple"
+                    android:textColorHint="@color/purple"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -202,6 +286,18 @@
                 android:text="Chỉnh sửa"
                 app:icon="@drawable/pen"
                 app:iconPadding="0dp" />
+            <Button
+                android:id="@+id/buttonSubm"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="7dp"
+                android:backgroundTint="@color/purple"
+                android:text="Lưu lại"
+                app:icon="@drawable/success"
+                app:iconPadding="0dp"
+                android:visibility="gone"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -243,3 +339,4 @@
 
 
 </LinearLayout>
+</ScrollView>

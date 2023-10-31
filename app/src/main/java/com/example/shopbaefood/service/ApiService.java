@@ -47,6 +47,9 @@ public interface ApiService {
     Call<ApiResponse<List<Product>>> fetProAll(@Query("id") Long id);
     @GET("a/detail/order/{orderId}")
     Call<ApiResponse<List<OrderDetail>>> orderDetail(@Path("orderId") Long orderId);
+    @PUT("client/info")
+    Call<ApiResponse> info(@Query("id") Long id);
+
 
 
     //api user

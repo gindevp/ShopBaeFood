@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Quán ăn"
+                android:text="Quản lý sả phẩm "
                 android:textColor="#fff"
                 android:textSize="18sp" />
 
@@ -122,6 +122,7 @@
                             android:id="@+id/showw_image_product"
                             android:layout_width="wrap_content"
                             android:layout_height="170dp"
+                            android:scaleType="centerCrop"
                             android:src="@drawable/upload_cloud"
                             android:visibility="gone" />
                     </androidx.cardview.widget.CardView>
