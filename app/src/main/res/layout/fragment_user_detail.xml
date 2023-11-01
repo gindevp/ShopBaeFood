@@ -139,6 +139,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:background="@null"
                     android:enabled="false"
                     android:text="Tên người dùng"
                     android:textColor="@color/purple"
@@ -172,6 +173,7 @@
                     android:enabled="false"
                     android:text="Địa chỉ"
                     android:textColor="@color/purple"
+                    android:background="@null"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -198,6 +200,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:background="@null"
                     android:enabled="false"
                     android:text="Email"
                     android:textColor="@color/purple"
@@ -225,6 +228,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:background="@null"
                     android:enabled="false"
                     android:text="Số điện thoại"
                     android:textColor="@color/purple"
@@ -252,6 +256,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:background="@null"
                     android:enabled="false"
                     android:hint="Open(hh:mm)"
                     android:inputType="datetime"
@@ -266,6 +271,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginStart="15dp"
+                    android:background="@null"
                     android:enabled="false"
                     android:hint="Close(hh:mm)"
                     android:inputType="datetime"
@@ -298,6 +304,19 @@
                 app:icon="@drawable/success"
                 app:iconPadding="0dp"
                 android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/buttonCl"
+                android:layout_width="44dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="7dp"
+                android:backgroundTint="@color/red"
+                android:paddingLeft="14dp"
+                android:text=""
+                android:visibility="gone"
+                app:icon="@drawable/ic_clear_black_24dp"
+                app:iconPadding="0dp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

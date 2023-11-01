@@ -8,6 +8,7 @@ import com.example.shopbaefood.model.Product;
 import com.example.shopbaefood.model.dto.AccountRegisterDTO;
 import com.example.shopbaefood.model.dto.AccountToken;
 import com.example.shopbaefood.model.dto.ApiResponse;
+import com.example.shopbaefood.model.dto.ChangeDTO;
 import com.example.shopbaefood.model.dto.ClientManager;
 import com.example.shopbaefood.model.dto.LoginResponse;
 import com.example.shopbaefood.model.dto.ProductForm;
@@ -48,8 +49,9 @@ public interface ApiService {
     @GET("a/detail/order/{orderId}")
     Call<ApiResponse<List<OrderDetail>>> orderDetail(@Path("orderId") Long orderId);
     @PUT("client/info")
-    Call<ApiResponse> info(@Query("id") Long id);
-
+    Call<ApiResponse> info(@Body ChangeDTO changeDTO);
+    @POST("a/pdf/{orderId}")
+    Call<ResponseBody> pdf(@Path("orderId") Long orderId);
 
 
     //api user

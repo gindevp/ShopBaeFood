@@ -31,6 +31,7 @@ public class HomeAdminActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.hasExtra("logSuccess")) {
             Notification.sweetAlertNow(this, SweetAlertDialog.SUCCESS_TYPE, "Login success", "Bạn đăng nhập thành công");
+            intent.removeExtra("logSuccess");
         }
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mViewPager.setAdapter(adapter);

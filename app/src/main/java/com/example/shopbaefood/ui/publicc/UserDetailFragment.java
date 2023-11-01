@@ -3,8 +3,10 @@ package com.example.shopbaefood.ui.publicc;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 
@@ -18,10 +20,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.shopbaefood.R;
 import com.example.shopbaefood.model.dto.AccountToken;
 import com.example.shopbaefood.model.dto.ApiResponse;
+import com.example.shopbaefood.model.dto.ChangeDTO;
 import com.example.shopbaefood.model.dto.ContactClient;
 import com.example.shopbaefood.service.ApiService;
 import com.example.shopbaefood.ui.LoginActivity;
@@ -43,9 +47,9 @@ public class UserDetailFragment extends Fragment {
     private ImageView imgUser, imgCam;
     private View editView;
     private EditText txtUserName, txtUserAddress, txtUserEmail, txtUserPhone, openTime, closeTime;
-    private Button btnEdit,btnSubm;
+    private Button btnEdit, btnSubm, btnCl;
     private Button btnRegister;
-
+    private Uri imageUri;
     private Button btnFavorite;
     private Button btnHistoryOrder;
     private Gson gson;
@@ -53,6 +57,8 @@ public class UserDetailFragment extends Fragment {
     SharedPreferences info;
     ContactClient contactClient;
     AccountToken accountToken;
+    byte[] avt;
+
 
     public UserDetailFragment() {
 
@@ -74,10 +80,11 @@ public class UserDetailFragment extends Fragment {
             Notification.sweetAlertNow(view.getContext(), SweetAlertDialog.WARNING_TYPE, "Đăng ký thành công", "", 1000);
         }
         gson = new Gson();
-        openTime=view.findViewById(R.id.textOpentime);
-        closeTime=view.findViewById(R.id.textClosetime);
-        btnSubm=view.findViewById(R.id.buttonSubm);
-        imgCam=view.findViewById(R.id.edit_cam);
+        btnCl=view.findViewById(R.id.buttonCl);
+        openTime = view.findViewById(R.id.textOpentime);
+        closeTime = view.findViewById(R.id.textClosetime);
+        btnSubm = view.findViewById(R.id.buttonSubm);
+        imgCam = view.findViewById(R.id.edit_cam);
         editView = view.findViewById(R.id.edit_viewImag);
         imgUser = view.findViewById(R.id.imageUser);
         txtUserName = view.findViewById(R.id.textUserName);
@@ -99,11 +106,16 @@ public class UserDetailFragment extends Fragment {
             dataSource.open();
             contactClient = dataSource.getContactById((int) id);
             dataSource.close();
+            avt=contactClient.getAvartar();
             UtilApp.setImageFromBitmapByteBlob(contactClient.getAvartar(), imgUser);
-            txtUserName.setText(contactClient.getName() + " (" + contactClient.getUsername() + ")");
+            txtUserName.setText(contactClient.getName());
             txtUserAddress.setText(contactClient.getAddress());
             txtUserEmail.setText(contactClient.getEmail());
             txtUserPhone.setText(contactClient.getPhone());
+        }
+        if(accountToken.getMerchant()!=null){
+            openTime.setText(accountToken.getMerchant().getOpenTime());
+            closeTime.setText(accountToken.getMerchant().getCloseTime());
         }
         btnRegister.setOnClickListener(v -> {
             intent = new Intent(v.getContext(), RegisterActivity.class);
@@ -147,55 +159,50 @@ public class UserDetailFragment extends Fragment {
                 btnHistoryOrder.setVisibility(View.GONE);
             }
         }
-
+        imgCam.setOnClickListener(v -> {
+            selectImage();
+        });
+        btnCl.setOnClickListener(v->{
+            btnEdit.setVisibility(View.VISIBLE);
+            btnSubm.setVisibility(View.GONE);
+            imgCam.setVisibility(View.INVISIBLE);
+            editView.setVisibility(View.INVISIBLE);
+            openTime.setEnabled(false);
+            closeTime.setEnabled(false);
+            txtUserAddress.setEnabled(false);
+            txtUserEmail.setEnabled(false);
+            txtUserName.setEnabled(false);
+            txtUserPhone.setEnabled(false);
+            openTime.setBackground(null);
+            closeTime.setBackground(null);
+            txtUserAddress.setBackground(null);
+            txtUserEmail.setBackground(null);
+            txtUserName.setBackground(null);
+            txtUserPhone.setBackground(null);
+            btnCl.setVisibility(View.GONE);
+            UtilApp.setImageFromBitmapByteBlob(avt, imgUser);
+        });
         btnEdit.setOnClickListener(v -> {
             btnEdit.setVisibility(View.GONE);
             btnSubm.setVisibility(View.VISIBLE);
             imgCam.setVisibility(View.VISIBLE);
             editView.setVisibility(View.VISIBLE);
-            txtUserPhone.setBackgroundResource(R.drawable.shape1);
-            txtUserAddress.setBackgroundResource(R.drawable.shape1);
-            txtUserEmail.setBackgroundResource(R.drawable.shape1);
-            txtUserName.setBackgroundResource(R.drawable.shape1);
+            openTime.setBackgroundResource(android.R.drawable.edit_text);
+            closeTime.setBackgroundResource(android.R.drawable.edit_text);
+            txtUserAddress.setBackgroundResource(android.R.drawable.edit_text);
+            txtUserEmail.setBackgroundResource(android.R.drawable.edit_text);
+            txtUserName.setBackgroundResource(android.R.drawable.edit_text);
+            txtUserPhone.setBackgroundResource(android.R.drawable.edit_text);
             openTime.setEnabled(true);
             closeTime.setEnabled(true);
             txtUserAddress.setEnabled(true);
             txtUserEmail.setEnabled(true);
             txtUserName.setEnabled(true);
             txtUserPhone.setEnabled(true);
+            btnCl.setVisibility(View.VISIBLE);
         });
-        btnSubm.setOnClickListener(v->{
-            ApiService apiService= UtilApp.retrofitAuth(v.getContext()).create(ApiService.class);
-            Call<ApiResponse> call;
-            if(accountToken.getUser()!=null){
-                call= apiService.info(accountToken.getUser().getId());
-            }else {
-                call= apiService.info(accountToken.getMerchant().getId());
-            }
-            call.enqueue(new Callback<ApiResponse>() {
-                @Override
-                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                    if(!response.isSuccessful()){
-                        Notification.sweetAlert(view.getContext(), SweetAlertDialog.ERROR_TYPE, "Error", "Lỗi hệ thống");
-                    }else {
-                        btnEdit.setVisibility(View.GONE);
-                        btnSubm.setVisibility(View.VISIBLE);
-                        imgCam.setVisibility(View.VISIBLE);
-                        editView.setVisibility(View.VISIBLE);
-                        openTime.setEnabled(true);
-                        closeTime.setEnabled(true);
-                        txtUserAddress.setEnabled(true);
-                        txtUserEmail.setEnabled(true);
-                        txtUserName.setEnabled(true);
-                        txtUserPhone.setEnabled(true);
-                    Notification.sweetAlertNow(view.getContext(), SweetAlertDialog.SUCCESS_TYPE, "Success", "", 1000);}
-                }
-
-                @Override
-                public void onFailure(Call<ApiResponse> call, Throwable t) {
-                    Notification.sweetAlert(view.getContext(), SweetAlertDialog.ERROR_TYPE, "Error", "Lỗi hệ thống server");
-                }
-            });
+        btnSubm.setOnClickListener(v -> {
+            uploadImage(v);
         });
         openTime.addTextChangedListener(new TextWatcher() {
             @Override
@@ -217,6 +224,118 @@ public class UserDetailFragment extends Fragment {
                 }
             }
         });
+        closeTime.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String input = s.toString();
+                if (s.length() == 2 && !input.contains(":")) {
+                    openTime.setText(input + ":");
+                    openTime.setSelection(openTime.getText().length());
+                }
+            }
+        });
         return view;
+    }
+
+    private void uploadImage(View view) {
+        if (imageUri == null) {
+            Notification.sweetAlertNow(view.getContext(), SweetAlertDialog.WARNING_TYPE, "Phải có ảnh", "");
+        } else {
+            UtilApp.uploadImageToFirebaseStorage(imageUri, new UtilApp.OnImageUploadListener() {
+                @Override
+                public void onSuccess(String imageUrl) {
+                    Toast.makeText(view.getContext(), "success", Toast.LENGTH_SHORT).show();
+                    ApiService apiService = UtilApp.retrofitAuth(view.getContext()).create(ApiService.class);
+                    Call<ApiResponse> call;
+                    if (accountToken.getUser() != null) {
+                        ChangeDTO changeDTO = new ChangeDTO(
+                                accountToken.getUser().getId(),
+                                imageUrl,
+                                txtUserName.getText().toString(),
+                                txtUserPhone.getText().toString(),
+                                txtUserAddress.getText().toString(),
+                                txtUserEmail.getText().toString(),
+                                null,null
+                        );
+                        call = apiService.info(changeDTO);
+                    } else {
+                        ChangeDTO changeDTO = new ChangeDTO(
+                                accountToken.getMerchant().getId(),
+                                imageUrl,
+                                txtUserName.getText().toString(),
+                                txtUserPhone.getText().toString(),
+                                txtUserAddress.getText().toString(),
+                                txtUserEmail.getText().toString(),
+                                openTime.getText().toString(),
+                                closeTime.getText().toString()
+                        );
+                        call = apiService.info(changeDTO);
+                    }
+                    call.enqueue(new Callback<ApiResponse>() {
+                        @Override
+                        public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                            if (!response.isSuccessful()) {
+                                Notification.sweetAlert(view.getContext(), SweetAlertDialog.ERROR_TYPE, "Error", "Lỗi hệ thống");
+                            } else {
+                                btnEdit.setVisibility(View.VISIBLE);
+                                btnSubm.setVisibility(View.GONE);
+                                imgCam.setVisibility(View.INVISIBLE);
+                                editView.setVisibility(View.INVISIBLE);
+                                openTime.setEnabled(false);
+                                closeTime.setEnabled(false);
+                                txtUserAddress.setEnabled(false);
+                                txtUserEmail.setEnabled(false);
+                                txtUserName.setEnabled(false);
+                                txtUserPhone.setEnabled(false);
+                                openTime.setBackground(null);
+                                closeTime.setBackground(null);
+                                txtUserAddress.setBackground(null);
+                                txtUserEmail.setBackground(null);
+                                txtUserName.setBackground(null);
+                                txtUserPhone.setBackground(null);
+                                btnCl.setVisibility(View.GONE);
+                                Notification.sweetAlertNow(view.getContext(), SweetAlertDialog.SUCCESS_TYPE, "Success", "", 1000);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ApiResponse> call, Throwable t) {
+                            Notification.sweetAlert(view.getContext(), SweetAlertDialog.ERROR_TYPE, "Error", "Lỗi hệ thống server");
+                        }
+                    });
+                }
+
+                @Override
+                public void onFailure(String error) {
+                    Toast.makeText(view.getContext(), "faile upload image", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    }
+
+    private void selectImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, 100);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100 && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            imgUser.setImageURI(imageUri);
+        }
     }
 }

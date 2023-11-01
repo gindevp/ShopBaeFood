@@ -28,6 +28,15 @@ public class ChangeDTO {
         this.closeTime = closeTime;
     }
 
+    public ChangeDTO(Long id, String avatar, String name, String phone, String address, String email) {
+        this.id = id;
+        this.avatar = avatar;
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
+        this.email = email;
+    }
+
     public String getAddress() {
         return address;
     }

@@ -51,6 +51,7 @@ public class HomeMerchantActivity extends AppCompatActivity {
         intent = getIntent();
         if (intent.hasExtra("logSuccess")) {
             Notification.sweetAlertNow(this, SweetAlertDialog.SUCCESS_TYPE, "Login success", "Bạn đăng nhập thành công");
+            intent.removeExtra("logSuccess");
         }
         mViewPager = findViewById(R.id.viewpageMerchant);
         mBottomNavigationView = findViewById(R.id.bottom_navigation);

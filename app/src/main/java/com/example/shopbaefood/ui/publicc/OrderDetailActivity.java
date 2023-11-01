@@ -1,5 +1,6 @@
 package com.example.shopbaefood.ui.publicc;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,15 +10,22 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.pdf.PdfRenderer;
 import android.net.Uri;
 import android.os.Bundle;
 
+import android.os.ParcelFileDescriptor;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.shopbaefood.R;
 import com.example.shopbaefood.adapter.OrderDetailAdapter;
 import com.example.shopbaefood.model.Order;
@@ -35,6 +43,8 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -62,15 +72,16 @@ public class OrderDetailActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
 
     Order order;
-
+    ImageView imgPdf;
     ResponseBody body;
-    Button merchantActive, merchantRefuse, userReceived, userRefuse;
+    Button merchantActive, merchantRefuse, userReceived, userRefuse, pdf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
 
+        imgPdf=findViewById(R.id.img_pdf);
         rcvOrderDetail = findViewById(R.id.recyclerView_order_detail);
         progressBar = findViewById(R.id.progressBar_order_detail);
         orderMerName = findViewById(R.id.order_detail_mer_name_val);
@@ -81,6 +92,8 @@ public class OrderDetailActivity extends AppCompatActivity {
         merchantRefuse = findViewById(R.id.btn_merchant_refuse);
         userReceived = findViewById(R.id.btn_user_received);
         userRefuse = findViewById(R.id.btn_user_refuse);
+        pdf=findViewById(R.id.btn_merchant_pdf);
+
 
         intent = getIntent();
         if (intent.hasExtra("order")) {
@@ -123,18 +136,28 @@ public class OrderDetailActivity extends AppCompatActivity {
                     merchantRefuse.setVisibility(View.GONE);
                     userRefuse.setVisibility(View.VISIBLE);
                     userReceived.setVisibility(View.GONE);
+                    pdf.setVisibility(View.GONE);
                     break;
                 case MERCHANT_RECEIVED:
                     merchantActive.setVisibility(View.GONE);
                     merchantRefuse.setVisibility(View.GONE);
                     userRefuse.setVisibility(View.GONE);
                     userReceived.setVisibility(View.VISIBLE);
+                    pdf.setVisibility(View.VISIBLE);
+                    break;
+                case USER_RECEIVED:
+                    merchantActive.setVisibility(View.GONE);
+                    merchantRefuse.setVisibility(View.GONE);
+                    userRefuse.setVisibility(View.GONE);
+                    userReceived.setVisibility(View.GONE);
+                    pdf.setVisibility(View.VISIBLE);
                     break;
                 default:
                     merchantActive.setVisibility(View.GONE);
                     merchantRefuse.setVisibility(View.GONE);
                     userRefuse.setVisibility(View.GONE);
                     userReceived.setVisibility(View.GONE);
+                    pdf.setVisibility(View.GONE);
             }
 
 
@@ -172,11 +195,26 @@ public class OrderDetailActivity extends AppCompatActivity {
                     userRefuse.setVisibility(View.GONE);
                     userReceived.setVisibility(View.GONE);
                     break;
+                case MERCHANT_RECEIVED:
+                    merchantActive.setVisibility(View.GONE);
+                    merchantRefuse.setVisibility(View.GONE);
+                    userRefuse.setVisibility(View.GONE);
+                    userReceived.setVisibility(View.GONE);
+                    pdf.setVisibility(View.VISIBLE);
+                    break;
+                case USER_RECEIVED:
+                    merchantActive.setVisibility(View.GONE);
+                    merchantRefuse.setVisibility(View.GONE);
+                    userRefuse.setVisibility(View.GONE);
+                    userReceived.setVisibility(View.GONE);
+                    pdf.setVisibility(View.VISIBLE);
+                    break;
                 default:
                     merchantActive.setVisibility(View.GONE);
                     merchantRefuse.setVisibility(View.GONE);
                     userRefuse.setVisibility(View.GONE);
                     userReceived.setVisibility(View.GONE);
+                    pdf.setVisibility(View.GONE);
             }
         }
         merchantActive.setOnClickListener(v -> {
@@ -189,7 +227,6 @@ public class OrderDetailActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                             body = response.body();
-                            Log.d("Response Data", response.body().toString());
                             if (response.isSuccessful()) {
                                 // Tạo một intent với hành động ACTION_CREATE_DOCUMENT
                                 intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
@@ -316,6 +353,51 @@ public class OrderDetailActivity extends AppCompatActivity {
             });
 
         });
+        pdf.setOnClickListener(v->{
+            ApiService apiService=UtilApp.retrofitAuth(v.getContext()).create(ApiService.class);
+            Call<ResponseBody> call= apiService.pdf(order.getId());
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                    try {
+                        InputStream inputStream = response.body().byteStream();
+                        File file = createTemporaryFile(inputStream);
+
+                        ParcelFileDescriptor fileDescriptor = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY);
+                        PdfRenderer renderer = new PdfRenderer(fileDescriptor);
+                        PdfRenderer.Page page = renderer.openPage(0);
+
+                        // Thiết lập kích thước trang tài liệu PDF
+                        // Tăng giá trị mật độ điểm ảnh (dpi) để tăng kích thước trang
+                        float densityMultiplier = 0.8f; // Thay đổi hằng số theo ý muốn
+                        int width = (int) (getResources().getDisplayMetrics().densityDpi / 72 * page.getWidth() * densityMultiplier);
+                        int height = (int) (getResources().getDisplayMetrics().densityDpi / 72 * page.getHeight() * densityMultiplier);
+                        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+                        // Vẽ trang tài liệu PDF lên Bitmap
+                        page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
+
+                        // Hiển thị Bitmap trong ImageView hoặc bất kỳ tùy chọn nào khác
+//                        rcvOrderDetail.setVisibility(View.GONE);
+//
+//                        imgPdf.setImageBitmap(bitmap);
+                        displayPdfImageDialog(bitmap);
+                        // Đóng trang và renderer sau khi hiển thị
+                        page.close();
+                        renderer.close();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+        });
     }
 
     private void getOrderDetail(Long orderId) {
@@ -389,5 +471,34 @@ public class OrderDetailActivity extends AppCompatActivity {
         }
 
     }
-
+    private File createTemporaryFile(InputStream inputStream) throws IOException {
+        File file = new File(getCacheDir(), "temp_file.pdf");
+        file.createNewFile();
+        OutputStream outputStream = new FileOutputStream(file);
+        byte[] buffer = new byte[4 * 1024];
+        int bytesRead;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, bytesRead);
+        }
+        outputStream.flush();
+        outputStream.close();
+        inputStream.close();
+        return file;
+    }
+    private void displayPdfImageDialog(Bitmap pdfBitmap) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_pdf_layout, null);
+        ImageView imageView = dialogView.findViewById(R.id.pdfImageView);
+        ImageButton imageButton=dialogView.findViewById(R.id.closeButton);
+        imageView.setImageBitmap(pdfBitmap);
+        builder.setView(dialogView);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+//        ImageView gifIcon = findViewById(R.id.gif);
+//        Glide.with(this).load(R.drawable.download).into(gifIcon);
+        imageButton.setOnClickListener(v->{
+            alertDialog.cancel();
+        });
+    }
 }

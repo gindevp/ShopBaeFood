@@ -27,8 +27,10 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -36,12 +38,18 @@ public class UtilApp {
     public static final String REALURL = "http://192.168.52.218:8080/ShopbaeFoodApi/";
     public static final String URLMOCK = "https://651e990a44a3a8aa4768a52a.mockapi.io/";
 
+    private static OkHttpClient client = new OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS) // Thời gian chờ kết nối
+            .readTimeout(30, TimeUnit.SECONDS) // Thời gian chờ để đọc dữ liệu
+            .writeTimeout(30, TimeUnit.SECONDS) // Thời gian chờ để ghi dữ liệu
+            .build();
+
     public static Retrofit retrofitCF() {
-        return new Retrofit.Builder().baseUrl(REALURL).addConverterFactory(GsonConverterFactory.create()).build();
+        return new Retrofit.Builder().baseUrl(REALURL).client(client).addConverterFactory(GsonConverterFactory.create()).build();
     }
 
     public static Retrofit retrofitCFMock() {
-        return new Retrofit.Builder().baseUrl(URLMOCK).addConverterFactory(GsonConverterFactory.create()).build();
+        return new Retrofit.Builder().baseUrl(URLMOCK).client(client).addConverterFactory(GsonConverterFactory.create()).build();
     }
 
     public static Retrofit retrofitAuth(Context context) {
