@@ -51,9 +51,9 @@
         android:id="@+id/toggle_group_manager_order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="6dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="6dp"
         android:orientation="horizontal"
         app:checkedButton="@+id/toggle_manager_order_status1"
@@ -66,8 +66,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:paddingStart="0dp"
             android:text="Đơn chờ"
-            android:textColor="@color/purple" />
+            android:textColor="@color/purple"
+            app:iconGravity="top"
+            app:iconPadding="0dp"
+            app:iconSize="22dp" />
         <!-- Trạng thái 2 -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/toggle_manager_order_status2"
@@ -75,6 +79,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:paddingStart="0dp"
             android:text="Đã nhận"
             android:textColor="@color/purple" />
 
@@ -84,6 +89,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:paddingStart="0dp"
             android:text="Lịch sử"
             android:textColor="@color/purple" />
     </com.google.android.material.button.MaterialButtonToggleGroup>

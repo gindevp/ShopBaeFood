@@ -1,5 +1,6 @@
 package com.example.shopbaefood.ui.admin;
 
+import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -34,6 +35,7 @@ import retrofit2.Response;
 
 public class UserManagerFragment extends Fragment {
     private FragmentUserManagerBinding binding;
+    private Dialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,6 +44,7 @@ public class UserManagerFragment extends Fragment {
         binding= FragmentUserManagerBinding.inflate(inflater,container,false);
         View view = binding.getRoot();
 
+        dialog=UtilApp.showProgressBarDialog(this.getContext());
         if(binding.toggleManagerUserStatus1.isChecked()){
             binding.toggleManagerUserStatus1.setClickable(false);
             getClientUser(view,1);
@@ -86,6 +89,7 @@ public class UserManagerFragment extends Fragment {
     }
 
     private void getClientUser(View view,int status) {
+        dialog.show();
         ApiService apiService=UtilApp.retrofitAuth(view.getContext()).create(ApiService.class);
         Call<ApiResponse<List<ClientManager>>> call=null;
         switch (status) {
@@ -102,6 +106,7 @@ public class UserManagerFragment extends Fragment {
         call.enqueue(new Callback<ApiResponse<List<ClientManager>>>() {
             @Override
             public void onResponse(Call<ApiResponse<List<ClientManager>>> call, Response<ApiResponse<List<ClientManager>>> response) {
+                dialog.cancel();
                 if(response.isSuccessful()){
                     binding.progressBarUserManager.setVisibility(View.GONE);
                     binding.recyclerViewUserManager.setVisibility(View.VISIBLE);

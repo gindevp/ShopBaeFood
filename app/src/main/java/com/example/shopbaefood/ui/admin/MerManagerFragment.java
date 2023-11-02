@@ -1,5 +1,6 @@
 package com.example.shopbaefood.ui.admin;
 
+import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -29,12 +30,15 @@ import retrofit2.Response;
 public class MerManagerFragment extends Fragment {
 
     private FragmentMerManagerBinding binding;
+    private Dialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding= FragmentMerManagerBinding.inflate(inflater,container,false);
         View view= binding.getRoot();
+
+        dialog= UtilApp.showProgressBarDialog(view.getContext());
         if(binding.toggleManagerMerStatus1.isChecked()){
             binding.toggleManagerMerStatus1.setClickable(false);
             getClientMer(view,1);
@@ -79,6 +83,7 @@ public class MerManagerFragment extends Fragment {
     }
 
     private void getClientMer(View view, int status) {
+        dialog.show();
         ApiService apiService= UtilApp.retrofitAuth(view.getContext()).create(ApiService.class);
         Call<ApiResponse<List<ClientManager>>> call=null;
         switch (status) {
@@ -95,6 +100,7 @@ public class MerManagerFragment extends Fragment {
         call.enqueue(new Callback<ApiResponse<List<ClientManager>>>() {
             @Override
             public void onResponse(Call<ApiResponse<List<ClientManager>>> call, Response<ApiResponse<List<ClientManager>>> response) {
+                dialog.cancel();
                 if(response.isSuccessful()){
                     binding.progressBarMerManager.setVisibility(View.GONE);
                     binding.recyclerViewMerManager.setVisibility(View.VISIBLE);

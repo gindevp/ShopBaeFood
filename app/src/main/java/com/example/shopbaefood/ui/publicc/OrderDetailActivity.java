@@ -6,11 +6,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.pdf.PdfRenderer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +22,8 @@ import android.os.ParcelFileDescriptor;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -70,7 +75,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     AccountToken accountToken;
     Gson gson;
     SharedPreferences sharedPreferences;
-
+    Dialog dialog;
     Order order;
     ImageView imgPdf;
     ResponseBody body;
@@ -81,7 +86,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
 
-        imgPdf=findViewById(R.id.img_pdf);
+        imgPdf = findViewById(R.id.img_pdf);
         rcvOrderDetail = findViewById(R.id.recyclerView_order_detail);
         progressBar = findViewById(R.id.progressBar_order_detail);
         orderMerName = findViewById(R.id.order_detail_mer_name_val);
@@ -92,8 +97,8 @@ public class OrderDetailActivity extends AppCompatActivity {
         merchantRefuse = findViewById(R.id.btn_merchant_refuse);
         userReceived = findViewById(R.id.btn_user_received);
         userRefuse = findViewById(R.id.btn_user_refuse);
-        pdf=findViewById(R.id.btn_merchant_pdf);
-
+        pdf = findViewById(R.id.btn_merchant_pdf);
+        dialog = UtilApp.showProgressBarDialog(this);
 
         intent = getIntent();
         if (intent.hasExtra("order")) {
@@ -353,13 +358,15 @@ public class OrderDetailActivity extends AppCompatActivity {
             });
 
         });
-        pdf.setOnClickListener(v->{
-            ApiService apiService=UtilApp.retrofitAuth(v.getContext()).create(ApiService.class);
-            Call<ResponseBody> call= apiService.pdf(order.getId());
+        pdf.setOnClickListener(v -> {
+            dialog.show();
+            ApiService apiService = UtilApp.retrofitAuth(v.getContext()).create(ApiService.class);
+            Call<ResponseBody> call = apiService.pdf(order.getId());
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
+                    body = response.body();
+                    dialog.cancel();
                     try {
                         InputStream inputStream = response.body().byteStream();
                         File file = createTemporaryFile(inputStream);
@@ -370,7 +377,7 @@ public class OrderDetailActivity extends AppCompatActivity {
 
                         // Thiết lập kích thước trang tài liệu PDF
                         // Tăng giá trị mật độ điểm ảnh (dpi) để tăng kích thước trang
-                        float densityMultiplier = 0.8f; // Thay đổi hằng số theo ý muốn
+                        float densityMultiplier = 1.4f; // Thay đổi hằng số theo ý muốn
                         int width = (int) (getResources().getDisplayMetrics().densityDpi / 72 * page.getWidth() * densityMultiplier);
                         int height = (int) (getResources().getDisplayMetrics().densityDpi / 72 * page.getHeight() * densityMultiplier);
                         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -435,7 +442,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         if (requestCode == 79 && resultCode == Activity.RESULT_OK) {
             if (resultData != null) {
                 Uri uri = resultData.getData();
-                Log.d("URILog:",uri.toString());
+                Log.d("URILog:", uri.toString());
                 try {
                     // Mở OutputStream từ URI
                     OutputStream outputStream = getContentResolver().openOutputStream(uri);
@@ -457,20 +464,22 @@ public class OrderDetailActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                // Mở tệp PDF với URI
-                intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(uri, "application/pdf");
-                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                try {
-                    startActivity(intent);
-                } catch (ActivityNotFoundException e) {
-                    // Thực hiện hành động nếu không tìm thấy ứng dụng hỗ trợ xem PDF
-                    Notification.sweetAlert(this,SweetAlertDialog.ERROR_TYPE,"K thấy app hỗ trợ đọc","");
-                }
+//                // Mở tệp PDF với URI
+//                intent = new Intent(Intent.ACTION_VIEW);
+//                intent.setDataAndType(uri, "application/pdf");
+//                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                try {
+//                    startActivity(intent);
+//                } catch (ActivityNotFoundException e) {
+//                    // Thực hiện hành động nếu không tìm thấy ứng dụng hỗ trợ xem PDF
+//                    Notification.sweetAlert(this,SweetAlertDialog.ERROR_TYPE,"K thấy app hỗ trợ đọc","");
+//                }
+                Notification.sweetAlertNow(this, SweetAlertDialog.SUCCESS_TYPE, "Success", "Lưu thành công");
             }
         }
 
     }
+
     private File createTemporaryFile(InputStream inputStream) throws IOException {
         File file = new File(getCacheDir(), "temp_file.pdf");
         file.createNewFile();
@@ -485,19 +494,35 @@ public class OrderDetailActivity extends AppCompatActivity {
         inputStream.close();
         return file;
     }
+
     private void displayPdfImageDialog(Bitmap pdfBitmap) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_pdf_layout, null);
         ImageView imageView = dialogView.findViewById(R.id.pdfImageView);
-        ImageButton imageButton=dialogView.findViewById(R.id.closeButton);
+        ImageButton imageButton = dialogView.findViewById(R.id.closeButton);
         imageView.setImageBitmap(pdfBitmap);
         builder.setView(dialogView);
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-//        ImageView gifIcon = findViewById(R.id.gif);
-//        Glide.with(this).load(R.drawable.download).into(gifIcon);
-        imageButton.setOnClickListener(v->{
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.copyFrom(alertDialog.getWindow().getAttributes());
+        layoutParams.width = 1050; // Chiều rộng tùy ý
+        layoutParams.height = 1900; // Chiều cao tùy ý
+        alertDialog.getWindow().setAttributes(layoutParams);
+        ImageView gifIcon = dialogView.findViewById(R.id.gif);
+        gifIcon.setOnClickListener(v -> {
+            // Tạo một intent với hành động ACTION_CREATE_DOCUMENT
+            intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+            // Đặt loại tệp và thể loại mặc định (tùy chọn)
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("application/pdf");
+            // Đặt tên tệp (tùy chọn)
+            intent.putExtra(Intent.EXTRA_TITLE, "file_name.pdf");
+            // Gửi intent để mở hộp thoại Save As
+            startActivityForResult(intent, 79);
+        });
+        imageButton.setOnClickListener(v -> {
             alertDialog.cancel();
         });
     }

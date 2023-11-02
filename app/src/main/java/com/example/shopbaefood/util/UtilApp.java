@@ -1,20 +1,31 @@
 package com.example.shopbaefood.util;
 
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.shopbaefood.R;
 import com.example.shopbaefood.model.dto.AccountToken;
 import com.example.shopbaefood.model.intercepter.RetrofitClient;
+import com.example.shopbaefood.model.intercepter.RetryInterceptor;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
@@ -35,6 +46,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UtilApp {
+    private static final int MAX_RETRY_COUNT = 3;
+    private static final long RETRY_DELAY = 3000; // Thời gian chờ trước khi thử lại (3 giây trong ví dụ này)
     public static final String REALURL = "http://192.168.52.218:8080/ShopbaeFoodApi/";
     public static final String URLMOCK = "https://651e990a44a3a8aa4768a52a.mockapi.io/";
 
@@ -42,6 +55,7 @@ public class UtilApp {
             .connectTimeout(30, TimeUnit.SECONDS) // Thời gian chờ kết nối
             .readTimeout(30, TimeUnit.SECONDS) // Thời gian chờ để đọc dữ liệu
             .writeTimeout(30, TimeUnit.SECONDS) // Thời gian chờ để ghi dữ liệu
+            .addInterceptor(new RetryInterceptor(MAX_RETRY_COUNT, RETRY_DELAY))
             .build();
 
     public static Retrofit retrofitCF() {
@@ -180,5 +194,17 @@ public class UtilApp {
         public interface OnImageByteArrayListener {
             void onByteArrayGenerated(byte[] byteArray);
         }
+    public static Dialog showProgressBarDialog(Context context) {
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.progressbar_layout);
 
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.copyFrom(dialog.getWindow().getAttributes());
+        layoutParams.width = 500; // Chiều rộng tùy chỉnh
+        layoutParams.height = 500; // Chiều cao tùy chỉnh
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().setAttributes(layoutParams);
+        return dialog;
+    }
 }

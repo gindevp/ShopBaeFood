@@ -1,5 +1,6 @@
 package com.example.shopbaefood.ui.publicc;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,6 +31,7 @@ import com.example.shopbaefood.model.dto.ContactClient;
 import com.example.shopbaefood.service.ApiService;
 import com.example.shopbaefood.ui.LoginActivity;
 import com.example.shopbaefood.ui.RegisterActivity;
+import com.example.shopbaefood.ui.user.CartActivity;
 import com.example.shopbaefood.util.ContactClientDataSource;
 import com.example.shopbaefood.util.Notification;
 import com.example.shopbaefood.util.Role;
@@ -58,6 +60,8 @@ public class UserDetailFragment extends Fragment {
     ContactClient contactClient;
     AccountToken accountToken;
     byte[] avt;
+
+    Dialog dialog;
 
 
     public UserDetailFragment() {
@@ -122,7 +126,11 @@ public class UserDetailFragment extends Fragment {
             v.getContext().startActivity(intent);
             getActivity().finish();
         });
-
+        btnHistoryOrder.setOnClickListener(v->{
+            intent = new Intent(v.getContext(), CartActivity.class);
+            intent.putExtra("pageOrder","true");
+            v.getContext().startActivity(intent);
+        });
         ImageView button = view.findViewById(R.id.logout);
         button.setOnClickListener(v -> {
             SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(v.getContext(), SweetAlertDialog.WARNING_TYPE)
@@ -248,6 +256,7 @@ public class UserDetailFragment extends Fragment {
     }
 
     private void uploadImage(View view) {
+        dialog.show();
         if (imageUri == null) {
             Notification.sweetAlertNow(view.getContext(), SweetAlertDialog.WARNING_TYPE, "Phải có ảnh", "");
         } else {
@@ -284,6 +293,7 @@ public class UserDetailFragment extends Fragment {
                     call.enqueue(new Callback<ApiResponse>() {
                         @Override
                         public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                            dialog.cancel();
                             if (!response.isSuccessful()) {
                                 Notification.sweetAlert(view.getContext(), SweetAlertDialog.ERROR_TYPE, "Error", "Lỗi hệ thống");
                             } else {

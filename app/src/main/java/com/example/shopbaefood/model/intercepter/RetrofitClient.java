@@ -7,6 +7,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
+    private static final int MAX_RETRY_COUNT = 3;
+    private static final long RETRY_DELAY = 3000; // Thời gian chờ trước khi thử lại (3 giây trong ví dụ này)
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient(String baseUrl, String authToken) {
@@ -15,6 +17,7 @@ public class RetrofitClient {
                 .connectTimeout(30, TimeUnit.SECONDS) // Thời gian chờ kết nối
                 .readTimeout(30, TimeUnit.SECONDS) // Thời gian chờ để đọc dữ liệu
                 .writeTimeout(30, TimeUnit.SECONDS) // Thời gian chờ để ghi dữ liệu
+                .addInterceptor(new RetryInterceptor(MAX_RETRY_COUNT,RETRY_DELAY))
                 .build();
 
         if (retrofit == null) {

@@ -83,12 +83,39 @@ public class CartActivity extends AppCompatActivity {
         rcvEmtyCart = findViewById(R.id.recyclerView_empty_cart);
         gson = new Gson();
         intent = getIntent();
-        merchant = (Merchant) intent.getSerializableExtra("merchant");
-        merchantName.setText(merchant.getName());
         SharedPreferences info = getSharedPreferences("info", MODE_PRIVATE);
         user = gson.fromJson(info.getString("info", ""), AccountToken.class);
-        getCart(user.getUser().getId(), merchant.getId());
-        Log.d("logCart", "userid:" + user.getUser().getId() + "merId" + merchant.getId());
+        if (intent.hasExtra("merchant")) {
+            merchant = (Merchant) intent.getSerializableExtra("merchant");
+            merchantName.setText(merchant.getName());
+            getCart(user.getUser().getId(), merchant.getId());
+            Log.d("logCart", "userid:" + user.getUser().getId() + "merId" + merchant.getId());
+        }
+        if(intent.hasExtra("pageOrder")){
+            buttonToggleGroup.setVisibility(View.GONE);
+            payUp.setVisibility(View.GONE);
+            layoutPay.setVisibility(View.GONE);
+            rcvCart.setVisibility(View.GONE);
+            layoutOrder.setVisibility(View.VISIBLE);
+            ApiService apiService = UtilApp.retrofitAuth(this).create((ApiService.class));
+            Call<ApiResponse<List<Order>>> call = apiService.orderHistory(user.getUser().getId());
+            call.enqueue(new Callback<ApiResponse<List<Order>>>() {
+                @Override
+                public void onResponse(Call<ApiResponse<List<Order>>> call, Response<ApiResponse<List<Order>>> response) {
+                    if (response.isSuccessful()) {
+                        progressBar2.setVisibility(View.GONE);
+                        handlerOrderList(response.body().getData());
+                    } else {
+                        Notification.sweetAlert(CartActivity.this, SweetAlertDialog.ERROR_TYPE, "Error", "Lỗi rồi, thử lại đi");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ApiResponse<List<Order>>> call, Throwable t) {
+                    Notification.sweetAlert(CartActivity.this, SweetAlertDialog.ERROR_TYPE, "Error", "Lỗi hệ thống phía server");
+                }
+            });
+        }
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -159,46 +186,47 @@ public class CartActivity extends AppCompatActivity {
         });
 
 
-
-        payBtn.setOnClickListener(v -> {
-            ApiService apiService = UtilApp.retrofitAuth(this).create(ApiService.class);
-            double sum = Double.parseDouble(String.valueOf(price.getText()).substring(0, price.getText().length() - 2));
-            Call<ApiResponse> call = apiService.odering(user.getUser().getId(), merchant.getId(), note.getText().toString(), address.getText().toString(), sum);
-            call.enqueue(new Callback<ApiResponse>() {
-                @Override
-                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                    if (response.isSuccessful()) {
-                        CartAdapter adapter = (CartAdapter) rcvCart.getAdapter();
-                        adapter.clearCart();
-                        rcvCart.setVisibility(View.GONE);
-                        scrollView.setVisibility(View.GONE);
-                        payUp.setVisibility(View.VISIBLE);
-                        payDown.setVisibility(View.GONE);
-                        payUp.setEnabled(false);
-                        rcvEmtyCart.setVisibility(View.VISIBLE);
-                        payBtn.setEnabled(false);
-                        address.setText("");
-                        note.setText("");
-                        MyFirebaseService.sendMessageToTopic("order_merchant_"+merchant.getId(),"Người mua mới","Có người vừa đặt hàng tên: "+user.getUser().getName());
-                        Notification.sweetAlertNow(CartActivity.this, SweetAlertDialog.SUCCESS_TYPE, "Success", "Đặt hàng thành công");
-                    } else {
-                        Notification.sweetAlertNow(CartActivity.this, SweetAlertDialog.ERROR_TYPE, "Error", "Đặt hàng không thành công");
+        if (intent.hasExtra("merchant")) {
+            payBtn.setOnClickListener(v -> {
+                ApiService apiService = UtilApp.retrofitAuth(this).create(ApiService.class);
+                double sum = Double.parseDouble(String.valueOf(price.getText()).substring(0, price.getText().length() - 2));
+                Call<ApiResponse> call = apiService.odering(user.getUser().getId(), merchant.getId(), note.getText().toString(), address.getText().toString(), sum);
+                call.enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                        if (response.isSuccessful()) {
+                            CartAdapter adapter = (CartAdapter) rcvCart.getAdapter();
+                            adapter.clearCart();
+                            rcvCart.setVisibility(View.GONE);
+                            scrollView.setVisibility(View.GONE);
+                            payUp.setVisibility(View.VISIBLE);
+                            payDown.setVisibility(View.GONE);
+                            payUp.setEnabled(false);
+                            rcvEmtyCart.setVisibility(View.VISIBLE);
+                            payBtn.setEnabled(false);
+                            address.setText("");
+                            note.setText("");
+                            MyFirebaseService.sendMessageToTopic("order_merchant_" + merchant.getId(), "Người mua mới", "Có người vừa đặt hàng tên: " + user.getUser().getName());
+                            Notification.sweetAlertNow(CartActivity.this, SweetAlertDialog.SUCCESS_TYPE, "Success", "Đặt hàng thành công");
+                        } else {
+                            Notification.sweetAlertNow(CartActivity.this, SweetAlertDialog.ERROR_TYPE, "Error", "Đặt hàng không thành công");
+                        }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<ApiResponse> call, Throwable t) {
-                    Notification.sweetAlertNow(CartActivity.this, SweetAlertDialog.WARNING_TYPE, "Error", "Lỗi hệ thông phía server");
-                }
+                    @Override
+                    public void onFailure(Call<ApiResponse> call, Throwable t) {
+                        Notification.sweetAlertNow(CartActivity.this, SweetAlertDialog.WARNING_TYPE, "Error", "Lỗi hệ thông phía server");
+                    }
+                });
             });
-        });
+        }
     }
 
     private void isCheckedBtn() {
-        if(status1Button.isChecked()){
+        if (status1Button.isChecked()) {
             status1Button.setClickable(false);
             status2Button.setClickable(true);
-        }else if(status2Button.isChecked()){
+        } else if (status2Button.isChecked()) {
             status2Button.setClickable(false);
             status1Button.setClickable(true);
         }
@@ -247,7 +275,7 @@ public class CartActivity extends AppCompatActivity {
     private void handlerOrderList(List<Order> data) {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         rcvOrder.setLayoutManager(gridLayoutManager);
-        OrderAdapter adapter = new OrderAdapter(data,user.getRoles()[0]);
+        OrderAdapter adapter = new OrderAdapter(data, user.getRoles()[0]);
         rcvOrder.setAdapter(adapter);
     }
 
@@ -259,12 +287,12 @@ public class CartActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        MyFirebaseService.subscribeToTopic("order_user_"+user.getId());
+//        MyFirebaseService.subscribeToTopic("order_user_" + user.getId());
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        MyFirebaseService.unsubscribeFromTopic("order_user_"+user.getId());
+//        MyFirebaseService.unsubscribeFromTopic("order_user_" + user.getId());
     }
 }
