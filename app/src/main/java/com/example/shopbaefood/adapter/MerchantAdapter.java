@@ -46,7 +46,7 @@ public class  MerchantAdapter extends RecyclerView.Adapter<MerchantAdapter.Merch
             intent.putExtra("merchant",merchant);
             view.getContext().startActivity(intent);
         });
-        UtilApp.getImagePicasso(merchant.getAvatar(), holder.imgMerchant);
+        UtilApp.setImagePicasso(merchant.getAvatar(), holder.imgMerchant,R.drawable.user,R.drawable.download);
         holder.tvNameMerchant.setText(merchant.getName());
         holder.tvAddressMerchant.setText(merchant.getAddress());
         holder.tvClock.setTextColor(UtilApp.isTime(merchant.getOpenTime(),merchant.getCloseTime())?Color.argb(255,0,128,0):Color.RED);

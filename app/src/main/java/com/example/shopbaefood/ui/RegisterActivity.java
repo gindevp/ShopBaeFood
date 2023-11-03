@@ -3,6 +3,7 @@ package com.example.shopbaefood.ui;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -25,6 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     Intent intent;
     String role;
+    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
             role = "merchant";
         }
 
+        dialog= UtilApp.showProgressBarDialog(this);
         Button register = findViewById(R.id.registerForm);
         EditText username = findViewById(R.id.usernameForm);
         EditText password = findViewById(R.id.passwordForm);
@@ -46,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
         EditText phone = findViewById(R.id.phone);
         EditText address = findViewById(R.id.address);
         register.setOnClickListener(v -> {
+            dialog.show();
             register.setEnabled(false);
             username.setEnabled(false);
             password.setEnabled(false);
@@ -66,6 +70,7 @@ public class RegisterActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                     if (response.body().getData() != null) {
+                        dialog.cancel();
                         if (role == "user") {
                             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                             intent.putExtra("success", "true");

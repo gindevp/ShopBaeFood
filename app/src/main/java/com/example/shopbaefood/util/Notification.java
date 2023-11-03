@@ -2,9 +2,18 @@ package com.example.shopbaefood.util;
 
 import android.content.Context;
 import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
+import android.view.WindowManager;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.shopbaefood.R;
+import com.example.shopbaefood.model.Product;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -74,5 +83,35 @@ public class Notification {
         void onConfirm();
 
         void onCancel();
+    }
+    public static void showProductDetailDialog(Context context, Product product) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = ((AppCompatActivity) context).getLayoutInflater();
+        View view = inflater.inflate(R.layout.product_detail_layout, null);
+        builder.setView(view);
+        AlertDialog dialog = builder.create();
+        ImageView imageView = view.findViewById(R.id.productImageDetail);
+        ImageButton imageButton = view.findViewById(R.id.closeButtonPrDetail);
+        TextView editName= view.findViewById(R.id.productNameDetail);
+        TextView editDes= view.findViewById(R.id.productDescriptionDetail);
+        TextView editPriceOld= view.findViewById(R.id.oldPriceDetail);
+        TextView editPriceNew= view.findViewById(R.id.newPriceDetail);
+        TextView editQuan= view.findViewById(R.id.quantityDetail);
+        dialog.show();
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.copyFrom(dialog.getWindow().getAttributes());
+        layoutParams.width = 1050; // Chiều rộng tùy ý
+        layoutParams.height = 1620; // Chiều cao tùy ý
+        dialog.getWindow().setAttributes(layoutParams);
+        imageButton.setOnClickListener(v->{
+            dialog.cancel();
+        });
+        UtilApp.getImagePicasso(product.getImage(),imageView);
+        editName.setText(product.getName());
+        editDes.setText(product.getShortDescription());
+        editPriceOld.setText(product.getOldPrice().toString());
+        editPriceNew.setText(product.getNewPrice().toString());
+        editQuan.setText(String.valueOf(product.getQuantity()));
     }
 }

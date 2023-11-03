@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -47,7 +48,7 @@ public class MerDetailActivity extends AppCompatActivity {
     AccountToken accountToken;
     Gson gson;
     SharedPreferences info;
-
+    Dialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +58,7 @@ public class MerDetailActivity extends AppCompatActivity {
         intent = getIntent();
         Merchant merchant = (Merchant) intent.getSerializableExtra("merchant");
 
+        dialog=UtilApp.showProgressBarDialog(this);
         gson = new Gson();
         info = getSharedPreferences("info", Context.MODE_PRIVATE);
         accountToken = gson.fromJson(info.getString("info", ""), AccountToken.class);

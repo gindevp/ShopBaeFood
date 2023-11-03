@@ -2,6 +2,7 @@ package com.example.shopbaefood.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,34 +22,26 @@ import retrofit2.Response;
 
 public class  ForgotActivity extends AppCompatActivity {
 
+    Dialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forgot);
 
+        dialog=UtilApp.showProgressBarDialog(this);
         ApiService apiService = UtilApp.retrofitCF().create(ApiService.class);
         EditText text=findViewById(R.id.username);
         Button send= findViewById(R.id.registerForm);
         send.setOnClickListener(view -> {
+            dialog.show();
             send.setEnabled(false);
             text.setEnabled(false);
-
-            SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(view.getContext(), SweetAlertDialog.WARNING_TYPE)
-                    .setTitleText("Đang xử lý chờ tí")
-                    .setContentText("");
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    // Đóng hộp thoại với hiệu ứng
-                    sweetAlertDialog.dismissWithAnimation();
-                }
-            }, 5000);
-            sweetAlertDialog.show();
 
             Call<ApiResponse> apiResponseCall= apiService.forgot(text.getText().toString());
             apiResponseCall.enqueue(new Callback<ApiResponse>() {
                 @Override
                 public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                    dialog.cancel();
                     if(response.body().getData()!=null) {
                         Intent intent = new Intent(ForgotActivity.this, ConfirmOtpActivity.class);
                         intent.putExtra("username", text.getText().toString());
@@ -57,7 +50,6 @@ public class  ForgotActivity extends AppCompatActivity {
                     }else if (response.body().getMessage()!=null){
                         Handler handler= new Handler();
                         Runnable runnable= () -> {
-                            sweetAlertDialog.dismissWithAnimation();
                             Notification.sweetAlertNow(view.getContext(), SweetAlertDialog.ERROR_TYPE,"Sai tên người dùng","");
                             send.setEnabled(true);
                             text.setEnabled(true);
@@ -68,6 +60,7 @@ public class  ForgotActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<ApiResponse> call, Throwable t) {
+                    dialog.cancel();
                     Notification.sweetAlertNow(view.getContext(), SweetAlertDialog.ERROR_TYPE,"Lỗi hện thống phía server","");
                     send.setEnabled(true);
                     text.setEnabled(false);

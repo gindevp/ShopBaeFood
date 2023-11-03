@@ -58,7 +58,7 @@ public class HomeMerchantActivity extends AppCompatActivity {
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mViewPager.setAdapter(adapter);
-
+        mViewPager.setOffscreenPageLimit(0);
         int pageToDisplay = getIntent().getIntExtra("pageToDisplay", 0); // 0 là trang mặc định nếu không có dữ liệu được truyền
         mViewPager.setCurrentItem(pageToDisplay);
         switch (pageToDisplay) {

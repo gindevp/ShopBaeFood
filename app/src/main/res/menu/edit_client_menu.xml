@@ -16,8 +16,4 @@
         android:id="@+id/admin_unblock"
         android:title="Mở khóa"
         android:visible="false" />
-    <item
-        android:id="@+id/admin_detail"
-        android:title="Thông tin"
-        android:visible="true" />
 </menu>

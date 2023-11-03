@@ -7,13 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.pdf.PdfRenderer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,7 +19,6 @@ import android.os.ParcelFileDescriptor;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -30,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.shopbaefood.R;
 import com.example.shopbaefood.adapter.OrderDetailAdapter;
 import com.example.shopbaefood.model.Order;
@@ -44,7 +39,6 @@ import com.example.shopbaefood.util.Notification;
 import com.example.shopbaefood.util.Role;
 import com.example.shopbaefood.util.UtilApp;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 
 
@@ -223,6 +217,7 @@ public class OrderDetailActivity extends AppCompatActivity {
             }
         }
         merchantActive.setOnClickListener(v -> {
+            dialog.show();
             ApiService apiService = UtilApp.retrofitAuth(v.getContext()).create(ApiService.class);
             Notification.confirmationDialog(v.getContext(), "Confirm", "Bạn có chắc chắn chưa vậy", "Xác nhận", "Hủy", new Notification.OnConfirmationListener() {
                 @Override
@@ -232,16 +227,17 @@ public class OrderDetailActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                             body = response.body();
+                            dialog.cancel();
                             if (response.isSuccessful()) {
-                                // Tạo một intent với hành động ACTION_CREATE_DOCUMENT
-                                intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-                                // Đặt loại tệp và thể loại mặc định (tùy chọn)
-                                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                                intent.setType("application/pdf");
-                                // Đặt tên tệp (tùy chọn)
-                                intent.putExtra(Intent.EXTRA_TITLE, "file_name.pdf");
-                                // Gửi intent để mở hộp thoại Save As
-                                startActivityForResult(intent, 79);
+//                                // Tạo một intent với hành động ACTION_CREATE_DOCUMENT
+//                                intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+//                                // Đặt loại tệp và thể loại mặc định (tùy chọn)
+//                                intent.addCategory(Intent.CATEGORY_OPENABLE);
+//                                intent.setType("application/pdf");
+//                                // Đặt tên tệp (tùy chọn)
+//                                intent.putExtra(Intent.EXTRA_TITLE, "file_name.pdf");
+//                                // Gửi intent để mở hộp thoại Save As
+//                                startActivityForResult(intent, 79);
                                 Notification.sweetAlertNow(v.getContext(), SweetAlertDialog.SUCCESS_TYPE, "Success", "", 1000);
                                 merchantActive.setVisibility(View.GONE);
                                 merchantRefuse.setVisibility(View.GONE);
@@ -505,6 +501,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         builder.setView(dialogView);
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+        alertDialog.getWindow().setBackgroundDrawableResource(R.drawable.round_corner_background); // Đây là phần cần thêm
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.copyFrom(alertDialog.getWindow().getAttributes());
         layoutParams.width = 1050; // Chiều rộng tùy ý

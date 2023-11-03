@@ -2,6 +2,7 @@ package com.example.shopbaefood.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -30,78 +31,85 @@ public class ConfirmOtpActivity extends AppCompatActivity {
 
     String username;
 
-
+    Dialog dialog;
     ApiService apiService = UtilApp.retrofitCF().create(ApiService.class);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.confirm_otp);
 
+        dialog=UtilApp.showProgressBarDialog(this);
         confirmOtp();
         countOtp();
         ImageView img = findViewById(R.id.imageViewLogo5);
         img.setOnClickListener(v -> {
-            intent= new Intent(this,LoginActivity.class);
+            intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         });
     }
 
     private void confirmOtp() {
-        Notification.sweetAlertNow(this, SweetAlertDialog.SUCCESS_TYPE,"Gửi otp thành công","");
-        intent= getIntent();
-        username= intent.getStringExtra("username");
-        EditText pass= findViewById(R.id.pass);
-        EditText editOtp=findViewById(R.id.username);
+        Notification.sweetAlertNow(this, SweetAlertDialog.SUCCESS_TYPE, "Gửi otp thành công", "");
+        intent = getIntent();
+        username = intent.getStringExtra("username");
+        EditText pass = findViewById(R.id.pass);
+        EditText editOtp = findViewById(R.id.username);
         send = findViewById(R.id.registerForm);
         send.setOnClickListener(v -> {
-            Call<ApiResponse> apiResponseCall=apiService.confirmOtp(editOtp.getText().toString(),pass.getText().toString(),username);
+            dialog.show();
+            Call<ApiResponse> apiResponseCall = apiService.confirmOtp(editOtp.getText().toString(), pass.getText().toString(), username);
             apiResponseCall.enqueue(new Callback<ApiResponse>() {
                 @Override
                 public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                    if(response.body().getData()!=null){
-                        intent= new Intent();
-                        intent.setClass(v.getContext(),LoginActivity.class);
-                        intent.putExtra("confirmSuccess","true");
+                    dialog.cancel();
+                    if (response.body().getData() != null) {
+                        intent = new Intent();
+                        intent.setClass(v.getContext(), LoginActivity.class);
+                        intent.putExtra("confirmSuccess", "true");
                         startActivity(intent);
                         finish();
-                    }else {
-                        Notification.sweetAlertNow(v.getContext(),SweetAlertDialog.ERROR_TYPE,"Không thành công sai otp ròi","");
+                    } else {
+                        Notification.sweetAlertNow(v.getContext(), SweetAlertDialog.ERROR_TYPE, "Không thành công sai otp ròi", "");
                     }
 
                 }
 
                 @Override
                 public void onFailure(Call<ApiResponse> call, Throwable t) {
-                    Notification.sweetAlertNow(v.getContext(),SweetAlertDialog.ERROR_TYPE,"Lỗi hệ thống phía server","");
+                    Notification.sweetAlertNow(v.getContext(), SweetAlertDialog.ERROR_TYPE, "Lỗi hệ thống phía server", "");
                 }
             });
         });
     }
 
     private void countOtp() {
-        Resources resources= getResources();
-        Call<ApiResponse> apiServiceCall= apiService.forgot(username);
-        TextView count= findViewById(R.id.count);
+        Resources resources = getResources();
+        Call<ApiResponse> apiServiceCall = apiService.forgot(username);
+        TextView count = findViewById(R.id.count);
         count.setTextColor(resources.getColor(R.color.blue));
 
         count.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                dialog.show();
 
                 // Hiển thị số đếm ngược ban đầu (15)
                 apiServiceCall.clone().enqueue(new Callback<ApiResponse>() {
                     @Override
                     public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                        Notification.sweetAlertNow(v.getContext(),SweetAlertDialog.SUCCESS_TYPE,"Đã gửi lại otp","");
+                        dialog.cancel();
+                        Notification.sweetAlertNow(v.getContext(), SweetAlertDialog.SUCCESS_TYPE, "Đã gửi lại otp", "");
                     }
 
                     @Override
                     public void onFailure(Call<ApiResponse> call, Throwable t) {
-                        Notification.sweetAlertNow(v.getContext(),SweetAlertDialog.ERROR_TYPE,"Lỗi hệ thống phía server","");
+                        dialog.cancel();
+                        Notification.sweetAlertNow(v.getContext(), SweetAlertDialog.ERROR_TYPE, "Lỗi hệ thống phía server", "");
                     }
                 });
-                Notification.sweetAlertNow(v.getContext(),SweetAlertDialog.WARNING_TYPE,"Đang xử lý chờ 15 giây ròi ấn","");
+                Notification.sweetAlertNow(v.getContext(), SweetAlertDialog.WARNING_TYPE, "Đang xử lý chờ 15 giây ròi ấn", "");
                 count.setText("Gửi lại(15)");
                 count.setEnabled(false);
                 count.setTextColor(resources.getColor(R.color.blueClicked));
@@ -110,10 +118,11 @@ public class ConfirmOtpActivity extends AppCompatActivity {
                 // Tạo một Runnable để đếm ngược trong 15 giây
                 Runnable runnable = new Runnable() {
                     int countdown = 15;
+
                     @Override
                     public void run() {
                         countdown--;
-                        count.setText("Gửi lại("+countdown+")");
+                        count.setText("Gửi lại(" + countdown + ")");
                         if (countdown == 0) {
                             // Khi số đếm ngược đạt 0, hiển thị lại nút và ẩn TextView
                             count.setEnabled(true);
@@ -133,6 +142,6 @@ public class ConfirmOtpActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Notification.sweetAlertNow(this,SweetAlertDialog.NORMAL_TYPE,"Không thể quay lại","",1000);
+        Notification.sweetAlertNow(this, SweetAlertDialog.NORMAL_TYPE, "Không thể quay lại", "", 1000);
     }
 }

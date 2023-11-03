@@ -1,6 +1,7 @@
 package com.example.shopbaefood.ui.merchant;
 
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,6 +45,7 @@ public class ItemManagerFragment extends Fragment {
     private ProductForm productForm;
     private AccountToken accountToken;
     private Gson gson;
+    Dialog dialog;
 
     public ItemManagerFragment() {
     }
@@ -60,6 +62,7 @@ public class ItemManagerFragment extends Fragment {
         binding = FragmentItemManagerBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
+        dialog= UtilApp.showProgressBarDialog(view.getContext());
         gson = new Gson();
         SharedPreferences sharedPreferences = view.getContext().getSharedPreferences("info", Context.MODE_PRIVATE);
         accountToken = gson.fromJson(sharedPreferences.getString("info", ""), AccountToken.class);
@@ -68,7 +71,7 @@ public class ItemManagerFragment extends Fragment {
             selectImage();
         });
         binding.btnAddProduct.setOnClickListener(v -> {
-            if(binding.idPro.getText().toString().isEmpty()){
+            if (binding.idPro.getText().toString().isEmpty()) {
                 uploadImage(v);
             } else {
                 saveProduct(v);
@@ -88,8 +91,9 @@ public class ItemManagerFragment extends Fragment {
             binding.popupProUp.setVisibility(View.VISIBLE);
             binding.popupProDown.setVisibility(View.GONE);
         });
-        binding.btnEditSubmit.setOnClickListener(v->{
-            productForm= new ProductForm(
+        binding.btnEditSubmit.setOnClickListener(v -> {
+            dialog.show();
+            productForm = new ProductForm(
                     Long.parseLong(binding.idPro.getText().toString()),
                     binding.productName.getText().toString(),
                     binding.productDescription.getText().toString(),
@@ -97,28 +101,26 @@ public class ItemManagerFragment extends Fragment {
                     Double.parseDouble(binding.productNewPrice.getText().toString()),
                     binding.imageLinkHide.getText().toString(),
                     Integer.parseInt(binding.productQuantity.getText().toString())
-                    );
-            ApiService apiService= UtilApp.retrofitAuth(v.getContext()).create(ApiService.class);
-            Call<ApiResponse> call= apiService.editProduct(productForm, accountToken.getMerchant().getId());
+            );
+            ApiService apiService = UtilApp.retrofitAuth(v.getContext()).create(ApiService.class);
+            Call<ApiResponse> call = apiService.editProduct(productForm, accountToken.getMerchant().getId());
             call.enqueue(new Callback<ApiResponse>() {
                 @Override
                 public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                    if(response.isSuccessful()){
+                    dialog.cancel();
+                    if (response.isSuccessful()) {
                         binding.btnEditSubmit.setVisibility(View.INVISIBLE);
-                        binding.addProductMer.setVisibility(View.GONE);
-                        binding.popupProUp.setVisibility(View.VISIBLE);
-                        binding.popupProDown.setVisibility(View.GONE);
                         showListProduct(v);
-                        Notification.sweetAlert(v.getContext(),SweetAlertDialog.SUCCESS_TYPE,"Success","Bạn sửa thành công ròi ");
+                        Notification.sweetAlert(v.getContext(), SweetAlertDialog.SUCCESS_TYPE, "Success", "Bạn sửa thành công ròi ");
                         clearForm();
-                    }else {
-                        Notification.sweetAlert(v.getContext(),SweetAlertDialog.ERROR_TYPE,"Lỗi ròi","");
+                    } else {
+                        Notification.sweetAlert(v.getContext(), SweetAlertDialog.ERROR_TYPE, "Lỗi ròi", "");
                     }
                 }
 
                 @Override
                 public void onFailure(Call<ApiResponse> call, Throwable t) {
-                    Notification.sweetAlert(v.getContext(),SweetAlertDialog.ERROR_TYPE,"Lỗi server ròi","");
+                    Notification.sweetAlert(v.getContext(), SweetAlertDialog.ERROR_TYPE, "Lỗi server ròi", "");
                 }
             });
         });
@@ -165,11 +167,12 @@ public class ItemManagerFragment extends Fragment {
     private void handlerProduct(View view, List<Product> productList) {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(view.getContext(), 1);
         binding.recyclerViewProducts.setLayoutManager(gridLayoutManager);
-        ProductAdapter adapter = new ProductAdapter(productList, true, binding);
+        ProductAdapter adapter = new ProductAdapter(productList, true, binding,dialog);
         binding.recyclerViewProducts.setAdapter(adapter);
     }
 
     private void saveProduct(View view) {
+        dialog.show();
         productForm = new ProductForm(binding.productName.getText().toString(),
                 binding.productDescription.getText().toString(),
                 Double.parseDouble(binding.productOldPrice.getText().toString()),
@@ -182,6 +185,7 @@ public class ItemManagerFragment extends Fragment {
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                dialog.cancel();
                 if (response.isSuccessful()) {
                     clearForm();
                     showListProduct(view);
@@ -199,22 +203,23 @@ public class ItemManagerFragment extends Fragment {
     }
 
     private void uploadImage(View view) {
-        if(imageUri==null){
+        if (imageUri == null) {
             Notification.sweetAlertNow(view.getContext(), SweetAlertDialog.WARNING_TYPE, "Phải có ảnh", "");
-        }else {
-        UtilApp.uploadImageToFirebaseStorage(imageUri, new UtilApp.OnImageUploadListener() {
-            @Override
-            public void onSuccess(String imageUrl) {
-                Toast.makeText(view.getContext(), "success", Toast.LENGTH_SHORT).show();
-                binding.imageLinkHide.setText(imageUrl);
-                saveProduct(view);
-            }
+        } else {
+            UtilApp.uploadImageToFirebaseStorage(imageUri, new UtilApp.OnImageUploadListener() {
+                @Override
+                public void onSuccess(String imageUrl) {
+                    Toast.makeText(view.getContext(), "success", Toast.LENGTH_SHORT).show();
+                    binding.imageLinkHide.setText(imageUrl);
+                    saveProduct(view);
+                }
 
-            @Override
-            public void onFailure(String error) {
-                Toast.makeText(view.getContext(), "faile upload image", Toast.LENGTH_LONG).show();
-            }
-        });}
+                @Override
+                public void onFailure(String error) {
+                    Toast.makeText(view.getContext(), "faile upload image", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
     }
 
     private void selectImage() {

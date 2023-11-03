@@ -1,5 +1,6 @@
 package com.example.shopbaefood.adapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -44,16 +45,19 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private Long userId;
     private boolean screen;
     private FragmentItemManagerBinding binding;
+    private Dialog dialog;
 
-    public ProductAdapter(List<Product> productList, boolean screen, FragmentItemManagerBinding binding) {
+    public ProductAdapter(List<Product> productList, boolean screen, FragmentItemManagerBinding binding, Dialog dialog) {
         this.productList = productList;
         this.screen = screen;
         this.binding = binding;
+        this.dialog = dialog;
     }
 
     public ProductAdapter(List<Product> productList, boolean screen) {
         this.productList = productList;
         this.screen = screen;
+
     }
 
     @NonNull
@@ -88,17 +92,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         // Tạo một chuỗi văn bản mới kết hợp với chuỗi gạch ngang
         SpannableStringBuilder builder = new SpannableStringBuilder();
         builder.append(spannableString); // Giá cũ có gạch ngang
-
+        holder.imgProduct.setOnClickListener(v->{
+            Notification.showProductDetailDialog(v.getContext(),product);
+        });
         // Hiển thị chuỗi văn bản trong TextView
         holder.tvOldPrice.setText(builder);
 
         holder.tvNewPrice.setText(String.valueOf(product.getNewPrice()));
         UtilApp.getImagePicasso(product.getImage(), holder.imgProduct);
         if (accountToken.getUser() != null) {
-            if(accountToken.getRoles()[0].equals(Role.ROLE_ADMIN)){
+            if (accountToken.getRoles()[0].equals(Role.ROLE_ADMIN)) {
                 holder.imgAddToCart.setVisibility(View.GONE);
             }
             holder.imgAddToCart.setOnClickListener(view -> {
+                dialog.show();
                 // TODO: them code add to card kèm alert
                 Long proId = product.getId();
                 Log.d("cart", "userId: " + userId + " productId" + proId);
@@ -111,6 +118,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 call.enqueue(new Callback<ApiResponse>() {
                     @Override
                     public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                        dialog.cancel();
                         if (response.isSuccessful()) {
                             //thêm thành công
                             Notification.sweetAlertNow(view.getContext(), SweetAlertDialog.SUCCESS_TYPE, "Success", "Thêm vào rỏ hàng thành công", 1000);
@@ -152,20 +160,22 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                                 binding.idPro.setText(product.getId().toString());
                                 binding.numberOrderPro.setText(product.getNumberOrder().toString());
                                 binding.showwImageProduct.setVisibility(View.VISIBLE);
-                                UtilApp.getImagePicasso(product.getImage(),binding.showwImageProduct);
+                                UtilApp.getImagePicasso(product.getImage(), binding.showwImageProduct);
 
                                 return true;
                             case R.id.action_delete:
                                 Notification.confirmationDialog(v.getContext(), "Remove", "Bạn có chăc muốn xóa", "Xóa", "Hủy", new Notification.OnConfirmationListener() {
                                     @Override
                                     public void onConfirm() {
+                                        dialog.show();
                                         ApiService apiService = UtilApp.retrofitAuth(v.getContext()).create(ApiService.class);
                                         Call<ApiResponse> call = apiService.deleteProduct(product.getId());
                                         call.enqueue(new Callback<ApiResponse>() {
                                             @Override
                                             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                                                dialog.cancel();
                                                 if (response.isSuccessful()) {
-                                                    Notification.sweetAlertNow(v.getContext(),SweetAlertDialog.SUCCESS_TYPE,"Success","Xóa thành công",1000);
+                                                    Notification.sweetAlertNow(v.getContext(), SweetAlertDialog.SUCCESS_TYPE, "Success", "Xóa thành công", 1000);
                                                     int position = holder.getAdapterPosition();
                                                     if (position != -1) {
                                                         productList.remove(position);
@@ -188,6 +198,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                                     public void onCancel() {
                                     }
                                 });
+                                return true;
+                            case R.id.action_detail:
+                                Notification.showProductDetailDialog(v.getContext(), product);
                                 return true;
                             default:
                                 return false;

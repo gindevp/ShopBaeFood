@@ -2,6 +2,7 @@ package com.example.shopbaefood.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -41,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     Intent intent;
     Gson gson;
     ContactClientDataSource dataSource;
+    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,9 +97,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginClick() {
+        dialog=UtilApp.showProgressBarDialog(this);
         ApiService apiService = UtilApp.retrofitCF().create(ApiService.class);
         Button submit = findViewById(R.id.login);
         submit.setOnClickListener(v -> {
+            dialog.show();
             EditText userName = findViewById(R.id.username);
             EditText passWord = findViewById(R.id.password);
             TextView valid = findViewById(R.id.login_valid_Error);
@@ -137,6 +141,7 @@ public class LoginActivity extends AppCompatActivity {
                                         intent.setClass(v.getContext(), HomeUserActivity.class);
                                         break;
                                 }
+                                dialog.cancel();
                                 startActivity(intent);
                                 finish();
                             } else {
@@ -145,6 +150,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
 
                         } else {
+                            dialog.cancel();
                             Log.d("login", "sai");
                             Notification.sweetAlertNow(v.getContext(), SweetAlertDialog.ERROR_TYPE, "Đăng nhập không thành công", "");
                         }
@@ -158,6 +164,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
             } else {
+                dialog.cancel();
                 valid.setVisibility(View.VISIBLE);
             }
         });
