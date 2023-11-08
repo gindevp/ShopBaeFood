@@ -41,7 +41,9 @@ public class RetryInterceptor implements Interceptor {
                     Thread.sleep(retryDelay);
                 } catch (InterruptedException ex) {
                     Thread.currentThread().interrupt();
+                    response.close();
                 }
+                response.close();
             }
         }
 

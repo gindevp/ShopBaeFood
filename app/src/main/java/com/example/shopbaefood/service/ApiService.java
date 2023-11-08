@@ -6,7 +6,6 @@ import com.example.shopbaefood.model.Order;
 import com.example.shopbaefood.model.OrderDetail;
 import com.example.shopbaefood.model.Product;
 import com.example.shopbaefood.model.dto.AccountRegisterDTO;
-import com.example.shopbaefood.model.dto.AccountToken;
 import com.example.shopbaefood.model.dto.ApiResponse;
 import com.example.shopbaefood.model.dto.ChangeDTO;
 import com.example.shopbaefood.model.dto.ClientManager;
@@ -20,6 +19,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -144,4 +144,5 @@ public interface ApiService {
 
     @GET("product")
     Call<List<Product>> getProAll();
+
 }

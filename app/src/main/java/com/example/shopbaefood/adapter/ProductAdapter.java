@@ -54,10 +54,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         this.dialog = dialog;
     }
 
-    public ProductAdapter(List<Product> productList, boolean screen) {
+    public ProductAdapter(List<Product> productList, boolean screen, Dialog dialog) {
         this.productList = productList;
         this.screen = screen;
-
+        this.dialog = dialog;
     }
 
     @NonNull

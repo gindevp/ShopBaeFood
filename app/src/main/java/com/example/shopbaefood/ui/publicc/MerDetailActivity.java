@@ -207,7 +207,7 @@ public class MerDetailActivity extends AppCompatActivity {
     private void handleProductList(List<Product> productList) {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         rcvProduct.setLayoutManager(gridLayoutManager);
-        ProductAdapter adapter = new ProductAdapter(productList, false);
+        ProductAdapter adapter = new ProductAdapter(productList, false, dialog);
         rcvProduct.setAdapter(adapter);
     }
 
